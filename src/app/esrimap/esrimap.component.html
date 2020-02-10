@@ -1,0 +1,8 @@
+<mat-progress-spinner [hidden]="mapLoaded"
+class="loader" [color]="'primary'" [mode]="'indeterminate'" >
+</mat-progress-spinner>
+
+<div #mapViewNode class="mapViewNode"
+[hidden]="!mapLoaded"
+></div>
+

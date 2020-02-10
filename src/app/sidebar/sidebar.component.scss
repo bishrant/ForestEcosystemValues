@@ -1,0 +1,33 @@
+@import "~@angular/material/theming";
+// Include non-theme styles for core.
+@include mat-core();
+@import "../../styles.scss";
+.mat-expansion-panel:hover, .mat-expansion-panel-content:hover {
+    background: unset !important;
+}
+.mat-expansion-panel {
+    border-radius: 0 !important;
+    margin: 5px;
+    background: mat-color($fev-primary);
+    margin-bottom: 15px;
+}
+.mat-expansion-panel-header {
+    background: mat-color($fev-primary, 700) !important;
+    font-weight: 500;
+    box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75);
+    border-radius: 0 !important;
+}
+
+.mat-expansion-panel-header:hover {
+    background-color: mat-color($fev-primary, 700) !important;
+}
+
+
+.mat-expansion-panel-content {
+    margin-top: 10px !important;
+}
+
+.accordionContent {
+    margin-top: 10px;
+    width: 100%;
+}
