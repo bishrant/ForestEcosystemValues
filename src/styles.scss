@@ -1,1 +1,63 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$fev-primary: mat-palette($mat-light-green);
+$fev-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$fev-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$fev-theme: mat-light-theme($fev-primary, $fev-accent, $fev-warn);
+
+
+@function fev-dark-theme-foreground($color) {
+    @return (
+        base:              $color,
+        divider:           $black-12-opacity,
+        dividers:          $black-12-opacity,
+        disabled:          rgba($color, 0.38),
+        disabled-button:   rgba($color, 0.38),
+        disabled-text:     rgba($color, 0.38),
+        hint-text:         rgba($color, 0.38),
+        secondary-text:    rgba($color, 0.54),
+        icon:              rgba($color, 0.54),
+        icons:             rgba($color, 0.54),
+        text:              rgba($color, 0.87),
+        slider-off:        rgba($color, 0.26),
+        slider-off-active: rgba($color, 0.38),
+    );
+};
+
+// You can put any color here. I've chosen mat-color($my-app-primary, 700)
+$fev-foreground: fev-dark-theme-foreground(rgb(0,0,0));
+
+$my-app-theme-custom: map-merge($fev-theme, (foreground: $fev-foreground));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($my-app-theme-custom);
+
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.primaryBg {
+    background: mat-color($fev-primary)
+}
+
+[hidden] {
+    display: none !important;    
+}
