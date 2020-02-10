@@ -3,6 +3,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
+import './config';
+// import "@dojo/shim/Promise";
 
 if (environment.production) {
   enableProdMode();
