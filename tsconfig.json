@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-      "jsx": "react",
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -11,21 +10,15 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es5",
-    "esModuleInterop":true,
+    "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
     ],
-    "lib": ["dom", "es2015.promise", "es5", "es6"]
+    "lib": [
+      "es2018",
+      "dom"
+    ]
   },
-  "types": [
-    "arcgis-js-api",
-  ],
-  "include": [
-    "node_modules/arcgis-js-api/index.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true

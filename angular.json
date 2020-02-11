@@ -15,8 +15,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
-          
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/fev",
             "index": "src/index.html",
@@ -24,9 +23,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "customWebpackConfig": {
-              "path": "./arcgis.config.js"
-            },
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -49,6 +45,7 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -68,14 +65,13 @@
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "fev:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-builder-esri:build"
-              
+              "browserTarget": "fev:build:production"
             }
           }
         },
