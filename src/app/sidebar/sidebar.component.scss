@@ -16,6 +16,7 @@
     font-weight: 500;
     box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75);
     border-radius: 0 !important;
+    height: 44px !important;
 }
 
 .mat-expansion-panel-header:hover {
@@ -31,3 +32,15 @@
     margin-top: 10px;
     width: 100%;
 }
+
+.controls-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+
+    mat-radio-button {
+        margin: 5px;
+    }
+
+  }
+

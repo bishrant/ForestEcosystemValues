@@ -5,18 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { FlexLayoutModule} from '@angular/flex-layout';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import { EsrimapComponent } from './esrimap/esrimap.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AllMaterialModule } from './material.module';
+import { SummarytableModule } from './summarytable/summarytable.module';
+import { OverlayModule } from '@angular/cdk/overlay';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -30,17 +25,14 @@ import { AllMaterialModule } from './material.module';
     HttpClientModule,
     BrowserAnimationsModule,
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
     FlexLayoutModule,
-    MatExpansionModule,
-    MatFormFieldModule,  
-    AllMaterialModule  
+    AllMaterialModule,
+    SummarytableModule,
+    OverlayModule,
+    DragDropModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [SummarytableModule]
 })
 export class AppModule { }

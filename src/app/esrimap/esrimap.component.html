@@ -1,8 +1,7 @@
-<mat-progress-spinner [hidden]="mapLoaded"
-class="loader" [color]="'primary'" [mode]="'indeterminate'" >
+<mat-progress-spinner [hidden]="mapLoaded" class="loader" [color]="'primary'" [mode]="'indeterminate'">
 </mat-progress-spinner>
 
-<div #mapViewNode class="mapViewNode"
-[hidden]="!mapLoaded"
-></div>
-
+<div #mapViewNode class="mapViewNode" [hidden]="!mapLoaded">
+    <mat-progress-spinner class="loader" [hidden]="!busy" [color]="'primary'" [mode]="'indeterminate'">
+    </mat-progress-spinner>
+</div>

@@ -61,3 +61,35 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 [hidden] {
     display: none !important;    
 }
+
+.mat-tab-label {
+    color: black !important;
+    font-weight: bold !important;
+    min-width: 80px !important;
+    padding: 0 5px !important;
+    background: mat-color($fev-primary, 400);
+    margin-right: 1px;
+}
+
+.mat-tab-labels{
+    background: mat-color($fev-primary, 400);
+}
+
+.popupTable {
+    width: 100%;
+}
+
+.mat-header-cell {
+    background: mat-color($fev-primary);
+    color: black;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 375px) {
+  .popupTable {
+      width: 100%
+  }
+  .reportContainer{
+      width: 100%;
+  }
+}

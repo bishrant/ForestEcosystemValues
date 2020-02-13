@@ -11,11 +11,43 @@
         </mat-expansion-panel-header>
         <div class="accordionContent">I'm visible because I am open</div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8">
+    <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
         <mat-expansion-panel-header>
             Ecosystem Services
         </mat-expansion-panel-header>
-        <div class="accordionContent">I'm visible because I am open</div>
+        <div class="accordionContent">
+            <b>Step 1: Define Area of Interest</b><br>
+            <mat-radio-group aria-labelledby="select controls" class="controls-radio-group" [(ngModel)]="activeControl"
+                (ngModelChange)="onControlChange($event)">
+                <mat-radio-button value="dropdown">Select County or Urban Area</mat-radio-button>
+                <mat-radio-button value="multipoint">Select County on the map</mat-radio-button>
+                <mat-radio-button value="polygon">Draw polygon on the map</mat-radio-button>
+                <mat-radio-button value="shapefile"> Load zipped shapefile
+
+
+                </mat-radio-button>
+                <div style="padding-left: 30px;">
+                    <span *ngIf="fileUploadError !== ''" style="color: 'red'">{{fileUploadError}}<br></span>
+                    <input type="file" style="display: none" #fileInput accept=".zip"
+                        (change)="onChangeFileInput()" />
+                    <button mat-raised-button color="primary" class="file-select-button" [disabled]="activeControl !== 'shapefile'"
+                        (click)="onClickFileInputButton()">
+                        <mat-icon>cloud_upload</mat-icon>
+                        Select
+                    </button>
+
+                </div>
+            </mat-radio-group>
+
+            <mat-radio-group aria-label="Select an option">
+                <button mat-raised-button color="primary" class="file-select-button" 
+                (click)="generateStatistics()">
+                <mat-icon>cloud_upload</mat-icon>
+                Generate summary statistics 
+            </button>
+            </mat-radio-group>
+
+        </div>
     </mat-expansion-panel>
     <mat-expansion-panel class="mat-elevation-z8">
         <mat-expansion-panel-header>
@@ -35,4 +67,5 @@
         </mat-expansion-panel-header>
         <div class="accordionContent">I'm visible because I am open</div>
     </mat-expansion-panel>
+
 </mat-accordion>

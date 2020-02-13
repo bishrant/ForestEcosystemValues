@@ -1,16 +1,33 @@
 import {NgModule} from '@angular/core';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
+import {MatRadioModule} from '@angular/material/radio';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
   exports: [
     MatProgressSpinnerModule,
+    FormsModule,
+    MatRadioModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatListModule,
+    MatTabsModule,
+    MatTableModule
   ]
 })
 export class AllMaterialModule {}
-
-
-/**  Copyright 2019 Google LLC. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license */
