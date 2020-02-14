@@ -3,14 +3,13 @@ import * as promiseUtils from 'arcgis-js-api/core/promiseUtils';
 import createMapView from './mapView';
 import { setupSketchViewModel, SelectMultipleCounties, SelectByPolygon, fff } from './SelectCounties';
 import { createGraphicsLayer, MultiPointLayer } from './GraphicsLayer';
-import FeatureLayer from 'arcgis-js-api/layers/FeatureLayer';
-// import { PointincountyService } from '../services/pointincounty.service';
 import geojson from './data';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { Polygon } from 'arcgis-js-api/geometry';
 import Graphic from 'arcgis-js-api/Graphic';
-import GraphicsLayer from 'arcgis-js-api/layers/GraphicsLayer';
+import Geoprocessor from 'arcgis-js-api/tasks/Geoprocessor';
 import { polygonSymbol } from './MapStyles';
+import FeatureSet = require('arcgis-js-api/tasks/support/FeatureSet');
 
 @Component({
   selector: 'app-esrimap',
@@ -30,6 +29,9 @@ export class EsrimapComponent implements OnInit {
       this.mapLoaded = true;
       const graphicsLayer = createGraphicsLayer();
       const multiPointLayer = MultiPointLayer();
+      const gp: any = Geoprocessor('https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/services/TxFIP/CalculateForestValues2020/GPServer/CalculateForestValues')
+      gp.outSpatialReference = {wkid: 102100 };
+
       this.view.map.addMany([graphicsLayer, multiPointLayer]);
       const sketchVM = setupSketchViewModel(multiPointLayer, this.view);
       this.view.when(() => {
@@ -70,10 +72,34 @@ export class EsrimapComponent implements OnInit {
             geometry: polgn,
             symbol: polygonSymbol,
             attributes: shp.attributes
-          })
+          });
+
+
           _shps.push(gg);
         })
+        const featureSet = new FeatureSet({features: _shps})
+        gp.submitJob({AOI_Polygon: featureSet}).then((jobInfo) => {
+          const jobid = jobInfo.jobId;
+          const options = {
+            interval: 1500,
+            statusCallback: (j) => {
+              console.log('Job Status: ', j.jobStatus);
+            }
+          };
+
+          gp.waitForJobCompletion(jobid, options).then(() => {
+            gp.getResultData(jobid, 'Output_JSON').then((data) => {
+              console.log(data, data.value);
+              const outJson = JSON.parse(data.value)
+              console.log(outJson)
+            })
+          })
+        })
         graphicsLayer.addMany(_shps);
+      })
+
+      this.mapControl.generateSummary$.subscribe((d) => {
+        console.log('generate statistics')
       })
 
       return this.view;

@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { HttpClient } from '@angular/common/http';
-import FeatureLayer from 'arcgis-js-api/layers/FeatureLayer';
+import { Store, Select } from '@ngxs/store';
+import { ChangeControl } from '../shared/sidebarControls.actions';
+import { SidebarControlsState } from '../shared/sidebarControls.state';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,12 +17,18 @@ export class SidebarComponent implements OnInit {
   fileInput;
   file: File | null = null;
   fileUploadError = '';
-  constructor(private mapControl: MapcontrolService, private http: HttpClient) { }
+  @Select(SidebarControlsState.getControl) sidebar$;
 
-  ngOnInit() { }
+  constructor(private mapControl: MapcontrolService, private http: HttpClient, private store: Store) { }
+
+  ngOnInit() {
+    // this.sidebar$.
+    this.sidebar$.subscribe(d => console.log(d))
+  }
 
   onControlChange = (evt: any) => {
-    this.mapControl.changeControl(evt);
+    this.store.dispatch(new ChangeControl(evt))
+    // this.mapControl.changeControl(evt);
   }
 
   onClickFileInputButton(): void {
@@ -28,7 +36,9 @@ export class SidebarComponent implements OnInit {
   }
 
   generateStatistics() {
-    this.mapControl.generateStatisticsFn();
+    console.log()
+    // this.sidebar$.change('testsss')
+    // this.mapControl.generateStatisticsFn();
   }
 
   onChangeFileInput(): void {
@@ -71,7 +81,6 @@ export class SidebarComponent implements OnInit {
         } else {
           this.fileUploadError = '';
         }
-        // console.log(_f, f);
       }
     }, (e) => {
       console.log(e);

@@ -12,6 +12,10 @@ import { AllMaterialModule } from './material.module';
 import { SummarytableModule } from './summarytable/summarytable.module';
 import { OverlayModule } from '@angular/cdk/overlay';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { SidebarControlsState } from './shared/sidebarControls.state';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,10 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     AllMaterialModule,
     SummarytableModule,
     OverlayModule,
-    DragDropModule
+    DragDropModule,
+    NgxsModule.forRoot([SidebarControlsState]),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],
