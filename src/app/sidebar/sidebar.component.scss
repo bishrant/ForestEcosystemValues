@@ -3,23 +3,23 @@
 @include mat-core();
 @import "../../styles.scss";
 .mat-expansion-panel:hover, .mat-expansion-panel-content:hover {
-    background: unset !important;
+    // background: unset !important;
 }
 .mat-expansion-panel {
     border-radius: 0 !important;
     margin: 5px;
-    background: mat-color($fev-primary);
+    background: white; //mat-color($fev-primary);
     margin-bottom: 15px;
 }
-.mat-expansion-panel-header {
+.accordion-header-fill {
     background: mat-color($fev-primary, 700) !important;
     font-weight: 500;
-    box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 4px 2px 5px 0px #000000bf;
     border-radius: 0 !important;
     height: 44px !important;
 }
 
-.mat-expansion-panel-header:hover {
+.accordion-header-fill:hover {
     background-color: mat-color($fev-primary, 700) !important;
 }
 
@@ -28,10 +28,6 @@
     margin-top: 10px !important;
 }
 
-.accordionContent {
-    margin-top: 10px;
-    width: 100%;
-}
 
 .controls-radio-group {
     display: flex;
@@ -43,4 +39,26 @@
     }
 
   }
+
+  .layersList {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+  }
+
+  .layersList .mat-expansion-panel-header {
+      padding: 0 10px !important;
+      height: 40px !important;
+  }
+
+  .layersList .accordionContent {
+    margin-left: 15px;
+    margin-top: 0px;
+}
+
+.accordionContent {
+    margin-top: 10px;
+    width: 100%;
+}
+
 

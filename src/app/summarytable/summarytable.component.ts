@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 export interface TableData {
   name: string,
@@ -31,9 +32,9 @@ export class SummarytableComponent implements OnInit {
     { name: 'cultural', display: 'Cultural'},
     { name: 'total', display: 'Total'}
   ];
-  constructor() { }
+  
+  constructor(private http: HttpClient) { }
   ngOnInit() {
-    console.log(this.summaryData)
     this.ecosystems.forEach((eco: any) => {
       const d: any = {
         name: eco.display,
@@ -42,7 +43,10 @@ export class SummarytableComponent implements OnInit {
       };
       this.summaryData.push(d);
     });
-    console.log(this.summaryData);
+
+
   }
+
+  
 
 }

@@ -16,6 +16,7 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { SidebarControlsState } from './shared/sidebarControls.state';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SidebarControlsState } from './shared/sidebarControls.state';
     SummarytableModule,
     OverlayModule,
     DragDropModule,
+    FormsModule,
     NgxsModule.forRoot([SidebarControlsState]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot()

@@ -93,3 +93,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       width: 100%;
   }
 }
+.mat-expansion-panel-body {
+    padding: 0 4px 6px !important;
+  }
+
+//   .layersList .mat-expansion-indicator {
+//     position: absolute;
+//     left: 20px;
+//   }

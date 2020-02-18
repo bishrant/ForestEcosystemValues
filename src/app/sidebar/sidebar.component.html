@@ -1,18 +1,41 @@
 <br>
 <mat-accordion multi="true" class="primaryBg">
     <mat-expansion-panel class="mat-elevation-z8" class="mat-elevation-z8">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header class="accordion-header-fill">
             Getting Started
         </mat-expansion-panel-header>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8">
-        <mat-expansion-panel-header>
+    <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
+        <mat-expansion-panel-header class="accordion-header-fill">
             View Map Themes
         </mat-expansion-panel-header>
-        <div class="accordionContent">I'm visible because I am open</div>
+        <div class="accordionContent layersList">
+            <div *ngFor="let item of data">
+                <mat-expansion-panel [expanded]="false">
+                    <mat-expansion-panel-header>
+                        <mat-checkbox color="primary" (click)="$event.stopPropagation()" [(ngModel)]="item.defaultVisibility"
+                        value="{{item.id}}"  (ngModelChange)="parentCheck(item)"
+                            (keydown)="$event.stopPropagation()">
+                            {{item.name}}
+                        </mat-checkbox>
+                       
+                    </mat-expansion-panel-header>
+                    <div class="accordionContent">
+                        <div *ngFor="let itemChild of item.subLayers">
+                            <mat-checkbox color="primary" [(ngModel)]="itemChild.defaultVisibility"
+                            value="{{itemChild.id}}" name="list_name_child"
+                                    (ngModelChange)="childCheck(item,item.subLayers)" >
+                                {{itemChild.name}}
+                            </mat-checkbox> <br>
+                        </div>
+                    </div>
+
+                </mat-expansion-panel>
+            </div>
+        </div>
     </mat-expansion-panel>
     <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header class="accordion-header-fill">
             Ecosystem Services
         </mat-expansion-panel-header>
         <div class="accordionContent">
@@ -23,15 +46,12 @@
                 <mat-radio-button value="multipoint">Select County on the map</mat-radio-button>
                 <mat-radio-button value="polygon">Draw polygon on the map</mat-radio-button>
                 <mat-radio-button value="shapefile"> Load zipped shapefile
-
-
                 </mat-radio-button>
                 <div style="padding-left: 30px;">
                     <span *ngIf="fileUploadError !== ''" style="color: 'red'">{{fileUploadError}}<br></span>
-                    <input type="file" style="display: none" #fileInput accept=".zip"
-                        (change)="onChangeFileInput()" />
-                    <button mat-raised-button color="primary" class="file-select-button" [disabled]="activeControl !== 'shapefile'"
-                        (click)="onClickFileInputButton()">
+                    <input type="file" style="display: none" #fileInput accept=".zip" (change)="onChangeFileInput()" />
+                    <button mat-raised-button color="primary" class="file-select-button"
+                        [disabled]="activeControl !== 'shapefile'" (click)="onClickFileInputButton()">
                         <mat-icon>cloud_upload</mat-icon>
                         Select
                     </button>
@@ -40,29 +60,28 @@
             </mat-radio-group>
 
             <mat-radio-group aria-label="Select an option">
-                <button mat-raised-button color="primary" class="file-select-button" 
-                (click)="generateStatistics()">
-                <mat-icon>cloud_upload</mat-icon>
-                Generate summary statistics 
-            </button>
+                <button mat-raised-button color="primary" class="file-select-button" (click)="generateStatistics()">
+                    <mat-icon>cloud_upload</mat-icon>
+                    Generate summary statistics
+                </button>
             </mat-radio-group>
 
         </div>
     </mat-expansion-panel>
     <mat-expansion-panel class="mat-elevation-z8">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header class="accordion-header-fill">
             Standard Reports
         </mat-expansion-panel-header>
         <div class="accordionContent">I'm visible because I am open</div>
     </mat-expansion-panel>
     <mat-expansion-panel class="mat-elevation-z8">
-        <mat-expansion-panel-header class="mat-elevation-z8">
+        <mat-expansion-panel-header class="accordion-header-fill">
             Print Map
         </mat-expansion-panel-header>
         <div class="accordionContent">I'm visible because I am open</div>
     </mat-expansion-panel>
     <mat-expansion-panel class="mat-elevation-z8">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header class="accordion-header-fill">
             Legend
         </mat-expansion-panel-header>
         <div class="accordionContent">I'm visible because I am open</div>
@@ -71,3 +90,4 @@
 
 
 </mat-accordion>
+<!--The content below is only a placeholder and can be replaced.-->

@@ -10,6 +10,8 @@ import Graphic from 'arcgis-js-api/Graphic';
 import Geoprocessor from 'arcgis-js-api/tasks/Geoprocessor';
 import { polygonSymbol } from './MapStyles';
 import FeatureSet = require('arcgis-js-api/tasks/support/FeatureSet');
+import PrintTask from 'arcgis-js-api/tasks/PrintTask';
+import PrintParameters from 'arcgis-js-api/tasks/support/PrintParameters';
 
 @Component({
   selector: 'app-esrimap',
@@ -21,6 +23,13 @@ export class EsrimapComponent implements OnInit {
   view: any;
   mapLoaded = false;
   busy = false;
+  arcgisServer = 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/'
+  printMapTask = new PrintTask({ url: this.arcgisServer + 'services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task' });
+  printParams = new PrintParameters({ view: this.view })
+  printMap = () => {
+    console.log('print')
+    this.printMapTask.execute(this.printParams).then((f) => console.log(f))
+  }
   constructor(private mapControl: MapcontrolService) { }
 
   async initializeMap() {
@@ -29,8 +38,9 @@ export class EsrimapComponent implements OnInit {
       this.mapLoaded = true;
       const graphicsLayer = createGraphicsLayer();
       const multiPointLayer = MultiPointLayer();
-      const gp: any = Geoprocessor('https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/services/TxFIP/CalculateForestValues2020/GPServer/CalculateForestValues')
-      gp.outSpatialReference = {wkid: 102100 };
+      const gp: any = Geoprocessor(this.arcgisServer + 'services/TxFIP/CalculateForestValues2020/GPServer/CalculateForestValues');
+      const printGP: any = Geoprocessor(this.arcgisServer + 'services/ForestEcosystemValues/ExportReportImage/GPServer/ExportReportImage');
+      gp.outSpatialReference = { wkid: 102100 };
 
       this.view.map.addMany([graphicsLayer, multiPointLayer]);
       const sketchVM = setupSketchViewModel(multiPointLayer, this.view);
@@ -61,6 +71,25 @@ export class EsrimapComponent implements OnInit {
         }
       })
 
+      const createPNGForReport = async (featureSet) => {
+        printGP.submitJob({ polygon: featureSet }).then((jobInfo) => {
+          const jobid = jobInfo.jobId;
+          const options = {
+            interval: 1500,
+            statusCallback: (j) => {
+              console.log('Job Status: ', j.jobStatus);
+            }
+          };
+
+          printGP.waitForJobCompletion(jobid, options).then(() => {
+            printGP.getResultData(jobid, 'output').then((data) => {
+              console.log(data, data.value);
+              return data.value;
+            })
+          })
+        });
+      }
+
       this.mapControl.shapefileUploaded$.subscribe(shpFeatures => {
         const _shps = [];
         shpFeatures.forEach((shp) => {
@@ -77,25 +106,27 @@ export class EsrimapComponent implements OnInit {
 
           _shps.push(gg);
         })
-        const featureSet = new FeatureSet({features: _shps})
-        gp.submitJob({AOI_Polygon: featureSet}).then((jobInfo) => {
-          const jobid = jobInfo.jobId;
-          const options = {
-            interval: 1500,
-            statusCallback: (j) => {
-              console.log('Job Status: ', j.jobStatus);
-            }
-          };
+        const featureSet = new FeatureSet({ features: _shps })
+        // gp.submitJob({ AOI_Polygon: featureSet }).then((jobInfo) => {
+        //   const jobid = jobInfo.jobId;
+        //   const options = {
+        //     interval: 1500,
+        //     statusCallback: (j) => {
+        //       console.log('Job Status: ', j.jobStatus);
+        //     }
+        //   };
 
-          gp.waitForJobCompletion(jobid, options).then(() => {
-            gp.getResultData(jobid, 'Output_JSON').then((data) => {
-              console.log(data, data.value);
-              const outJson = JSON.parse(data.value)
-              console.log(outJson)
-            })
-          })
-        })
+        //   gp.waitForJobCompletion(jobid, options).then(() => {
+        //     gp.getResultData(jobid, 'Output_JSON').then((data) => {
+        //       console.log(data, data.value);
+        //       const outJson = JSON.parse(data.value)
+        //       console.log(outJson)
+        //     })
+        //   })
+        // });
+        graphicsLayer.removeAll();
         graphicsLayer.addMany(_shps);
+        createPNGForReport(new FeatureSet({features: graphicsLayer.graphics}));
       })
 
       this.mapControl.generateSummary$.subscribe((d) => {
