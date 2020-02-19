@@ -7,11 +7,15 @@ import geojson from './data';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { Polygon } from 'arcgis-js-api/geometry';
 import Graphic from 'arcgis-js-api/Graphic';
-import Geoprocessor from 'arcgis-js-api/tasks/Geoprocessor';
 import { polygonSymbol } from './MapStyles';
-import FeatureSet = require('arcgis-js-api/tasks/support/FeatureSet');
+
 import PrintTask from 'arcgis-js-api/tasks/PrintTask';
 import PrintParameters from 'arcgis-js-api/tasks/support/PrintParameters';
+import { createPNGForReport, getReportValues } from './ReportServices';
+import { Store, Select } from '@ngxs/store';
+import { SidebarControlsState } from '../shared/sidebarControls.state';
+import { ChangeReportData } from '../shared/sidebarControls.actions';
+import MapImageLayer from 'arcgis-js-api/layers/MapImageLayer';
 
 @Component({
   selector: 'app-esrimap',
@@ -20,6 +24,7 @@ import PrintParameters from 'arcgis-js-api/tasks/support/PrintParameters';
 })
 export class EsrimapComponent implements OnInit {
   @ViewChild('mapViewNode', { static: true }) private mapViewEl: ElementRef;
+  @Select(SidebarControlsState.getActiveLayers) activeLayers$;
   view: any;
   mapLoaded = false;
   busy = false;
@@ -30,7 +35,9 @@ export class EsrimapComponent implements OnInit {
     console.log('print')
     this.printMapTask.execute(this.printParams).then((f) => console.log(f))
   }
-  constructor(private mapControl: MapcontrolService) { }
+
+
+  constructor(private mapControl: MapcontrolService, private store: Store) { }
 
   async initializeMap() {
     try {
@@ -38,18 +45,18 @@ export class EsrimapComponent implements OnInit {
       this.mapLoaded = true;
       const graphicsLayer = createGraphicsLayer();
       const multiPointLayer = MultiPointLayer();
-      const gp: any = Geoprocessor(this.arcgisServer + 'services/TxFIP/CalculateForestValues2020/GPServer/CalculateForestValues');
-      const printGP: any = Geoprocessor(this.arcgisServer + 'services/ForestEcosystemValues/ExportReportImage/GPServer/ExportReportImage');
-      gp.outSpatialReference = { wkid: 102100 };
+      const baseLayer = new MapImageLayer({
+        url: this.arcgisServer + 'services/ForestEcosystemValues/ForestValues/MapServer',
 
-      this.view.map.addMany([graphicsLayer, multiPointLayer]);
+      });
+      this.view.map.addMany([baseLayer, graphicsLayer, multiPointLayer]);
       const sketchVM = setupSketchViewModel(multiPointLayer, this.view);
       this.view.when(() => {
+        // baseLayer.set
         // sketchVM.create('multipoint');
       })
       this.view.map.addMany([geojson]);
       const selectGeometry = promiseUtils.debounce((event) => {
-
         if (event.tool === 'multipoint') {
           this.busy = true;
           SelectMultipleCounties(event, geojson, graphicsLayer).then(() => {
@@ -71,23 +78,18 @@ export class EsrimapComponent implements OnInit {
         }
       })
 
-      const createPNGForReport = async (featureSet) => {
-        printGP.submitJob({ polygon: featureSet }).then((jobInfo) => {
-          const jobid = jobInfo.jobId;
-          const options = {
-            interval: 1500,
-            statusCallback: (j) => {
-              console.log('Job Status: ', j.jobStatus);
-            }
-          };
+      const generateSummaryStatistics = () => {
+        getReportValues(graphicsLayer).then((v) => {
+          this.store.dispatch(new ChangeReportData(v));
+        })
+      }
 
-          printGP.waitForJobCompletion(jobid, options).then(() => {
-            printGP.getResultData(jobid, 'output').then((data) => {
-              console.log(data, data.value);
-              return data.value;
-            })
-          })
-        });
+      const createReport = () => {
+        const pngPromise = createPNGForReport(graphicsLayer);
+        const reportDataPromise = getReportValues(graphicsLayer);
+        Promise.all([pngPromise, reportDataPromise]).then((values) => {
+          console.log('promise values', values)
+        })
       }
 
       this.mapControl.shapefileUploaded$.subscribe(shpFeatures => {
@@ -100,38 +102,31 @@ export class EsrimapComponent implements OnInit {
           const gg = new Graphic({
             geometry: polgn,
             symbol: polygonSymbol,
-            attributes: shp.attributes
+            attributes: shp.attributes,
+            popupTemplate: {}
           });
-
-
           _shps.push(gg);
         })
-        const featureSet = new FeatureSet({ features: _shps })
-        // gp.submitJob({ AOI_Polygon: featureSet }).then((jobInfo) => {
-        //   const jobid = jobInfo.jobId;
-        //   const options = {
-        //     interval: 1500,
-        //     statusCallback: (j) => {
-        //       console.log('Job Status: ', j.jobStatus);
-        //     }
-        //   };
-
-        //   gp.waitForJobCompletion(jobid, options).then(() => {
-        //     gp.getResultData(jobid, 'Output_JSON').then((data) => {
-        //       console.log(data, data.value);
-        //       const outJson = JSON.parse(data.value)
-        //       console.log(outJson)
-        //     })
-        //   })
-        // });
         graphicsLayer.removeAll();
         graphicsLayer.addMany(_shps);
-        createPNGForReport(new FeatureSet({features: graphicsLayer.graphics}));
       })
 
       this.mapControl.generateSummary$.subscribe((d) => {
-        console.log('generate statistics')
+        generateSummaryStatistics();
       })
+
+      this.activeLayers$.subscribe(lr => {
+        const subLrs = [];
+        // if (lr !== null) {
+        //   lr.forEach(master => {
+        //     master.subLayers.forEach(sub => {
+        //       subLrs.push({ id: sub.id, visible: sub.defaultVisibility })
+        //     });
+        //   });
+        // }
+        console.log('Active Layers, ', lr)
+      })
+
 
       return this.view;
     } catch (error) {

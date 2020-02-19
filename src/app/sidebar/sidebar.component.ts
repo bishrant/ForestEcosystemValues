@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { HttpClient } from '@angular/common/http';
 import { Store, Select } from '@ngxs/store';
-import { ChangeControl } from '../shared/sidebarControls.actions';
+import { ChangeControl, ChangeActiveLayers } from '../shared/sidebarControls.actions';
 import { SidebarControlsState } from '../shared/sidebarControls.state';
 
 @Component({
@@ -11,75 +11,69 @@ import { SidebarControlsState } from '../shared/sidebarControls.state';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  data: any;
+  dataTable: any;
+  @ViewChild('fileInput')
+  fileInput;
+  file: File | null = null;
+  fileUploadError = '';
+  panelOpenState = false;
+  activeControl: string;
+  layers: any = [];
+
+  mapserverUrl = 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/services/ForestEcosystemValues/ForestValues/MapServer';
 
   getSubLayers = (master: any, layers: any) => {
     return layers.filter(l => l.parentLayerId === master.id);
   }
 
-  // Click event on parent checkbox 
-  parentCheck(masterLayer) {
+  // Click event on parent checkbox
+  parentCheck(masterLayer: any) {
+    console.log('parent check done')
+    const d = this.dataTable.map(dd => {
+      if (dd.id === masterLayer.id) {
+        dd.subLayers.forEach((s: any) => {
+          s.defaultVisibility = masterLayer.defaultVisibility;
+        })
+      }
+      return dd;
+    });
+    console.log(d);
     masterLayer.subLayers.forEach((s: any) => {
       s.defaultVisibility = masterLayer.defaultVisibility;
     })
+    this.store.dispatch(new ChangeActiveLayers(this.dataTable))
   }
 
-  // Click event on child checkbox  
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
+  // Click event on child checkbox
   childCheck(masterLayer, subLayer) {
     masterLayer.defaultVisibility = subLayer.every((c: any) => {
       return c.defaultVisibility === true;
     })
   }
   createLayerList = (url: string = this.mapserverUrl + '?f=json') => {
-    this.http.get(url).subscribe((data: any) => {
-      const layers = data.layers;
-      const headings = layers.filter(l => l.subLayerIds !== null);
-
-      const newMaster = headings.map((h: any) => {
-        h.subLayers = this.getSubLayers(h, layers);
+    this.http.get(url).subscribe((datas: any) => {
+      const headings = datas.layers.filter(l => l.subLayerIds !== null);
+      const d = headings.map((h: any) => {
+        h.subLayers = this.getSubLayers(h, datas.layers);
+        h.visible= h.defaultVisibility;
         return h;
       })
-      this.data = newMaster;
+      this.dataTable = d;
+      // this.store.dispatch(new ChangeActiveLayers(d));
     })
   }
-  panelOpenState = false;
-  activeControl: string;
-  @ViewChild('fileInput')
-  fileInput;
-  file: File | null = null;
-  fileUploadError = '';
-  mapserverUrl = 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/services/ForestEcosystemValues/ForestValues/MapServer';
-  @Select(SidebarControlsState.getControl) sidebar$;
 
-  layerHeadings: any = [
-    {id: 0, name: 'Boundaries'},
-    {id: 6, name: 'Forests'},
-    {id: 10, name: 'Forest Ecosystem Values'}];
-
-  layers: any = [];
   constructor(private mapControl: MapcontrolService, private http: HttpClient, private store: Store) { }
-
-
   ngOnInit() {
-    // this.sidebar$.
     this.createLayerList();
-    this.sidebar$.subscribe(d => console.log(d))
-
-    const createLayerList = (url: string) => {
-      this.http.get(url).subscribe((data: any) => {
-        console.log(data);
-        this.layers = data.layers;
-        const headings = this.layers.filter(l => l.subLayerIds !== null);
-        console.log(headings);
-      })
-    }
-
-    createLayerList(this.mapserverUrl+'?f=pjson');
   }
 
   onControlChange = (evt: any) => {
     this.store.dispatch(new ChangeControl(evt))
-    // this.mapControl.changeControl(evt);
   }
 
   onClickFileInputButton(): void {
@@ -87,9 +81,7 @@ export class SidebarComponent implements OnInit {
   }
 
   generateStatistics() {
-    console.log()
-    // this.sidebar$.change('testsss')
-    // this.mapControl.generateStatisticsFn();
+    this.mapControl.generateStatisticsFn();
   }
 
   onChangeFileInput(): void {

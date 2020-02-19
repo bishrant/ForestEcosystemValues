@@ -17,6 +17,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { SidebarControlsState } from './shared/sidebarControls.state';
 import { FormsModule } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { FormsModule } from '@angular/forms';
     OverlayModule,
     DragDropModule,
     FormsModule,
-    NgxsModule.forRoot([SidebarControlsState]),
+    NgxsModule.forRoot([SidebarControlsState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot()
   ],

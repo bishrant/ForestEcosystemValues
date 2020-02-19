@@ -1,3 +1,5 @@
 export interface SidebarControl {
-    name: string
+    controlName: string,
+    reportData: any,
+    activeLayers: any
 }

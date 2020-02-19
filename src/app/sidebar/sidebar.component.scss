@@ -2,9 +2,9 @@
 // Include non-theme styles for core.
 @include mat-core();
 @import "../../styles.scss";
-.mat-expansion-panel:hover, .mat-expansion-panel-content:hover {
-    // background: unset !important;
-}
+// .mat-expansion-panel:hover, .mat-expansion-panel-content:hover {
+//     // background: unset !important;
+// }
 .mat-expansion-panel {
     border-radius: 0 !important;
     margin: 5px;
