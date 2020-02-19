@@ -41,7 +41,8 @@ export class SidebarComponent implements OnInit {
     masterLayer.subLayers.forEach((s: any) => {
       s.defaultVisibility = masterLayer.defaultVisibility;
     })
-    this.store.dispatch(new ChangeActiveLayers(this.dataTable))
+    console.log(this.dataTable)
+    // this.store.dispatch(new ChangeActiveLayers(this.dataTable))
   }
 
   trackByIndex(index: number, obj: any): any {

@@ -10,19 +10,17 @@
             View Map Themes
         </mat-expansion-panel-header>
         <div class="accordionContent layersList">
-            <div *ngFor="let item of dataTable; let masterIndex = index; trackBy: trackByIndex" >
+            <div *ngFor="let item of dataTable; let masterIndex = index; trackBy: trackByIndex">
                 <mat-expansion-panel [expanded]="false">
                     <mat-expansion-panel-header>
-                        <mat-checkbox color="primary"  
-                        value="{{dataTable[masterIndex].defaultVisibility}}" (change)="parentCheck(dataTable[masterIndex])"
-                            
-                            >
+                        <mat-checkbox color="primary"  [(ngModel)]="dataTable[masterIndex].defaultVisibility"
+                        value="{{item.id}}"  (ngModelChange)="parentCheck(item)"
+                            (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
                             {{item.name}}
-                            <!-- (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()" -->
                         </mat-checkbox>
                        
                     </mat-expansion-panel-header>
-                    <!-- <div class="accordionContent">
+                    <div class="accordionContent">
                         <div *ngFor="let itemChild of item.subLayers">
                             <mat-checkbox color="primary" [(ngModel)]="itemChild.defaultVisibility"
                             value="{{itemChild.id}}" name="list_name_child"
@@ -30,7 +28,7 @@
                                 {{itemChild.name}}
                             </mat-checkbox> <br>
                         </div>
-                    </div> -->
+                    </div>
 
                 </mat-expansion-panel>
             </div>
