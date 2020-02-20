@@ -13,7 +13,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-
+import {MatSliderModule} from '@angular/material/slider';
+import { MatSelectModule } from '@angular/material/select';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   exports: [
@@ -29,6 +32,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatListModule,
     MatTabsModule,
     MatTableModule,
+    MatSliderModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    ScrollingModule,
     MatCheckboxModule
   ]
 })

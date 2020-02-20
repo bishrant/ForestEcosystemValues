@@ -7,6 +7,7 @@ import { Subject, ReplaySubject } from 'rxjs';
 export class MapcontrolService {
   private controlActivatedSource = new Subject<string>();
   private shapefileUploadSource = new Subject<any>();
+  private activeLayers = new ReplaySubject<any>();
 
   private generateSummary = new ReplaySubject<any>();
 
@@ -14,6 +15,7 @@ export class MapcontrolService {
   controlActivated$ = this.controlActivatedSource.asObservable();
   shapefileUploaded$ = this.shapefileUploadSource.asObservable();
   generateSummary$ = this.generateSummary.asObservable();
+  activeLayers$ = this.activeLayers.asObservable();
 
   constructor() { }
 
@@ -31,6 +33,10 @@ export class MapcontrolService {
 
   generateStatisticsFn() {
     this.generateSummary.next(Math.random())
+  }
+
+  changeActiveLayers(payload: any) {
+    this.activeLayers.next(payload)
   }
 
 }

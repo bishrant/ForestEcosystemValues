@@ -1,9 +1,6 @@
-import { Component, ViewChild, AfterViewInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { MatSidenav } from '@angular/material/sidenav';
-import {Overlay, OverlayRef} from '@angular/cdk/overlay';
-import {TemplatePortal} from '@angular/cdk/portal';
+import { Component, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
 import { MapcontrolService } from './services/mapcontrol.service';
+import { GeojsonDataService } from './services/geojson-data.service';
 
 @Component({
   selector: 'app-root',
@@ -15,10 +12,7 @@ export class AppComponent implements AfterViewInit {
   sidenavOpened = true;
   popupHidden = true
   @ViewChild(TemplateRef) _dialogTemplate: TemplateRef<any>;
-  private _overlayRef: OverlayRef;
-  private _portal: TemplatePortal;
-  
-  constructor(private _overlay: Overlay, private _viewContainerRef: ViewContainerRef, private mapControl: MapcontrolService) {}
+  constructor(private mapControl: MapcontrolService, private geoj: GeojsonDataService) {}
 
   ngAfterViewInit() {
     this.mapControl.generateSummary$.subscribe(() => {

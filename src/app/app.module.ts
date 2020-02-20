@@ -16,8 +16,14 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { SidebarControlsState } from './shared/sidebarControls.state';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import { GlobalsService } from './services/globals.service';
+import { GeojsonDataService } from './services/geojson-data.service';
 
 @NgModule({
   declarations: [
@@ -32,16 +38,21 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     LayoutModule,
     FlexLayoutModule,
+    ScrollingModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatInputModule,
     AllMaterialModule,
     SummarytableModule,
     OverlayModule,
     DragDropModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxsModule.forRoot([SidebarControlsState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot()
   ],
-  providers: [],
+  providers: [GlobalsService, GeojsonDataService],
   bootstrap: [AppComponent],
   exports: [SummarytableModule]
 })

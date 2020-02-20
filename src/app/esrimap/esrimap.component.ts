@@ -16,6 +16,7 @@ import { Store, Select } from '@ngxs/store';
 import { SidebarControlsState } from '../shared/sidebarControls.state';
 import { ChangeReportData } from '../shared/sidebarControls.actions';
 import MapImageLayer from 'arcgis-js-api/layers/MapImageLayer';
+import { GeojsonDataService } from '../services/geojson-data.service';
 
 @Component({
   selector: 'app-esrimap',
@@ -37,7 +38,7 @@ export class EsrimapComponent implements OnInit {
   }
 
 
-  constructor(private mapControl: MapcontrolService, private store: Store) { }
+  constructor(private mapControl: MapcontrolService, private store: Store, private geojsonData: GeojsonDataService) { }
 
   async initializeMap() {
     try {
@@ -47,7 +48,10 @@ export class EsrimapComponent implements OnInit {
       const multiPointLayer = MultiPointLayer();
       const baseLayer = new MapImageLayer({
         url: this.arcgisServer + 'services/ForestEcosystemValues/ForestValues/MapServer',
-
+        sublayers: [
+          {id: 2, visible: true, opacity: 0.5},
+          {id: 11, visible: true, opacity: 1}
+        ]
       });
       this.view.map.addMany([baseLayer, graphicsLayer, multiPointLayer]);
       const sketchVM = setupSketchViewModel(multiPointLayer, this.view);
@@ -55,7 +59,7 @@ export class EsrimapComponent implements OnInit {
         // baseLayer.set
         // sketchVM.create('multipoint');
       })
-      this.view.map.addMany([geojson]);
+     this.view.map.add(this.geojsonData.countyGeojsonLayer);
       const selectGeometry = promiseUtils.debounce((event) => {
         if (event.tool === 'multipoint') {
           this.busy = true;
@@ -115,20 +119,20 @@ export class EsrimapComponent implements OnInit {
         generateSummaryStatistics();
       })
 
-      this.activeLayers$.subscribe(lr => {
+      this.mapControl.activeLayers$.subscribe((lr) => {
         const subLrs = [];
-        // if (lr !== null) {
-        //   lr.forEach(master => {
-        //     master.subLayers.forEach(sub => {
-        //       subLrs.push({ id: sub.id, visible: sub.defaultVisibility })
-        //     });
-        //   });
-        // }
-        console.log('Active Layers, ', lr)
+        if (lr !== null) {
+          lr.forEach(master => {
+            master.subLayers.forEach(sub => {
+              const opacity = master.name === 'Boundaries' ? 0.5 : 1
+              subLrs.push({ id: sub.id, visible: sub.defaultVisibility, opacity: opacity })
+            });
+          });
+        }
+        baseLayer.sublayers = subLrs.reverse();
       })
 
-
-      return this.view;
+     return this.view;
     } catch (error) {
       console.log('Esri: ', error);
     }

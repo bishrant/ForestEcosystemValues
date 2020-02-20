@@ -14,6 +14,6 @@ const renderer = {
         }
     }
 }
-const geojson = new GeoJSONLayer({ url: url, renderer: renderer });
+const geojson = new GeoJSONLayer({ url: url, renderer: renderer, visible: false });
 
 export default geojson;

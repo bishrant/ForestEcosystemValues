@@ -6,59 +6,66 @@
 //     // background: unset !important;
 // }
 .mat-expansion-panel {
-    border-radius: 0 !important;
-    margin: 5px;
-    background: white; //mat-color($fev-primary);
-    margin-bottom: 15px;
+  border-radius: 0 !important;
+  margin: 5px;
+  background: white; //mat-color($fev-primary);
+  margin-bottom: 15px;
 }
 .accordion-header-fill {
-    background: mat-color($fev-primary, 700) !important;
-    font-weight: 500;
-    box-shadow: 4px 2px 5px 0px #000000bf;
-    border-radius: 0 !important;
-    height: 44px !important;
+  background: mat-color($fev-primary, 700) !important;
+  font-weight: 500;
+  box-shadow: 4px 2px 5px 0px #000000bf;
+  border-radius: 0 !important;
+  height: 44px !important;
 }
 
 .accordion-header-fill:hover {
-    background-color: mat-color($fev-primary, 700) !important;
+  background-color: mat-color($fev-primary, 700) !important;
 }
-
 
 .mat-expansion-panel-content {
-    margin-top: 10px !important;
+  margin-top: 10px !important;
 }
 
-
 .controls-radio-group {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
 
-    mat-radio-button {
-        margin: 5px;
-    }
-
+  mat-radio-button {
+    margin: 5px;
   }
+}
 
-  .layersList {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-  }
+.layersList {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 
-  .layersList .mat-expansion-panel-header {
-      padding: 0 10px !important;
-      height: 40px !important;
-  }
+.layersList .mat-expansion-panel-header {
+  padding: 0 10px !important;
+  height: 40px !important;
+}
 
-  .layersList .accordionContent {
-    margin-left: 15px;
-    margin-top: 0px;
+.layersList .accordionContent {
+  margin-left: 15px;
+  margin-top: 0px;
 }
 
 .accordionContent {
-    margin-top: 10px;
-    width: 100%;
+  margin-top: 10px;
+  width: 100%;
 }
 
-
+.opacityBtn {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    right: 52px;
+    margin-top: -7px;
+}
+.standardReport{
+    display: flex;
+    margin-bottom: 5px;
+}

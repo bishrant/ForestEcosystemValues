@@ -5,7 +5,7 @@
             Getting Started
         </mat-expansion-panel-header>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
+    <mat-expansion-panel class="mat-elevation-z8" [expanded]="false">
         <mat-expansion-panel-header class="accordion-header-fill">
             View Map Themes
         </mat-expansion-panel-header>
@@ -13,18 +13,26 @@
             <div *ngFor="let item of dataTable; let masterIndex = index; trackBy: trackByIndex">
                 <mat-expansion-panel [expanded]="false">
                     <mat-expansion-panel-header>
-                        <mat-checkbox color="primary"  [(ngModel)]="dataTable[masterIndex].defaultVisibility"
-                        value="{{item.id}}"  (ngModelChange)="parentCheck(item)"
-                            (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+                        <mat-checkbox color="primary" [(ngModel)]="dataTable[masterIndex].defaultVisibility"
+                            value="{{item.id}}" (ngModelChange)="parentCheck(item)" (keydown)="$event.stopPropagation()"
+                            (click)="$event.stopPropagation()">
                             {{item.name}}
+
                         </mat-checkbox>
-                       
+
+                        <!-- <button mat-icon-button aria-label="icon" class="opacityBtn">
+                            <mat-icon>favorite</mat-icon>
+                          </button>
+                          <div>
+                              <br>
+                          <mat-slider min="1" max="5" step="0.5" value="1.5"></mat-slider>
+                        </div> -->
                     </mat-expansion-panel-header>
                     <div class="accordionContent">
                         <div *ngFor="let itemChild of item.subLayers">
                             <mat-checkbox color="primary" [(ngModel)]="itemChild.defaultVisibility"
-                            value="{{itemChild.id}}" name="list_name_child"
-                                    (ngModelChange)="childCheck(item,item.subLayers)" >
+                                value="{{itemChild.id}}" name="list_name_child"
+                                (ngModelChange)="childCheck(item,item.subLayers)">
                                 {{itemChild.name}}
                             </mat-checkbox> <br>
                         </div>
@@ -43,6 +51,20 @@
             <mat-radio-group aria-labelledby="select controls" class="controls-radio-group" [(ngModel)]="activeControl"
                 (ngModelChange)="onControlChange($event)">
                 <mat-radio-button value="dropdown">Select County or Urban Area</mat-radio-button>
+                <div *ngIf="activeControl === 'dropdown'">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>County</mat-label>
+                        <input matInput type="text" placeholder="Pick one" aria-label="Number" [formControl]="myControl"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onCountySelected($event)">
+                            <mat-option *ngFor="let option of filteredCounties | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+
                 <mat-radio-button value="multipoint">Select County on the map</mat-radio-button>
                 <mat-radio-button value="polygon">Draw polygon on the map</mat-radio-button>
                 <mat-radio-button value="shapefile"> Load zipped shapefile
@@ -71,7 +93,28 @@
         <mat-expansion-panel-header class="accordion-header-fill">
             Standard Reports
         </mat-expansion-panel-header>
-        <div class="accordionContent">I'm visible because I am open</div>
+        <div class="accordionContent">
+            <div class="standardReport">
+                <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
+                <a href="/assets/static/Central-West-Texas-Summary-Report.pdf" target="_blank">Central - West Texas
+                    Summary Report</a>
+            </div>
+            <div class="standardReport">
+                <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
+                <a href="/assets/static/East-Texas-Summary-Report.pdf" target="_blank">East Texas Summary Report</a>
+            </div>
+            <div class="standardReport">
+                <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
+                <a href="/assets/static/Texas-Summary-Report.pdf" target="_blank">Texas Summary Report</a>
+            </div>
+            <div class="standardReport">
+                <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
+                <a href="/assets/static/Texas-Forest-Ecosystem-Services-Report.pdf" target="_blank">Forest Ecosystem
+                    Services Report</a>
+            </div>
+
+
+        </div>
     </mat-expansion-panel>
     <mat-expansion-panel class="mat-elevation-z8">
         <mat-expansion-panel-header class="accordion-header-fill">
