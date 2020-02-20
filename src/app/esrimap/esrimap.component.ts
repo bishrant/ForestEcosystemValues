@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as promiseUtils from 'arcgis-js-api/core/promiseUtils';
 import createMapView from './mapView';
-import { setupSketchViewModel, SelectMultipleCounties, SelectByPolygon, fff } from './SelectCounties';
+import { setupSketchViewModel, SelectMultipleCounties, SelectByPolygon } from './SelectCounties';
 import { createGraphicsLayer, MultiPointLayer } from './GraphicsLayer';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { Polygon } from 'arcgis-js-api/geometry';

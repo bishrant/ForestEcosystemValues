@@ -19,6 +19,7 @@ export class GeojsonDataService {
     this.mapControl.filterByCountyName$.subscribe(county => {
       this.countyGeojsonLayer.definitionExpression = 'NAME=\''+ county+ '\'';
       this.countyGeojsonLayer.queryExtent().then(ext => this.mapControl.setMapExtent(ext.extent));
+      this.countyGeojsonLayer.queryFeatures().then(res => console.log('results of query ', res))
     })
 
     this.mapControl.filterByUrbanName$.subscribe(urban => {
