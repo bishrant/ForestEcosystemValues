@@ -8,13 +8,8 @@ import SpatialReference from 'arcgis-js-api/geometry/SpatialReference';
 
 const createMapView = (mapViewEl: ElementRef) => {
   const fullExtent = new Extent({ xmin: -106.645646, ymin: 24.837377, xmax: -93.508292, ymax: 37.500704 }).expand(1.2);
-  const countyLayer = new MapImageLayer({ 
-    url: 'https://tfsgis02.tfs.tamu.edu/arcgis/rest/services/ForestProductsDirectory/FPDMapService/MapServer',
-  visible: false
-  });
   const mapProperties = {
     basemap: 'streets',
-    layers: [countyLayer],
     spatialReference: new SpatialReference({ wkid: 4326 })
   };
 

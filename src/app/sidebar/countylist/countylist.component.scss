@@ -1,0 +1,14 @@
+@import "~@angular/material/theming";
+// Include non-theme styles for core.
+@include mat-core();
+@import "../../../styles.scss";
+
+.align-arrow-right {
+    position: absolute;
+    right: 0;
+    top: 7px;
+  }
+  
+  .clearBtn {
+    bottom: 5px;
+  }

@@ -24,6 +24,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import { GlobalsService } from './services/globals.service';
 import { GeojsonDataService } from './services/geojson-data.service';
+import { CountylistModule } from './sidebar/countylist/countylist.module';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { GeojsonDataService } from './services/geojson-data.service';
     MatInputModule,
     AllMaterialModule,
     SummarytableModule,
+    CountylistModule,
     OverlayModule,
     DragDropModule,
     FormsModule,
@@ -54,6 +56,6 @@ import { GeojsonDataService } from './services/geojson-data.service';
   ],
   providers: [GlobalsService, GeojsonDataService],
   bootstrap: [AppComponent],
-  exports: [SummarytableModule]
+  exports: [SummarytableModule, CountylistModule, MatInputModule]
 })
 export class AppModule { }

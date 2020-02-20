@@ -51,18 +51,8 @@
             <mat-radio-group aria-labelledby="select controls" class="controls-radio-group" [(ngModel)]="activeControl"
                 (ngModelChange)="onControlChange($event)">
                 <mat-radio-button value="dropdown">Select County or Urban Area</mat-radio-button>
-                <div *ngIf="activeControl === 'dropdown'">
-                    <mat-form-field class="example-full-width">
-                        <mat-label>County</mat-label>
-                        <input matInput type="text" placeholder="Pick one" aria-label="Number" [formControl]="myControl"
-                            [matAutocomplete]="auto">
-                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onCountySelected($event)">
-                            <mat-option *ngFor="let option of filteredCounties | async" [value]="option">
-                                {{option}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-
+                <div *ngIf="activeControl === 'dropdown'" class="dropdownChild">
+                    <app-countylist></app-countylist>
                 </div>
 
                 <mat-radio-button value="multipoint">Select County on the map</mat-radio-button>
@@ -86,7 +76,6 @@
                     Generate summary statistics
                 </button>
             </mat-radio-group>
-
         </div>
     </mat-expansion-panel>
     <mat-expansion-panel class="mat-elevation-z8">
@@ -128,8 +117,4 @@
         </mat-expansion-panel-header>
         <div class="accordionContent">I'm visible because I am open</div>
     </mat-expansion-panel>
-
-
-
 </mat-accordion>
-<!--The content below is only a placeholder and can be replaced.-->

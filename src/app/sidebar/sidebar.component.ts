@@ -3,11 +3,7 @@ import { MapcontrolService } from '../services/mapcontrol.service';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngxs/store';
 import { ChangeControl } from '../shared/sidebarControls.actions';
-import { Observable } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { map, startWith } from 'rxjs/operators';
 import { GlobalsService } from '../services/globals.service';
-import { GeojsonDataService } from '../services/geojson-data.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,17 +19,8 @@ export class SidebarComponent implements OnInit {
   panelOpenState = false;
   activeControl: string;
   layers: any = [];
-  counties = ['Anderson', 'Andrews', 'Angelina', 'Aransas', 'Archer', 'Armstrong', 'Atascosa', 'Austin', 'Bailey', 'Bandera', 'Bastrop', 'Baylor', 'Bee', 'Bell', 'Bexar', 'Blanco', 'Borden', 'Bosque', 'Bowie', 'Brazoria', 'Brazos', 'Brewster', 'Briscoe', 'Brooks', 'Brown', 'Burleson', 'Burnet', 'Caldwell', 'Calhoun', 'Callahan', 'Cameron', 'Camp', 'Carson', 'Cass', 'Castro', 'Chambers', 'Cherokee', 'Childress', 'Clay', 'Cochran', 'Coke', 'Coleman', 'Collin', 'Collingsworth', 'Colorado', 'Comal', 'Comanche', 'Concho', 'Cooke', 'Coryell', 'Cottle', 'Crane', 'Crockett', 'Crosby', 'Culberson', 'Dallam', 'Dallas', 'Dawson', 'DeWitt', 'Deaf Smith', 'Delta', 'Denton', 'Dickens', 'Dimmit', 'Donley', 'Duval', 'Eastland', 'Ector', 'Edwards', 'El Paso', 'Ellis', 'Erath', 'Falls', 'Fannin', 'Fayette', 'Fisher', 'Floyd', 'Foard', 'Fort Bend', 'Franklin', 'Freestone', 'Frio', 'Gaines', 'Galveston', 'Garza', 'Gillespie', 'Glasscock', 'Goliad', 'Gonzales', 'Gray', 'Grayson', 'Gregg', 'Grimes', 'Guadalupe', 'Hale', 'Hall', 'Hamilton', 'Hansford', 'Hardeman', 'Hardin', 'Harris', 'Harrison', 'Hartley', 'Haskell', 'Hays', 'Hemphill', 'Henderson', 'Hidalgo', 'Hill', 'Hockley', 'Hood', 'Hopkins', 'Houston', 'Howard', 'Hudspeth', 'Hunt', 'Hutchinson', 'Irion', 'Jack', 'Jackson', 'Jasper', 'Jeff Davis', 'Jefferson', 'Jim Hogg', 'Jim Wells', 'Johnson', 'Jones', 'Karnes', 'Kaufman', 'Kendall', 'Kenedy', 'Kent', 'Kerr', 'Kimble', 'King', 'Kinney', 'Kleberg', 'Knox', 'La Salle', 'Lamar', 'Lamb', 'Lampasas', 'Lavaca', 'Lee', 'Leon', 'Liberty', 'Limestone', 'Lipscomb', 'Live Oak', 'Llano', 'Loving', 'Lubbock', 'Lynn', 'Madison', 'Marion', 'Martin', 'Mason', 'Matagorda', 'Maverick', 'McCulloch', 'McLennan', 'McMullen', 'Medina', 'Menard', 'Midland', 'Milam', 'Mills', 'Mitchell', 'Montague', 'Montgomery', 'Moore', 'Morris', 'Motley', 'Nacogdoches', 'Navarro', 'Newton', 'Nolan', 'Nueces', 'Ochiltree', 'Oldham', 'Orange', 'Palo Pinto', 'Panola', 'Parker', 'Parmer', 'Pecos', 'Polk', 'Potter', 'Presidio', 'Rains', 'Randall', 'Reagan', 'Real', 'Red River', 'Reeves', 'Refugio', 'Roberts', 'Robertson', 'Rockwall', 'Runnels', 'Rusk', 'Sabine', 'San Augustine', 'San Jacinto', 'San Patricio', 'San Saba', 'Schleicher', 'Scurry', 'Shackelford', 'Shelby', 'Sherman', 'Smith', 'Somervell', 'Starr', 'Stephens', 'Sterling', 'Stonewall', 'Sutton', 'Swisher', 'Tarrant', 'Taylor', 'Terrell', 'Terry', 'Throckmorton', 'Titus', 'Tom Green', 'Travis', 'Trinity', 'Tyler', 'Upshur', 'Upton', 'Uvalde', 'Val Verde', 'Van Zandt', 'Victoria', 'Walker', 'Waller', 'Ward', 'Washington', 'Webb', 'Wharton', 'Wheeler', 'Wichita', 'Wilbarger', 'Willacy', 'Williamson', 'Wilson', 'Winkler', 'Wise', 'Wood', 'Yoakum', 'Young', 'Zapata', 'Zavala']
-  filteredCounties: Observable<string[]>;
-  mapserverUrl: string;
-  myControl = new FormControl();
   getSubLayers = (master: any, layers: any) => {
     return layers.filter(l => l.parentLayerId === master.id);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.counties.filter(c => c.toLowerCase().indexOf(filterValue) === 0);
   }
 
   // Click event on parent checkbox
@@ -55,8 +42,8 @@ export class SidebarComponent implements OnInit {
     })
     this.mapControl.changeActiveLayers(this.dataTable);
   }
-  createLayerList = (url: string = this.mapserverUrl + '?f=json') => {
-    this.http.get(url).subscribe((datas: any) => {
+  createLayerList = () => {
+    this.http.get(this.globals.arcgisUrl + 'services/ForestEcosystemValues/ForestValues/MapServer?f=json').subscribe((datas: any) => {
       const headings = datas.layers.filter(l => l.subLayerIds !== null);
       const d = headings.map((h: any) => {
         h.subLayers = this.getSubLayers(h, datas.layers);
@@ -65,25 +52,16 @@ export class SidebarComponent implements OnInit {
       })
       this.dataTable = d;
       this.mapControl.changeActiveLayers(this.dataTable);
-      // this.store.dispatch(new ChangeActiveLayers(d));
     })
   }
-  onCountySelected = (evt: any) => {
-    console.log(evt, evt.option.value, ' selected');
-  }
 
-  constructor(private mapControl: MapcontrolService, private globals: GlobalsService,
-    private geoj: GeojsonDataService,
-    private http: HttpClient, private store: Store) { }
+
+  constructor(private globals: GlobalsService, private mapControl: MapcontrolService,
+    private http: HttpClient, private store: Store) {
+    }
 
   ngOnInit() {
-    this.mapserverUrl = this.globals.arcgisUrl + 'services/ForestEcosystemValues/ForestValues/MapServer';
     this.createLayerList();
-
-    this.filteredCounties = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
   }
 
   onControlChange = (evt: any) => {
@@ -144,6 +122,4 @@ export class SidebarComponent implements OnInit {
       this.fileUploadError = 'Error parsing shapefile.'
     })
   }
-
-
 }

@@ -59,13 +59,18 @@
 }
 
 .opacityBtn {
-    height: 30px;
-    width: 30px;
-    position: absolute;
-    right: 52px;
-    margin-top: -7px;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  right: 52px;
+  margin-top: -7px;
 }
-.standardReport{
-    display: flex;
-    margin-bottom: 5px;
+.standardReport {
+  display: flex;
+  margin-bottom: 5px;
 }
+
+.dropdownChild {
+  margin-left: 20px;
+}
+
