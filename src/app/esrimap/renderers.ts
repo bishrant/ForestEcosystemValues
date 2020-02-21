@@ -4,7 +4,7 @@ const redPolygon = {
       type: 'simple-fill',  // autocasts as new SimpleFillSymbol()
       color: 'transparent',
       style: 'solid',
-      outline: {  // autocasts as new SimpleLineSymbol()
+      outline: {
         color: 'red',
         width: 2
       }
