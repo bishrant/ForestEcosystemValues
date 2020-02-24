@@ -1,32 +1,20 @@
 
 import GraphicsLayer from 'arcgis-js-api/layers/GraphicsLayer';
+import { emptyPoint, redDiamondMarker } from './renderers';
 
 const createGraphicsLayer = () => {
-    return new GraphicsLayer({
+    const graphicsLayer = new GraphicsLayer({
         id: 'userGraphicsLayer',
-        symbol: {
-            type: 'simple-marker',
-            style: 'square',
-            color: '#8A2BE2',
-            size: '0px'
-        }
+        symbol: emptyPoint
     });
+    return graphicsLayer;
 }
 
 const MultiPointLayer = () => {
     return new GraphicsLayer({
         id: 'userGraphicsLayer',
-        symbol: {
-            type: 'simple-marker',
-            style: 'diamond',
-            size: 6,
-            color: [255, 0, 0],
-            outline: {
-             color: [50, 50, 50],
-              width: 1
-            }
-          }
+        symbol: redDiamondMarker
     });
 }
 
-export {createGraphicsLayer, MultiPointLayer};
+export { createGraphicsLayer, MultiPointLayer };
