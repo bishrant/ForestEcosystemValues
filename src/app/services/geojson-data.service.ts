@@ -18,13 +18,20 @@ export class GeojsonDataService {
 
     this.mapControl.filterByCountyName$.subscribe(county => {
       this.countyGeojsonLayer.definitionExpression = 'NAME=\''+ county+ '\'';
-      this.countyGeojsonLayer.queryExtent().then(ext => this.mapControl.setMapExtent(ext.extent));
-      this.countyGeojsonLayer.queryFeatures().then(res => console.log('results of query ', res))
+      this.countyGeojsonLayer.queryExtent().then(ext => {
+        this.mapControl.setMapExtent(ext.extent)
+      });
+      // this.countyGeojsonLayer.queryFeatures().then(res => console.log('results of query ', res))
     })
 
     this.mapControl.filterByUrbanName$.subscribe(urban => {
       this.urbanGeojsonLayer.definitionExpression = 'UrbanName=\''+ urban+ '\'';
       this.urbanGeojsonLayer.queryExtent().then(ext => this.mapControl.setMapExtent(ext.extent));
+    });
+
+    this.mapControl.clearGraphics$.subscribe((x) => {
+      this.urbanGeojsonLayer.definitionExpression = '1=0';
+      this.countyGeojsonLayer.definitionExpression = '1=0';
     })
   }
 }

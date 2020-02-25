@@ -16,6 +16,8 @@ export class MapcontrolService {
   private graphicsLayerStatus = new ReplaySubject<any>();
   private generateSummary = new ReplaySubject<any>();
   private spatialSelectionState = new BehaviorSubject<any>(this.defaultSelectionState);
+  private clearGraphicsSource = new ReplaySubject<any>();
+  private generateStatisticsBtnSource = new ReplaySubject<any>();
 
   // observable streams
   controlActivated$ = this.controlActivatedSource.asObservable();
@@ -28,6 +30,8 @@ export class MapcontrolService {
   startSpatialSelection$ = this.startSpatialSelectionSource.asObservable();
   graphicsLayerStatus$ = this.graphicsLayerStatus.asObservable();
   spatialSelectionState$ = this.spatialSelectionState.asObservable();
+  clearGraphics$ = this.clearGraphicsSource.asObservable();
+  genrateStatisticsBtnStatus$ = this.generateStatisticsBtnSource.asObservable();
 
   constructor() { }
 
@@ -92,6 +96,14 @@ export class MapcontrolService {
 
   changeActiveLayers(payload: any) {
     this.activeLayers.next(payload)
+  }
+
+  clearGraphics = () => {
+    this.clearGraphicsSource.next(Math.random()+ Math.random());
+  }
+
+  setStatisticsBtnStatus = (enabled: any) => {
+    this.generateStatisticsBtnSource.next(enabled);
   }
 
 }

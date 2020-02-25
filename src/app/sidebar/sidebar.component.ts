@@ -24,6 +24,10 @@ export class SidebarComponent implements OnInit {
     polygon: false,
     polygonDisabled: false
   }
+  shapefileControlState = {
+    start: true,
+    cancel: null
+  }
   layers: any = [];
   getSubLayers = (master: any, layers: any) => {
     return layers.filter(l => l.parentLayerId === master.id);
@@ -72,14 +76,13 @@ export class SidebarComponent implements OnInit {
     });
 
     this.mapControl.spatialSelectionState$.subscribe((state: any) => {
-      console.log('state ', state);
       this.spatialSelectionState = state;
     })
   }
 
   onControlChange = (evt: any) => {
+    this.removeShapeFile();
     this.mapControl.changeControl(evt)
-    // this.store.dispatch(new ChangeControl(evt))
   }
 
   onClickFileInputButton(): void {
@@ -130,6 +133,8 @@ export class SidebarComponent implements OnInit {
           }
         })
         if (features.length > 0) {
+          this.shapefileControlState ={ start: false, cancel: true};
+          console.log('feature uploaded')
           this.mapControl.shapefileUploaded(features);
         } else {
           this.fileUploadError = '';
@@ -139,5 +144,10 @@ export class SidebarComponent implements OnInit {
       console.log(e);
       this.fileUploadError = 'Error parsing shapefile.'
     })
+  }
+
+  removeShapeFile = () => {
+    this.shapefileControlState = {start: true, cancel: false};
+    this.mapControl.clearGraphics();
   }
 }
