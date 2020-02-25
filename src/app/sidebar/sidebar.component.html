@@ -56,10 +56,43 @@
                 </div>
 
                 <mat-radio-button value="multipoint">Select County on the map</mat-radio-button>
+                <div *ngIf="activeControl === 'multipoint'" class="dropdownChild startClearnBtnDiv">
+                    <button mat-raised-button color="primary" class="file-select-button" 
+                    [class.buttonSelected]="spatialSelectionState['multipoint'] && !spatialSelectionState.multipointDisabled"
+                    [disabled]="spatialSelectionState.multipointDisabled"
+                    (click)="startSpatialSelection('multipoint', 'start')">
+                        <mat-icon>create</mat-icon>
+                        Select
+                    </button>
+                    <button mat-raised-button color="primary"  
+                    [disabled]="activeControl === 'multipoint' && !mapHasUserGraphics"
+                    class="file-select-button" (click)="startSpatialSelection('multipoint', 'clear')">
+                        <mat-icon>delete</mat-icon>
+                        Clear
+                    </button>
+                </div>
+
                 <mat-radio-button value="polygon">Draw polygon on the map</mat-radio-button>
+
+                <div *ngIf="activeControl === 'polygon'" class="dropdownChild startClearnBtnDiv">
+                    <button mat-raised-button color="primary" class="file-select-button" 
+                    [class.buttonSelected]="spatialSelectionState['polygon'] && !spatialSelectionState.polygonDisabled"
+                    [disabled]="spatialSelectionState.polygonDisabled"
+                    (click)="startSpatialSelection('polygon', 'start')">
+                        <mat-icon>create</mat-icon>
+                        Select
+                    </button>
+                    <button mat-raised-button color="primary"  
+                    [disabled]="activeControl === 'polygon' && !mapHasUserGraphics"
+                    class="file-select-button" (click)="startSpatialSelection('polygon', 'clear')">
+                        <mat-icon>delete</mat-icon>
+                        Clear
+                    </button>
+                </div>
+
                 <mat-radio-button value="shapefile"> Load zipped shapefile
                 </mat-radio-button>
-                <div style="padding-left: 30px;">
+                <div *ngIf="activeControl === 'shapefile'" class="dropdownChild startClearnBtnDiv">
                     <span *ngIf="fileUploadError !== ''" style="color: 'red'">{{fileUploadError}}<br></span>
                     <input type="file" style="display: none" #fileInput accept=".zip" (change)="onChangeFileInput()" />
                     <button mat-raised-button color="primary" class="file-select-button"
@@ -67,11 +100,17 @@
                         <mat-icon>cloud_upload</mat-icon>
                         Select
                     </button>
+                    <button mat-raised-button color="primary"  
+                    [disabled]="activeControl === 'shapefile' && !mapHasUserGraphics"
+                    class="file-select-button" (click)="startSpatialSelection('polygon', 'clear')">
+                        <mat-icon>delete</mat-icon>
+                        Clear
+                    </button>
                 </div>
             </mat-radio-group>
 
             <mat-radio-group aria-label="Select an option">
-                <button mat-raised-button color="primary" class="file-select-button" (click)="generateStatistics()">
+                <button mat-raised-button color="primary" [disabled]="'true'" class="file-select-button" (click)="generateStatistics()">
                     <mat-icon>cloud_upload</mat-icon>
                     Generate summary statistics
                 </button>

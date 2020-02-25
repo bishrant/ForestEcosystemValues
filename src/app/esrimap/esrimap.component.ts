@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as promiseUtils from 'arcgis-js-api/core/promiseUtils';
 import createMapView from './mapView';
-import { setupSketchViewModel, SelectMultipleCounties, SelectByPolygon } from './SelectCounties';
+import { SetupSketchViewModel, SelectMultipleCounties, SelectByPolygon } from './SelectCounties';
 import { createGraphicsLayer, MultiPointLayer } from './GraphicsLayer';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { Polygon } from 'arcgis-js-api/geometry';
@@ -25,10 +25,10 @@ import { GeojsonDataService } from '../services/geojson-data.service';
 export class EsrimapComponent implements OnInit {
   @ViewChild('mapViewNode', { static: true }) private mapViewEl: ElementRef;
   @Select(SidebarControlsState.getActiveLayers) activeLayers$;
-  @Select(SidebarControlsState.getControl) activeControl$;
   view: any;
   mapLoaded = false;
   busy = false;
+  activeControl = null;
   arcgisServer = 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/'
   printMapTask = new PrintTask({ url: this.arcgisServer + 'services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task' });
   printParams = new PrintParameters({ view: this.view })
@@ -45,16 +45,19 @@ export class EsrimapComponent implements OnInit {
       this.view = createMapView(this.mapViewEl);
       this.mapLoaded = true;
       const graphicsLayer = createGraphicsLayer();
+      graphicsLayer.graphics.on('change', (evt) => {
+        this.mapControl.graphicsLayerUpdated(evt);
+      })
       const multiPointLayer = MultiPointLayer();
       const baseLayer = new MapImageLayer({
         url: this.arcgisServer + 'services/ForestEcosystemValues/ForestValues/MapServer',
         sublayers: [
-          {id: 2, visible: true, opacity: 0.5},
-          {id: 11, visible: true, opacity: 1}
+          { id: 2, visible: true, opacity: 0.5 },
+          { id: 11, visible: true, opacity: 1 }
         ]
       });
       this.view.map.addMany([baseLayer, graphicsLayer, multiPointLayer]);
-      const sketchVM = setupSketchViewModel(multiPointLayer, this.view);
+      const sketchVM = SetupSketchViewModel(multiPointLayer, this.view);
       this.view.when(() => {
         // lazyly add counties layer
         this.view.map.addMany([this.geojsonData.countyGeojsonLayer, this.geojsonData.urbanGeojsonLayer]);
@@ -73,15 +76,47 @@ export class EsrimapComponent implements OnInit {
             this.busy = false;
           })
         }
+        if (event.state === 'complete') {
+          console.log('event complete ', event);
+          this.mapControl.drawingCompleted(event.tool, event.state === 'complete');
+        }
       });
 
-      sketchVM.on(['create', 'update', 'complete'], selectGeometry);
+      sketchVM.on(['create', 'update', 'complete', 'cancel'], selectGeometry);
+      sketchVM.on(['complete'], (evt)=> {
+        console.log(' sketch done ', console.log(evt))
+      })
 
-    this.activeControl$.subscribe((control: any) => {
-      if (control === 'multipoint' || control === 'polygon') {
-        sketchVM.create(control);
-      }
-    })
+      this.mapControl.controlActivated$.subscribe((control: any) => {
+        this.activeControl = control;
+      })
+
+      this.mapControl.startSpatialSelection$.subscribe((evt: any) => {
+        if (evt !== null) {
+          if (evt.action === 'clear') {
+            sketchVM.cancel();
+            graphicsLayer.removeAll();
+            multiPointLayer.removeAll();
+            graphicsLayer.remove(graphicsLayer.graphics[0])
+          } else {
+            if (sketchVM.state !== 'active') {
+              sketchVM.create(evt.current);
+            }
+          }
+          // if (evt.current === evt.previous) {
+          //   console.log('same prev and current tool')
+          //   if (sketchVM.state === 'active') {
+          //     sketchVM.cancel();
+          //     graphicsLayer.graphics.removeAll();
+          //   }
+          //   sketchVM.create(evt.current);
+          // } else {
+          //   sketchVM.create(evt.current);
+          // }
+        } else {
+
+        }
+      })
 
       const generateSummaryStatistics = () => {
         getReportValues(graphicsLayer).then((v) => {
@@ -136,7 +171,7 @@ export class EsrimapComponent implements OnInit {
       this.mapControl.mapExtent$.subscribe(extent => {
         this.view.extent = extent !== null ? extent.expand(2.5) : this.geojsonData.countyGeojsonLayer.fullExtent.expand(1.5);
       })
-     return this.view;
+      return this.view;
     } catch (error) {
       console.log('Esri: ', error);
     }

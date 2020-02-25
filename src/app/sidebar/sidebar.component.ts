@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngxs/store';
-import { ChangeControl } from '../shared/sidebarControls.actions';
 import { GlobalsService } from '../services/globals.service';
 
 @Component({
@@ -18,6 +17,13 @@ export class SidebarComponent implements OnInit {
   fileUploadError = '';
   panelOpenState = false;
   activeControl: string;
+  mapHasUserGraphics = false;
+  spatialSelectionState = {
+    multipoint: false,
+    multipointDisabled: false,
+    polygon: false,
+    polygonDisabled: false
+  }
   layers: any = [];
   getSubLayers = (master: any, layers: any) => {
     return layers.filter(l => l.parentLayerId === master.id);
@@ -55,17 +61,25 @@ export class SidebarComponent implements OnInit {
     })
   }
 
-
   constructor(private globals: GlobalsService, private mapControl: MapcontrolService,
     private http: HttpClient, private store: Store) {
     }
 
   ngOnInit() {
     this.createLayerList();
+    this.mapControl.graphicsLayerStatus$.subscribe((evt: any) => {
+      this.mapHasUserGraphics = evt.target.length > 0;
+    });
+
+    this.mapControl.spatialSelectionState$.subscribe((state: any) => {
+      console.log('state ', state);
+      this.spatialSelectionState = state;
+    })
   }
 
   onControlChange = (evt: any) => {
-    this.store.dispatch(new ChangeControl(evt))
+    this.mapControl.changeControl(evt)
+    // this.store.dispatch(new ChangeControl(evt))
   }
 
   onClickFileInputButton(): void {
@@ -74,6 +88,10 @@ export class SidebarComponent implements OnInit {
 
   generateStatistics() {
     this.mapControl.generateStatisticsFn();
+  }
+
+  startSpatialSelection = (controlName: string, action: string) => {
+    this.mapControl.startSpatialSelection(controlName, action);
   }
 
   onChangeFileInput(): void {
