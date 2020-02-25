@@ -24,10 +24,14 @@ export class CountylistComponent implements OnInit {
   }
 
   onCountySelected = (evt: any) => {
+    this.frmGroup.get('Urban').setValue('');
+    this.mapControl.applyUrbanFilter(null);
     this.mapControl.applyCountyFilter(evt.option.value);
   }
 
   onUrbanSelected = (evt: any) => {
+    this.frmGroup.get('County').setValue('');
+    this.mapControl.applyCountyFilter(null);
     this.mapControl.applyUrbanFilter(evt.option.value);
   }
 

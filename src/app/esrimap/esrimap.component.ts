@@ -2,11 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as promiseUtils from 'arcgis-js-api/core/promiseUtils';
 import createMapView from './mapView';
 import { SetupSketchViewModel, SelectMultipleCounties, SelectByPolygon } from './SelectCounties';
-import { createGraphicsLayer, MultiPointLayer } from './GraphicsLayer';
+import { createGraphicsLayer, MultiPointLayer, createGraphicsFromShp } from './GraphicsLayer';
 import { MapcontrolService } from '../services/mapcontrol.service';
-import { Polygon } from 'arcgis-js-api/geometry';
-import Graphic from 'arcgis-js-api/Graphic';
-import { polygonSymbol } from './MapStyles';
+
 
 import PrintTask from 'arcgis-js-api/tasks/PrintTask';
 import PrintParameters from 'arcgis-js-api/tasks/support/PrintParameters';
@@ -16,6 +14,7 @@ import { SidebarControlsState } from '../shared/sidebarControls.state';
 import { ChangeReportData } from '../shared/sidebarControls.actions';
 import MapImageLayer from 'arcgis-js-api/layers/MapImageLayer';
 import { GeojsonDataService } from '../services/geojson-data.service';
+import { fullExtent } from './Variables';
 
 @Component({
   selector: 'app-esrimap',
@@ -37,16 +36,14 @@ export class EsrimapComponent implements OnInit {
     this.printMapTask.execute(this.printParams).then((f) => console.log(f))
   }
 
-
   constructor(private mapControl: MapcontrolService, private store: Store, private geojsonData: GeojsonDataService) { }
-
   async initializeMap() {
     try {
       this.view = createMapView(this.mapViewEl);
       this.mapLoaded = true;
       const graphicsLayer = createGraphicsLayer();
       graphicsLayer.graphics.on('change', (evt) => {
-        this.mapControl.graphicsLayerUpdated(evt);
+        if(sketchVM.state !== 'active') this.mapControl.graphicsLayerUpdated(evt);
       })
       const multiPointLayer = MultiPointLayer();
       const baseLayer = new MapImageLayer({
@@ -78,12 +75,13 @@ export class EsrimapComponent implements OnInit {
         }
         if (event.state === 'complete') {
           console.log('event complete ', event);
+          // this.mapControl.graphicsLayerUpdated(event);
           this.mapControl.drawingCompleted(event.tool, event.state === 'complete');
         }
       });
 
       sketchVM.on(['create', 'update', 'complete', 'cancel'], selectGeometry);
-      sketchVM.on(['complete'], (evt)=> {
+      sketchVM.on(['complete'], (evt) => {
         console.log(' sketch done ', console.log(evt))
       })
 
@@ -103,34 +101,9 @@ export class EsrimapComponent implements OnInit {
               sketchVM.create(evt.current);
             }
           }
-          // if (evt.current === evt.previous) {
-          //   console.log('same prev and current tool')
-          //   if (sketchVM.state === 'active') {
-          //     sketchVM.cancel();
-          //     graphicsLayer.graphics.removeAll();
-          //   }
-          //   sketchVM.create(evt.current);
-          // } else {
-          //   sketchVM.create(evt.current);
-          // }
         } else {
 
         }
-        // if (evt.current === 'multipoint' || evt.current === 'polygon') {
-        //   if (sketchVM.state === 'active' ) {
-        //       sketchVM.cancel();
-        //   }
-        //   if (evt.current === evt.previous) {
-
-        //    else {
-        //     sketchVM.create(control);
-        //   }
-        //   if (sketchVM.state === 'active') {
-        //     sketchVM.cancel();
-        //   } else {
-        //     sketchVM.create(control);
-        //   }
-        // }
       })
 
       const generateSummaryStatistics = () => {
@@ -148,20 +121,7 @@ export class EsrimapComponent implements OnInit {
       }
 
       this.mapControl.shapefileUploaded$.subscribe(shpFeatures => {
-        const _shps = [];
-        shpFeatures.forEach((shp) => {
-          const polgn = new Polygon({
-            rings: shp.geometry.rings,
-            spatialReference: shp.geometry.spatialReference.wkid
-          })
-          const gg = new Graphic({
-            geometry: polgn,
-            symbol: polygonSymbol,
-            attributes: shp.attributes,
-            popupTemplate: {}
-          });
-          _shps.push(gg);
-        })
+        const _shps = createGraphicsFromShp(shpFeatures);
         graphicsLayer.removeAll();
         graphicsLayer.addMany(_shps);
       })
@@ -183,8 +143,12 @@ export class EsrimapComponent implements OnInit {
         baseLayer.sublayers = subLrs.reverse();
       })
 
+      this.mapControl.clearGraphics$.subscribe((a) => {
+        graphicsLayer.removeAll();
+      })
+
       this.mapControl.mapExtent$.subscribe(extent => {
-        this.view.extent = extent !== null ? extent.expand(2.5) : this.geojsonData.countyGeojsonLayer.fullExtent.expand(1.5);
+        this.view.extent = extent !== null ? extent.expand(2.5) : fullExtent;
       })
       return this.view;
     } catch (error) {
