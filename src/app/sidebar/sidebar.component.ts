@@ -3,6 +3,8 @@ import { MapcontrolService } from '../services/mapcontrol.service';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngxs/store';
 import { GlobalsService } from '../services/globals.service';
+import { getReportValues } from '../esrimap/ReportServices';
+import { ChangeReportData } from '../shared/sidebarControls.actions';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,7 +19,7 @@ export class SidebarComponent implements OnInit {
   fileUploadError = '';
   panelOpenState = false;
   activeControl: string;
-  mapHasUserGraphics = false;
+  mapGraphics: any[] = [];
   spatialSelectionState = {
     multipoint: false,
     multipointDisabled: false,
@@ -71,8 +73,9 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.createLayerList();
-    this.mapControl.graphicsLayerStatus$.subscribe((evt: any) => {
-      this.mapHasUserGraphics = evt.target.length > 0;
+    this.mapControl.graphicsLayerStatus$.subscribe((graphicsLayer: any) => {
+      console.log(graphicsLayer.graphics, graphicsLayer);
+      this.mapGraphics = graphicsLayer.graphics;
     });
 
     this.mapControl.spatialSelectionState$.subscribe((state: any) => {
@@ -89,8 +92,11 @@ export class SidebarComponent implements OnInit {
     this.fileInput.nativeElement.click();
   }
 
-  generateStatistics() {
-    this.mapControl.generateStatisticsFn();
+  generateStatistics =() => {
+    console.log(this.mapGraphics);
+    getReportValues(this.mapGraphics).then((v) => {
+      this.store.dispatch(new ChangeReportData(v));
+    })
   }
 
   startSpatialSelection = (controlName: string, action: string) => {

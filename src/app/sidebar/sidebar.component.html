@@ -108,7 +108,7 @@
             </mat-radio-group>
 
             <b>Step 2: </b><br>
-            <button mat-raised-button color="primary" [disabled]="'true'" (click)="generateStatistics()">
+            <button mat-raised-button color="primary" [disabled]="!(mapGraphics.length > 0)" (click)="generateStatistics()">
                 <mat-icon>format_list_bulleted</mat-icon>
                 Generate Summary Statistics
             </button>
