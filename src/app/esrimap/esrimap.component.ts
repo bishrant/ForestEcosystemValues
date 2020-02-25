@@ -116,21 +116,6 @@ export class EsrimapComponent implements OnInit {
         } else {
 
         }
-        // if (evt.current === 'multipoint' || evt.current === 'polygon') {
-        //   if (sketchVM.state === 'active' ) {
-        //       sketchVM.cancel();
-        //   }
-        //   if (evt.current === evt.previous) {
-
-        //    else {
-        //     sketchVM.create(control);
-        //   }
-        //   if (sketchVM.state === 'active') {
-        //     sketchVM.cancel();
-        //   } else {
-        //     sketchVM.create(control);
-        //   }
-        // }
       })
 
       const generateSummaryStatistics = () => {
