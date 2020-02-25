@@ -23,25 +23,31 @@ export class CountylistComponent implements OnInit {
     return (category === 'county' ? this.counties: this.urbanAreas).filter(c => c.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  onCountySelected = (evt: any) => {
-    this.frmGroup.get('Urban').setValue('');
-    this.mapControl.applyUrbanFilter(null);
-    this.mapControl.applyCountyFilter(evt.option.value);
-  }
+  // onCountySelected = (evt: any) => {
+  //   this.frmGroup.get('Urban').setValue('');
+  //   this.mapControl.applyUrbanFilter(null);
+  //   this.mapControl.applyCountyFilter(evt.option.value);
+  // }
 
-  onUrbanSelected = (evt: any) => {
-    this.frmGroup.get('County').setValue('');
-    this.mapControl.applyCountyFilter(null);
-    this.mapControl.applyUrbanFilter(evt.option.value);
+  // onUrbanSelected = (evt: any) => {
+  //   this.frmGroup.get('County').setValue('');
+  //   this.mapControl.applyCountyFilter(null);
+  //   this.mapControl.applyUrbanFilter(evt.option.value);
+  // }
+
+  onDropDownSelected = (category: string, evt: any) => {
+    if (category === 'Urban' && this.frmGroup.get('County').value !== '') {
+      this.frmGroup.get('County').setValue('');
+    }
+    if (category === 'County' && this.frmGroup.get('Urban').value !== '') {
+      this.frmGroup.get('Urban').setValue('');
+    }
+    this.mapControl.filterByCategory(category, evt.option.value);
   }
 
   clearInput = (category: string) => {
     this.frmGroup.get(category).setValue('');
-    if (category === 'County') {
-      this.mapControl.applyCountyFilter(null);
-    } else {
-      this.mapControl.applyUrbanFilter(null);
-    }
+    this.mapControl.filterByCategory(category, null);
   }
   constructor(private fb: FormBuilder, private mapControl: MapcontrolService) {
     this.frmGroup = this.fb.group({

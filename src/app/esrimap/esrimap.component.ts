@@ -4,8 +4,6 @@ import createMapView from './mapView';
 import { SetupSketchViewModel, SelectMultipleCounties, SelectByPolygon } from './SelectCounties';
 import { createGraphicsLayer, MultiPointLayer, createGraphicsFromShp } from './GraphicsLayer';
 import { MapcontrolService } from '../services/mapcontrol.service';
-
-
 import PrintTask from 'arcgis-js-api/tasks/PrintTask';
 import PrintParameters from 'arcgis-js-api/tasks/support/PrintParameters';
 import { createPNGForReport, getReportValues } from './ReportServices';
@@ -15,6 +13,7 @@ import { ChangeReportData } from '../shared/sidebarControls.actions';
 import MapImageLayer from 'arcgis-js-api/layers/MapImageLayer';
 import { GeojsonDataService } from '../services/geojson-data.service';
 import { fullExtent } from './Variables';
+import { redPolygon } from './renderers';
 
 @Component({
   selector: 'app-esrimap',
@@ -43,7 +42,7 @@ export class EsrimapComponent implements OnInit {
       this.mapLoaded = true;
       const graphicsLayer = createGraphicsLayer();
       graphicsLayer.graphics.on('change', (evt) => {
-        if(sketchVM.state !== 'active') this.mapControl.graphicsLayerUpdated(evt);
+        if (sketchVM.state !== 'active') this.mapControl.graphicsLayerUpdated(graphicsLayer);
       })
       const multiPointLayer = MultiPointLayer();
       const baseLayer = new MapImageLayer({
@@ -75,7 +74,7 @@ export class EsrimapComponent implements OnInit {
         }
         if (event.state === 'complete') {
           console.log('event complete ', event);
-          // this.mapControl.graphicsLayerUpdated(event);
+          this.mapControl.graphicsLayerUpdated(graphicsLayer);
           this.mapControl.drawingCompleted(event.tool, event.state === 'complete');
         }
       });
@@ -149,6 +148,17 @@ export class EsrimapComponent implements OnInit {
 
       this.mapControl.mapExtent$.subscribe(extent => {
         this.view.extent = extent !== null ? extent.expand(2.5) : fullExtent;
+      });
+
+      this.mapControl.filterByCategory$.subscribe(async (req: any) => {
+        this.geojsonData.filterGeojson(req.category, req.value).then(v => {
+          graphicsLayer.removeAll();
+          if (v !== null) {
+            v[0].symbol = redPolygon.symbol;
+            graphicsLayer.addMany(v);
+            this.view.extent = v[0].geometry.extent.expand(1.5);
+          }
+        }).catch(e => console.error('promise error ', e))
       })
       return this.view;
     } catch (error) {

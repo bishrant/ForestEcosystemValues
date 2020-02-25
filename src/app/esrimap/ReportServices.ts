@@ -5,9 +5,9 @@ const arcgisServer = 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/'
 const reportGP: any = Geoprocessor(arcgisServer + 'services/ForestEcosystemValues/CalculateForestValues/GPServer/CalculateForestValues');
 reportGP.outSpatialReference = { wkid: 102100 };
 
-const createFeatureSet = (graphicsLayer: any) => {
+const createFeatureSet = (graphicsArray: any) => {
     const fs = []
-    graphicsLayer.graphics.forEach((g: any) => {
+    graphicsArray.forEach((g: any) => {
         if (g.geometry.type === 'polygon') fs.push(g)
     });
     const featureSet = new FeatureSet({ features: fs, geometryType: 'polygon', spatialReference: { wkid: 102100 } });
@@ -33,8 +33,8 @@ const createPNGForReport = async (graphicsLayer: any) => {
     })
 }
 
-const getReportValues = async (graphicsLayer: any) => {
-    const featureSet = createFeatureSet(graphicsLayer);
+const getReportValues = async (graphicsArray: any) => {
+    const featureSet = createFeatureSet(graphicsArray);
     return new Promise((resolve: any, reject: any) => {
         reportGP.submitJob({ AOI_Polygon: featureSet }).then((jobInfo) => {
             const jobid = jobInfo.jobId;

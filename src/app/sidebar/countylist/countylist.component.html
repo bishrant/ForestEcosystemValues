@@ -7,7 +7,7 @@
                 <input matInput type="text" placeholder="Select county name" aria-label="County Name"
                     formControlName="County" [matAutocomplete]="auto1">
                 <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete"
-                    (optionSelected)="onCountySelected($event)">
+                    (optionSelected)="onDropDownSelected('County', $event)">
                     <mat-option *ngFor="let option of filteredCounties | async" [value]="option">
                         {{option}}
                     </mat-option>
@@ -26,7 +26,7 @@
                 <input matInput type="text" placeholder="Select town name" aria-label="Town name"
                     formControlName="Urban" [matAutocomplete]="auto2">
                 <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete"
-                    (optionSelected)="onUrbanSelected($event)">
+                    (optionSelected)="onDropDownSelected('Urban', $event)">
                     <mat-option *ngFor="let option of filteredUrban | async" [value]="option">
                         {{option}}
                     </mat-option>

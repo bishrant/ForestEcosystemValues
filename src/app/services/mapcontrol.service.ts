@@ -9,8 +9,7 @@ export class MapcontrolService {
   private controlActivatedSource = new Subject<string>();
   private shapefileUploadSource = new Subject<any>();
   private activeLayers = new ReplaySubject<any>();
-  private filterByCountyName = new ReplaySubject<any>();
-  private filterByUrbanName = new ReplaySubject<any>();
+  private filterByCategorySource = new ReplaySubject<any>();
   private mapExtent = new ReplaySubject<any>();
   private startSpatialSelectionSource = new BehaviorSubject<any>(null);
   private graphicsLayerStatus = new ReplaySubject<any>();
@@ -24,14 +23,13 @@ export class MapcontrolService {
   shapefileUploaded$ = this.shapefileUploadSource.asObservable();
   generateSummary$ = this.generateSummary.asObservable();
   activeLayers$ = this.activeLayers.asObservable();
-  filterByCountyName$ = this.filterByCountyName.asObservable();
-  filterByUrbanName$ = this.filterByUrbanName.asObservable();
   mapExtent$ = this.mapExtent.asObservable();
   startSpatialSelection$ = this.startSpatialSelectionSource.asObservable();
   graphicsLayerStatus$ = this.graphicsLayerStatus.asObservable();
   spatialSelectionState$ = this.spatialSelectionState.asObservable();
   clearGraphics$ = this.clearGraphicsSource.asObservable();
   genrateStatisticsBtnStatus$ = this.generateStatisticsBtnSource.asObservable();
+  filterByCategory$ = this.filterByCategorySource.asObservable();
 
   constructor() { }
 
@@ -40,12 +38,10 @@ export class MapcontrolService {
     this.mapExtent.next(extent);
   }
 
-  applyCountyFilter(countyName: string) {
-    this.filterByCountyName.next(countyName);
-  }
 
-  applyUrbanFilter(urbanName: string) {
-    this.filterByUrbanName.next(urbanName);
+
+  filterByCategory = (category: string, value: any) => {
+    this.filterByCategorySource.next({category, value});
   }
 
   setSpatialSelectionState = (controlName: string, status: boolean) => {
