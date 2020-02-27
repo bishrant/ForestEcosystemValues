@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { HttpClient } from '@angular/common/http';
 import { Store, Select } from '@ngxs/store';
-import { GlobalsService } from '../services/globals.service';
 import { getReportValues, createPNGForReport } from '../esrimap/ReportServices';
 import { ChangeReportData } from '../shared/sidebarControls.actions';
 import { SidebarControlsState } from '../shared/sidebarControls.state';
@@ -35,10 +34,12 @@ export class SidebarComponent implements OnInit {
     cancel: null
   }
 
-  constructor(private globals: GlobalsService, private mapControl: MapcontrolService,
-    private http: HttpClient, private store: Store) {
+  constructor(private mapControl: MapcontrolService, private http: HttpClient, private store: Store) {
   }
 
+  opens = (e: any) => {
+    console.log(e);
+  }
   ngOnInit() {
     this.mapControl.graphicsLayerStatus$.subscribe((gLayer: any) => {
       this.mapGraphics = gLayer.graphics;
@@ -54,6 +55,10 @@ export class SidebarComponent implements OnInit {
       else {if (this.printBtnEnabled) {this.printBtnEnabled = false}}
       this.reportData = dt;
     });
+
+    this.mapControl.activeLayers$.subscribe((activeL) => {
+      console.log(activeL, ' are active')
+    })
 
   }
 

@@ -13,7 +13,7 @@
             <app-layerlist></app-layerlist>
         </div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
+    <mat-expansion-panel class="mat-elevation-z8" [expanded]="false">
         <mat-expansion-panel-header class="accordion-header-fill">
             Ecosystem Services
         </mat-expansion-panel-header>
@@ -133,10 +133,12 @@
         </mat-expansion-panel-header>
         <div class="accordionContent">I'm visible because I am open</div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8">
+    <mat-expansion-panel class="mat-elevation-z8" (opened)="opens('legend')">
         <mat-expansion-panel-header class="accordion-header-fill">
             Legend
         </mat-expansion-panel-header>
-        <div class="accordionContent">I'm visible because I am open</div>
+        <div class="accordionContent">
+            <app-legend></app-legend>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>
