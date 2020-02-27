@@ -25,6 +25,9 @@ import {MatInputModule} from '@angular/material/input';
 import { GlobalsService } from './services/globals.service';
 import { GeojsonDataService } from './services/geojson-data.service';
 import { CountylistModule } from './sidebar/countylist/countylist.module';
+import { ProgressSpinnerComponent } from './helpers/progress-spinner/progress-spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LayerlistModule } from './layerlist/layerlist.module';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import { CountylistModule } from './sidebar/countylist/countylist.module';
     AllMaterialModule,
     SummarytableModule,
     CountylistModule,
+    LayerlistModule,
     OverlayModule,
+    MatProgressSpinnerModule,
     DragDropModule,
     FormsModule,
     ReactiveFormsModule,
@@ -56,6 +61,6 @@ import { CountylistModule } from './sidebar/countylist/countylist.module';
   ],
   providers: [GlobalsService, GeojsonDataService],
   bootstrap: [AppComponent],
-  exports: [SummarytableModule, CountylistModule, MatInputModule]
+  exports: [SummarytableModule, CountylistModule, MatInputModule, LayerlistModule],
 })
 export class AppModule { }

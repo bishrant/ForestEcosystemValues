@@ -8,7 +8,6 @@ import { Select } from '@ngxs/store';
   styleUrls: ['./summarytable.component.scss']
 })
 
-
 export class SummarytableComponent implements OnInit {
   @Select(SidebarControlsState.getReportDataFromState) reportData$;
   data: any = null;
@@ -18,29 +17,31 @@ export class SummarytableComponent implements OnInit {
   summaryData: any[] = [];
   ecosystems: any[] = [
     { name: 'airquality', display: 'Air Quality' },
-    { name: 'carbon', display: 'Carbon Sequestration'},
-    { name: 'watershed', display: 'Water'},
-    { name: 'biodiversity', display: 'Bio-diversity'},
-    { name: 'cultural', display: 'Cultural'},
-    { name: 'total', display: 'Total'}
+    { name: 'carbon', display: 'Carbon' },
+    { name: 'watershed', display: 'Water' },
+    { name: 'biodiversity', display: 'Bio-diversity' },
+    { name: 'cultural', display: 'Cultural' },
+    { name: 'total', display: 'Total' }
   ];
 
   constructor() { }
   ngOnInit() {
     this.reportData$.subscribe(dt => {
-      if (dt !== null){
-      this.data = JSON.parse(dt);
-      this.sData = this.data.summaryReportResults;
-      this.individual = this.data.summaryResults;
-      this.ecosystems.forEach((eco: any) => {
-        const d: any = {
-          name: eco.display,
-          avg: this.sData[eco.name + '_forestValuePerAcre'],
-          totalvalue: this.sData[eco.name + '_totalThousandDollarsPerYear']
-        };
-        this.summaryData.push(d);
-      });
-    }
+      if (dt !== null) {
+        this.data = null;
+        this.data = JSON.parse(dt);
+        this.sData = this.data.summaryReportResults;
+        this.individual = this.data.summaryResults;
+        this.summaryData = [];
+        this.ecosystems.forEach((eco: any) => {
+          const d: any = {
+            name: eco.display,
+            avg: this.sData[eco.name + '_forestValuePerAcre'],
+            totalvalue: this.sData[eco.name + '_totalThousandDollarsPerYear']
+          };
+          this.summaryData.push(d);
+        });
+      }
     })
   }
 }

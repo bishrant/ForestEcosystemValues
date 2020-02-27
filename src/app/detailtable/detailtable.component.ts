@@ -6,14 +6,23 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./detailtable.component.scss']
 })
 export class DetailtableComponent implements OnInit {
-  @Input() data: any;
-  columnNames:string[] = ['name', 'avg', 'totalvalue'];
+  private _data: any = null;
+  @Input() set data(value: any) {
+    this._data = value;
+    if (value !== null) {
+      this.createReport(this._data);
+    }
+  };
+  columnNames: string[] = ['name', 'avg', 'totalvalue'];
   tableData: any[] = []
-  constructor() { }
-  ngOnInit(): void {
-    this.tableData =  [{name: 'Urban Forest', avg: this.data.urbanAverageValue, totalvalue: this.data.urbanTotalValue },
-    {name: 'Rural Forest', avg: this.data.ruralAverageValue, totalvalue: this.data.ruralTotalValue },
-    {name: 'Total', avg: this.data.forestAverageValue, totalvalue: this.data.forestTotalValue }]
-  }
 
+  createReport = (data) => {
+    this.tableData = [
+      { name: 'Urban Forest', avg: data.urbanAverageValue, totalvalue: data.urbanTotalValue },
+      { name: 'Rural Forest', avg: data.ruralAverageValue, totalvalue: data.ruralTotalValue },
+      { name: 'Total', avg: data.forestAverageValue, totalvalue: data.forestTotalValue }
+    ]
+  }
+  constructor() { }
+  ngOnInit(): void { }
 }

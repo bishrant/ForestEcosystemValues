@@ -3,9 +3,9 @@
         <b>Ecosystem Services </b>
         <button mat-icon-button aria-label="close" style="float:right; margin-right: 5px">
             <mat-icon>close</mat-icon>
-          </button>
+        </button>
     </div>
-    <mat-tab-group >
+    <mat-tab-group>
         <mat-tab label="Summary">
             <table mat-table [dataSource]="summaryData" class="mat-elevation-z8 popupTable"
                 *ngIf="summaryData.length > 0">
@@ -28,17 +28,17 @@
         <mat-tab label="Air Quality">
             <app-detailtable [data]="individual[0]"></app-detailtable>
         </mat-tab>
-        <mat-tab label="Bio-diversity"> 
-            <app-detailtable [data]="individual[1]"></app-detailtable>    
+        <mat-tab label="Bio-diversity">
+            <app-detailtable [data]="individual[1]"></app-detailtable>
         </mat-tab>
-        <mat-tab label="Carbon Sequestration"> 
-            <app-detailtable [data]="individual[2]"></app-detailtable>    
+        <mat-tab label="Carbon">
+            <app-detailtable [data]="individual[2]"></app-detailtable>
         </mat-tab>
-        <mat-tab label="Cultural"> 
-            <app-detailtable [data]="individual[3]"></app-detailtable>    
+        <mat-tab label="Cultural">
+            <app-detailtable [data]="individual[3]"></app-detailtable>
         </mat-tab>
         <mat-tab label="Water">
-            <app-detailtable [data]="individual[4]"></app-detailtable>    
+            <app-detailtable [data]="individual[4]"></app-detailtable>
         </mat-tab>
     </mat-tab-group>
 </div>

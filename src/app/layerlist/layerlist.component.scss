@@ -1,0 +1,38 @@
+@import "~@angular/material/theming";
+// Include non-theme styles for core.
+@include mat-core();
+@import "../../styles.scss";
+ .mat-expansion-panel-header {
+    padding: 0 10px !important;
+    height: 40px !important;
+  }
+  
+  .mat-expansion-panel {
+    border-radius: 0 !important;
+    margin: 5px;
+    background: white; //mat-color($fev-primary);
+    margin-bottom: 15px;
+  }
+  
+  .layersList .accordionContent {
+    margin-left: 15px;
+    margin-top: 0px;
+  }
+
+  .dropdownChild {
+    margin-left: 20px;
+  }
+
+  .startClearnBtnDiv{
+    display: flex;
+      justify-content: space-evenly;
+      width: 90%;
+  }
+  .accordionContent {
+    margin-top: 10px;
+    width: 100%;
+    margin-left: 10px;
+  }
+  .mat-expansion-panel-content {
+    margin-top: 10px !important;
+  }

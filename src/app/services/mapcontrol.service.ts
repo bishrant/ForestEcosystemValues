@@ -17,6 +17,7 @@ export class MapcontrolService {
   private spatialSelectionState = new BehaviorSubject<any>(this.defaultSelectionState);
   private clearGraphicsSource = new ReplaySubject<any>();
   private generateStatisticsBtnSource = new ReplaySubject<any>();
+  private appBusyIndicator = new ReplaySubject<any>();
 
   // observable streams
   controlActivated$ = this.controlActivatedSource.asObservable();
@@ -30,6 +31,7 @@ export class MapcontrolService {
   clearGraphics$ = this.clearGraphicsSource.asObservable();
   genrateStatisticsBtnStatus$ = this.generateStatisticsBtnSource.asObservable();
   filterByCategory$ = this.filterByCategorySource.asObservable();
+  appBusyIndicator$ = this.appBusyIndicator.asObservable();
 
   constructor() { }
 
@@ -38,7 +40,7 @@ export class MapcontrolService {
     this.mapExtent.next(extent);
   }
 
-
+  setAppBusyIndicator = (status: boolean) => {this.appBusyIndicator.next(status)};
 
   filterByCategory = (category: string, value: any) => {
     this.filterByCategorySource.next({category, value});
@@ -63,7 +65,6 @@ export class MapcontrolService {
     this.setSpatialSelectionState('polygon', false);
     this.setSpatialSelectionState('multipointDisabled', false);
     this.setSpatialSelectionState('polygonDisabled', false);
-
     this.startSpatialSelectionSource.next({current: 'multipoint', previous: 'multipoint', action:'clear'});
   }
 
