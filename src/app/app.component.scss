@@ -1,5 +1,5 @@
 @import "../styles.scss";
-@import './variables.scss';
+@import "./variables.scss";
 
 .sidebar {
   width: 300px;
@@ -9,16 +9,25 @@
   // box-shadow: 2px -2px 5px 0px rgba(0,0,0,0.75);
 }
 
-.example-icon {
-  padding: 0 14px;
-}
-
-.example-spacer {
+.spacer {
   flex: 1 1 auto;
 }
 
 .mat-drawer {
   background: mat-color($fev-primary);
+}
+
+.progressContainer {
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
 }
 
 .header {
@@ -66,5 +75,3 @@
     width: 100% !important;
   }
 }
-
-

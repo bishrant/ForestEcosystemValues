@@ -4,26 +4,11 @@ import Point from 'arcgis-js-api/geometry/Point';
 import { redPolygon, emptyPoint } from './renderers';
 
 const SetupSketchViewModel = (graphicsLayer: any, mapView: MapView) => {
-    const skView = new SketchViewModel({
+    return new SketchViewModel({
         view: mapView,
         layer: graphicsLayer,
         pointSymbol: emptyPoint,
         updateOnGraphicClick: false
-    });
-
-    return skView;
-}
-
-const selectCounties = (inputGeom: any, service: any) => {
-    const clonePtGeom = inputGeom.points[inputGeom.points.length - 1];
-    const newlyaddedPt = new Point({
-        x: clonePtGeom[0],
-        y: clonePtGeom[1],
-        spatialReference: { wkid: 3857 }
-    });
-
-    service.getCountiesGeometry(JSON.stringify(newlyaddedPt.toJSON())).subscribe(d => {
-        console.log(d);
     });
 }
 
@@ -60,7 +45,6 @@ const SelectMultipleCounties = async (event: any, geojson: any, _graphicsLayer: 
                             const _g = _graphicsLayer.graphics.filter((g) => { return g.attributes.NAME === featureFilter.attributes.NAME })
                             _graphicsLayer.remove(_g);
                         }
-                        console.log(event.state);
                     }
                 }
             }
@@ -87,4 +71,4 @@ const SelectByPolygon = async (event: any, geojson: any, _graphicsLayer: any) =>
     });
 }
 
-export { SetupSketchViewModel, selectCounties, SelectMultipleCounties, SelectByPolygon };
+export { SetupSketchViewModel, SelectMultipleCounties, SelectByPolygon };

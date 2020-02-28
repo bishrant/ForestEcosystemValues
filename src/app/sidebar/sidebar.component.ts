@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngxs/store';
-import { GlobalsService } from '../services/globals.service';
-import { getReportValues } from '../esrimap/ReportServices';
+import { Store, Select } from '@ngxs/store';
+import { getReportValues, createPNGForReport } from '../esrimap/ReportServices';
 import { ChangeReportData } from '../shared/sidebarControls.actions';
+import { SidebarControlsState } from '../shared/sidebarControls.state';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,9 +12,12 @@ import { ChangeReportData } from '../shared/sidebarControls.actions';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  dataTable: any;
-  @ViewChild('fileInput')
-  fileInput;
+  @Select(SidebarControlsState.getReportDataFromState) reportData$;
+  @ViewChild('fileInput') fileInput;
+  pdfLink = '';
+  reportData: any;
+  printBtnEnabled = false;
+  reportEnabled = false;
   file: File | null = null;
   fileUploadError = '';
   panelOpenState = false;
@@ -30,60 +33,37 @@ export class SidebarComponent implements OnInit {
     start: true,
     cancel: null
   }
-  layers: any = [];
-  getSubLayers = (master: any, layers: any) => {
-    return layers.filter(l => l.parentLayerId === master.id);
+
+  constructor(private mapControl: MapcontrolService, private http: HttpClient, private store: Store) {
   }
 
-  // Click event on parent checkbox
-  parentCheck(masterLayer: any) {
-    masterLayer.subLayers.forEach((s: any) => {
-      s.defaultVisibility = masterLayer.defaultVisibility;
-    })
-    this.mapControl.changeActiveLayers(this.dataTable);
+  opens = (e: any) => {
+    console.log(e);
   }
-
-  trackByIndex(index: number, obj: any): any {
-    return index;
-  }
-
-  // Click event on child checkbox
-  childCheck(masterLayer, subLayer) {
-    masterLayer.defaultVisibility = subLayer.every((c: any) => {
-      return c.defaultVisibility === true;
-    })
-    this.mapControl.changeActiveLayers(this.dataTable);
-  }
-  createLayerList = () => {
-    this.http.get(this.globals.arcgisUrl + 'services/ForestEcosystemValues/ForestValues/MapServer?f=json').subscribe((datas: any) => {
-      const headings = datas.layers.filter(l => l.subLayerIds !== null);
-      const d = headings.map((h: any) => {
-        h.subLayers = this.getSubLayers(h, datas.layers);
-        h.visible = h.defaultVisibility;
-        return h;
-      })
-      this.dataTable = d;
-      this.mapControl.changeActiveLayers(this.dataTable);
-    })
-  }
-
-  constructor(private globals: GlobalsService, private mapControl: MapcontrolService,
-    private http: HttpClient, private store: Store) {
-    }
-
   ngOnInit() {
-    this.createLayerList();
-    this.mapControl.graphicsLayerStatus$.subscribe((graphicsLayer: any) => {
-      console.log(graphicsLayer.graphics, graphicsLayer);
-      this.mapGraphics = graphicsLayer.graphics;
+    this.mapControl.graphicsLayerStatus$.subscribe((gLayer: any) => {
+      this.mapGraphics = gLayer.graphics;
+      this.reportEnabled = this.mapGraphics.length > 0;
     });
 
     this.mapControl.spatialSelectionState$.subscribe((state: any) => {
       this.spatialSelectionState = state;
     })
+
+    this.reportData$.subscribe(dt => {
+      if (dt !== null) { this.printBtnEnabled = true; }
+      else {if (this.printBtnEnabled) {this.printBtnEnabled = false}}
+      this.reportData = dt;
+    });
+
+    this.mapControl.activeLayers$.subscribe((activeL) => {
+      console.log(activeL, ' are active')
+    })
+
   }
 
   onControlChange = (evt: any) => {
+    this.reportEnabled = false;
     this.removeShapeFile();
     this.mapControl.changeControl(evt)
   }
@@ -92,21 +72,42 @@ export class SidebarComponent implements OnInit {
     this.fileInput.nativeElement.click();
   }
 
-  generateStatistics =() => {
-    console.log(this.mapGraphics);
+  generateStatistics = () => {
+    this.mapControl.setAppBusyIndicator(true);
     getReportValues(this.mapGraphics).then((v) => {
       this.store.dispatch(new ChangeReportData(v));
+      this.mapControl.setAppBusyIndicator(false);
     })
   }
 
   startSpatialSelection = (controlName: string, action: string) => {
+    if (action === 'clear') {
+      this.reportEnabled = false;
+      this.store.dispatch(new ChangeReportData(null));
+    }
     this.mapControl.startSpatialSelection(controlName, action);
+  }
+
+  generateReport = () => {
+    this.mapControl.setAppBusyIndicator(true);
+    createPNGForReport(this.mapGraphics).then((_mapURL) => {
+      const body = JSON.stringify({
+        mapURL: _mapURL,
+        stats: this.reportData
+      });
+      const reportSubscription = this.http.post('https://txfipdev.tfs.tamu.edu/forestecosystemvalues/api/createreport', body, {
+        headers: { 'Content-Type': 'application/json' }
+      }).subscribe((dd: any) => {
+        this.pdfLink = dd.fileName;
+        this.mapControl.setAppBusyIndicator(false);
+      });
+      reportSubscription.add(() => this.mapControl.setAppBusyIndicator(false))
+    })
   }
 
   onChangeFileInput(): void {
     const files: { [key: string]: File } = this.fileInput.nativeElement.files;
     this.file = files[0];
-
     const form = new FormData();
     const publishParams: any = {
       targetSR: {
@@ -139,21 +140,20 @@ export class SidebarComponent implements OnInit {
           }
         })
         if (features.length > 0) {
-          this.shapefileControlState ={ start: false, cancel: true};
-          console.log('feature uploaded')
+          this.shapefileControlState = { start: false, cancel: true };
           this.mapControl.shapefileUploaded(features);
         } else {
           this.fileUploadError = '';
         }
       }
     }, (e) => {
-      console.log(e);
       this.fileUploadError = 'Error parsing shapefile.'
     })
   }
 
   removeShapeFile = () => {
-    this.shapefileControlState = {start: true, cancel: false};
+    this.store.dispatch(new ChangeReportData(null))
+    this.shapefileControlState = { start: true, cancel: false };
     this.mapControl.clearGraphics();
   }
 }

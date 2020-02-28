@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { MapcontrolService } from 'src/app/services/mapcontrol.service';
+import { Store } from '@ngxs/store';
+import { ChangeReportData } from 'src/app/shared/sidebarControls.actions';
 
 @Component({
   selector: 'app-countylist',
@@ -23,18 +25,6 @@ export class CountylistComponent implements OnInit {
     return (category === 'county' ? this.counties: this.urbanAreas).filter(c => c.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  // onCountySelected = (evt: any) => {
-  //   this.frmGroup.get('Urban').setValue('');
-  //   this.mapControl.applyUrbanFilter(null);
-  //   this.mapControl.applyCountyFilter(evt.option.value);
-  // }
-
-  // onUrbanSelected = (evt: any) => {
-  //   this.frmGroup.get('County').setValue('');
-  //   this.mapControl.applyCountyFilter(null);
-  //   this.mapControl.applyUrbanFilter(evt.option.value);
-  // }
-
   onDropDownSelected = (category: string, evt: any) => {
     if (category === 'Urban' && this.frmGroup.get('County').value !== '') {
       this.frmGroup.get('County').setValue('');
@@ -47,9 +37,10 @@ export class CountylistComponent implements OnInit {
 
   clearInput = (category: string) => {
     this.frmGroup.get(category).setValue('');
+    this.store.dispatch(new ChangeReportData(null))
     this.mapControl.filterByCategory(category, null);
   }
-  constructor(private fb: FormBuilder, private mapControl: MapcontrolService) {
+  constructor(private fb: FormBuilder, private mapControl: MapcontrolService, private store: Store) {
     this.frmGroup = this.fb.group({
       County: null,
       Urban: null

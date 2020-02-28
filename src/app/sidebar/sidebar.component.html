@@ -5,44 +5,15 @@
             Getting Started
         </mat-expansion-panel-header>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8" [expanded]="false">
+    <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
         <mat-expansion-panel-header class="accordion-header-fill">
             View Map Themes
         </mat-expansion-panel-header>
-        <div class="accordionContent layersList">
-            <div *ngFor="let item of dataTable; let masterIndex = index; trackBy: trackByIndex">
-                <mat-expansion-panel [expanded]="false">
-                    <mat-expansion-panel-header>
-                        <mat-checkbox color="primary" [(ngModel)]="dataTable[masterIndex].defaultVisibility"
-                            value="{{item.id}}" (ngModelChange)="parentCheck(item)" (keydown)="$event.stopPropagation()"
-                            (click)="$event.stopPropagation()">
-                            {{item.name}}
-
-                        </mat-checkbox>
-
-                        <!-- <button mat-icon-button aria-label="icon" class="opacityBtn">
-                            <mat-icon>favorite</mat-icon>
-                          </button>
-                          <div>
-                              <br>
-                          <mat-slider min="1" max="5" step="0.5" value="1.5"></mat-slider>
-                        </div> -->
-                    </mat-expansion-panel-header>
-                    <div class="accordionContent">
-                        <div *ngFor="let itemChild of item.subLayers">
-                            <mat-checkbox color="primary" [(ngModel)]="itemChild.defaultVisibility"
-                                value="{{itemChild.id}}" name="list_name_child"
-                                (ngModelChange)="childCheck(item,item.subLayers)">
-                                {{itemChild.name}}
-                            </mat-checkbox> <br>
-                        </div>
-                    </div>
-
-                </mat-expansion-panel>
-            </div>
+        <div class="layersList">
+            <app-layerlist></app-layerlist>
         </div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
+    <mat-expansion-panel class="mat-elevation-z8" [expanded]="false">
         <mat-expansion-panel-header class="accordion-header-fill">
             Ecosystem Services
         </mat-expansion-panel-header>
@@ -90,8 +61,8 @@
 
                 <mat-radio-button value="shapefile"> Load zipped shapefile
                 </mat-radio-button>
-                <div *ngIf="activeControl === 'shapefile'" class="dropdownChild startClearnBtnDiv">
-                    <span *ngIf="fileUploadError !== ''" style="color: 'red'">{{fileUploadError}}<br></span>
+                <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild startClearnBtnDiv">
+                   
                     <input type="file" style="display: none" #fileInput accept=".zip" (change)="onChangeFileInput()" />
                     <button mat-raised-button color="primary" [disabled]="!shapefileControlState.start"
                         (click)="onClickFileInputButton()">
@@ -103,23 +74,31 @@
                         (click)="removeShapeFile()">
                         <mat-icon>delete</mat-icon>
                         Clear
-                    </button>
+                    </button> 
+                    
+                </div>
+                <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild">
+                    <span *ngIf="fileUploadError !== ''" style="color: 'red'">{{fileUploadError}}<br></span>
+                    <br> Don't have a shapefile? You can use <a href='https://texasforestinfo.tamu.edu/mapmyproperty/' target='_blank'>MapMyProperty</a> to create one.
                 </div>
             </mat-radio-group>
 
             <b>Step 2: </b><br>
-            <button mat-raised-button color="primary" [disabled]="!(mapGraphics.length > 0)" (click)="generateStatistics()">
+            <button mat-raised-button color="primary" [disabled]="!(mapGraphics.length > 0) || !reportEnabled" (click)="generateStatistics()">
                 <mat-icon>format_list_bulleted</mat-icon>
                 Generate Summary Statistics
             </button>
 
             <br /><br />
             <b>Step 3: </b><br>
-            <button mat-raised-button color="primary" [disabled]="'true'" (click)="generateStatistics()">
+            <button mat-raised-button color="primary" [disabled]="!printBtnEnabled || !(mapGraphics.length > 0)" (click)="generateReport()">
                 <mat-icon>print</mat-icon>
-                Print Report
-            </button>
+                Generate Report
+            </button> <br>
 
+            <div *ngIf="!(!printBtnEnabled || !(mapGraphics.length > 0)) ">
+                <a [href]="pdfLink" *ngIf="pdfLink !== ''" target="_blank">Click to view the report</a>
+            </div>
         </div>
     </mat-expansion-panel>
     <mat-expansion-panel class="mat-elevation-z8">
@@ -154,10 +133,12 @@
         </mat-expansion-panel-header>
         <div class="accordionContent">I'm visible because I am open</div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8">
+    <mat-expansion-panel class="mat-elevation-z8" (opened)="opens('legend')">
         <mat-expansion-panel-header class="accordion-header-fill">
             Legend
         </mat-expansion-panel-header>
-        <div class="accordionContent">I'm visible because I am open</div>
+        <div class="accordionContent">
+            <app-legend></app-legend>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>
