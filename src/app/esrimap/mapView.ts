@@ -18,6 +18,7 @@ const createMapView = (mapViewEl: ElementRef) => {
   const mapViewProperties = {
     container: mapViewEl.nativeElement,
     extent: fullExtent,
+    snapToZoom: false,
     map
   };
   const view = new MapView(mapViewProperties);

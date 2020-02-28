@@ -13,6 +13,7 @@ import MapImageLayer from 'arcgis-js-api/layers/MapImageLayer';
 import { GeojsonDataService } from '../services/geojson-data.service';
 import { fullExtent } from './Variables';
 import { redPolygon } from './renderers';
+import PrintTemplate from 'arcgis-js-api/tasks/support/PrintTemplate';
 
 @Component({
   selector: 'app-esrimap',
@@ -27,9 +28,23 @@ export class EsrimapComponent implements OnInit {
   busy = false;
   activeControl = null;
   arcgisServer = 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/'
+  printTemplate = new PrintTemplate({
+    format: 'pdf',
+    exportOptions: { dpi: 300 },
+    layout: 'a4-portrait'
+  });
+  printParams = new PrintParameters();
   printMapTask = new PrintTask({ url: this.arcgisServer + 'services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task' });
-  printParams = new PrintParameters({ view: this.view });
   sketchVM = new SketchViewModel();
+
+  printMap = () => {
+    this.geojsonData.countyGeojsonLayer.visible = false;
+    this.geojsonData.urbanGeojsonLayer.visible = false;
+    const _v = this.view;
+    _v.map.basemap = {};
+    this.printParams = new PrintParameters({ view: _v, template: this.printTemplate });
+    this.printMapTask.execute(this.printParams);
+  }
   constructor(private mapControl: MapcontrolService, private geojsonData: GeojsonDataService) { }
   async initializeMap() {
     try {

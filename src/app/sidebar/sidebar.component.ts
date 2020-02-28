@@ -34,12 +34,8 @@ export class SidebarComponent implements OnInit {
     cancel: null
   }
 
-  constructor(private mapControl: MapcontrolService, private http: HttpClient, private store: Store) {
-  }
+  constructor(private mapControl: MapcontrolService, private http: HttpClient, private store: Store) { }
 
-  opens = (e: any) => {
-    console.log(e);
-  }
   ngOnInit() {
     this.mapControl.graphicsLayerStatus$.subscribe((gLayer: any) => {
       this.mapGraphics = gLayer.graphics;
@@ -55,11 +51,6 @@ export class SidebarComponent implements OnInit {
       else {if (this.printBtnEnabled) {this.printBtnEnabled = false}}
       this.reportData = dt;
     });
-
-    this.mapControl.activeLayers$.subscribe((activeL) => {
-      console.log(activeL, ' are active')
-    })
-
   }
 
   onControlChange = (evt: any) => {
@@ -110,9 +101,7 @@ export class SidebarComponent implements OnInit {
     this.file = files[0];
     const form = new FormData();
     const publishParams: any = {
-      targetSR: {
-        wkid: 102100
-      },
+      targetSR: {wkid: 102100},
       maxRecordCount: 1000,
       enforceInputFileSizeLimit: true,
       enforceOutputJsonSizeLimit: true

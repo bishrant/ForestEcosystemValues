@@ -1,11 +1,11 @@
-<br>
+<br><br>
 <mat-accordion multi="true" class="primaryBg">
-    <mat-expansion-panel class="mat-elevation-z8" class="mat-elevation-z8">
+    <mat-expansion-panel class="mat-elevation-z8">
         <mat-expansion-panel-header class="accordion-header-fill">
             Getting Started
         </mat-expansion-panel-header>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
+    <mat-expansion-panel class="mat-elevation-z8" [expanded]="false">
         <mat-expansion-panel-header class="accordion-header-fill">
             View Map Themes
         </mat-expansion-panel-header>
@@ -62,7 +62,7 @@
                 <mat-radio-button value="shapefile"> Load zipped shapefile
                 </mat-radio-button>
                 <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild startClearnBtnDiv">
-                   
+
                     <input type="file" style="display: none" #fileInput accept=".zip" (change)="onChangeFileInput()" />
                     <button mat-raised-button color="primary" [disabled]="!shapefileControlState.start"
                         (click)="onClickFileInputButton()">
@@ -74,24 +74,27 @@
                         (click)="removeShapeFile()">
                         <mat-icon>delete</mat-icon>
                         Clear
-                    </button> 
-                    
+                    </button>
+
                 </div>
                 <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild">
                     <span *ngIf="fileUploadError !== ''" style="color: 'red'">{{fileUploadError}}<br></span>
-                    <br> Don't have a shapefile? You can use <a href='https://texasforestinfo.tamu.edu/mapmyproperty/' target='_blank'>MapMyProperty</a> to create one.
+                    <br> Don't have a shapefile? You can use <a href="https://texasforestinfo.tamu.edu/mapmyproperty/"
+                        target="_blank">MapMyProperty</a> to create one.
                 </div>
             </mat-radio-group>
 
             <b>Step 2: </b><br>
-            <button mat-raised-button color="primary" [disabled]="!(mapGraphics.length > 0) || !reportEnabled" (click)="generateStatistics()">
+            <button mat-raised-button color="primary" [disabled]="!(mapGraphics.length > 0) || !reportEnabled"
+                (click)="generateStatistics()">
                 <mat-icon>format_list_bulleted</mat-icon>
                 Generate Summary Statistics
             </button>
 
             <br /><br />
             <b>Step 3: </b><br>
-            <button mat-raised-button color="primary" [disabled]="!printBtnEnabled || !(mapGraphics.length > 0)" (click)="generateReport()">
+            <button mat-raised-button color="primary" [disabled]="!printBtnEnabled || !(mapGraphics.length > 0)"
+                (click)="generateReport()">
                 <mat-icon>print</mat-icon>
                 Generate Report
             </button> <br>
@@ -127,13 +130,15 @@
 
         </div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8">
+    <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
         <mat-expansion-panel-header class="accordion-header-fill">
             Print Map
         </mat-expansion-panel-header>
-        <div class="accordionContent">I'm visible because I am open</div>
+        <div class="accordionContent">
+            <app-printmap></app-printmap>
+        </div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8" (opened)="opens('legend')">
+    <mat-expansion-panel class="mat-elevation-z8">
         <mat-expansion-panel-header class="accordion-header-fill">
             Legend
         </mat-expansion-panel-header>

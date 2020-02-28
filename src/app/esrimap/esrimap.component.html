@@ -8,4 +8,6 @@
     <div class="HelpText" *ngIf="sketchVM.state === 'active'">
         Double click on the map to finish selection.
     </div>
+
+    <button style="position: absolute; z-index: 100; bottom: 0; right: 0;" (click)="printMap()">Print</button>
 </div>

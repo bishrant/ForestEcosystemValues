@@ -12,14 +12,82 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$fev-primary: mat-palette($mat-light-green);
+$tanColor: (
+    50 : #f9f6f0,
+    100 : #f0e8da,
+    200 : #e7d8c1,
+    300 : #ddc8a8,
+    400 : #d5bd95,
+    500 : #ceb182,
+    600 : #c9aa7a,
+    700 : #c2a16f,
+    800 : #bc9865,
+    900 : #b08852,
+    A100 : #ffffff,
+    A200 : #fff1df,
+    A400 : #ffdaac,
+    A700 : #ffcf92,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$tanDark: (
+    50 : #f3ede6,
+    100 : #e0d1c2,
+    200 : #cbb399,
+    300 : #b69470,
+    400 : #a77d51,
+    500 : #976632,
+    600 : #8f5e2d,
+    700 : #845326,
+    800 : #7a491f,
+    900 : #693813,
+    A100 : #ffc5a0,
+    A200 : #ffa56d,
+    A400 : #ff863a,
+    A700 : #ff7720,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$fev-primary: mat-palette($tanColor);
+$fev-secondary: mat-palette($tanDark);
 $fev-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $fev-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$fev-theme: mat-light-theme($fev-primary, $fev-accent, $fev-warn);
+$fev-theme: mat-light-theme($fev-primary, $fev-secondary, $fev-warn);
+
 
 
 @function fev-dark-theme-foreground($color) {
@@ -101,6 +169,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       font-size: 21px !important;
   }
 
+  .accordion-header-fill>  .mat-expansion-indicator::after {
+    color: rgba(255, 255, 255, 1);
+}
+.mat-raised-button {
+    height: 35px !important;
+    line-height: 35px !important;
+}
 //   .layersList .mat-expansion-indicator {
 //     position: absolute;
 //     left: 20px;
