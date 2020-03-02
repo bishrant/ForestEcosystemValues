@@ -1,19 +1,21 @@
-import { Component, ViewChild, AfterViewInit, TemplateRef, AfterContentInit, Inject } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, TemplateRef, AfterContentInit, Inject, OnInit } from '@angular/core';
 import { MapcontrolService } from './services/mapcontrol.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TourService } from 'ngx-tour-md-menu';
+import tourSteps from './shared/tourSteps';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit, AfterContentInit  {
+export class AppComponent implements AfterViewInit, AfterContentInit, OnInit  {
   title = 'Forest Ecosystem Values';
   sidenavOpened = true;
   popupHidden = true
   appBusy = true;
-  @ViewChild(TemplateRef) _dialogTemplate: TemplateRef<any>;
-  constructor(private mapControl: MapcontrolService, private dialog: MatDialog) {}
+  // @ViewChild(TemplateRef) _dialogTemplate: TemplateRef<any>;
+  constructor(private mapControl: MapcontrolService, private dialog: MatDialog, public tourService: TourService) {}
 
   ngAfterViewInit() {
     this.mapControl.generateSummary$.subscribe(() => {
@@ -28,7 +30,13 @@ export class AppComponent implements AfterViewInit, AfterContentInit  {
   }
 
   openDialog = (type: string) => {
-    this.dialog.open(AppDialogComponent, {data: {type}})
+    if (type ==='help') {this.tourService.start()}
+    else {this.dialog.open(AppDialogComponent, {data: {type}});}
+  }
+
+  ngOnInit() {
+    this.tourService.initialize(tourSteps);
+    this.mapControl.startTour$.subscribe(() => this.tourService.start());
   }
 }
 

@@ -207,3 +207,14 @@ body {
 .dialogContent {
     padding: 20px;
 }
+
+.mat-menu-panel {
+  max-width: 470px !important;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .mat-menu-panel {
+    max-width: 300px !important;
+  }
+}

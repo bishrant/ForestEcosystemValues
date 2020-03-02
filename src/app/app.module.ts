@@ -1,11 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { AppComponent, AppDialogComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { EsrimapComponent } from './esrimap/esrimap.component';
-import { AllMaterialModule } from './material.module';
 import { SummarytableModule } from './summarytable/summarytable.module';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
@@ -19,7 +14,14 @@ import { CountylistModule } from './sidebar/countylist/countylist.module';
 import { LayerlistModule } from './layerlist/layerlist.module';
 import { LegendModule } from './legend/legend.module';
 import { PrintmapModule } from './printmap/printmap.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent, AppDialogComponent } from './app.component';
+import { TourMatMenuModule } from 'ngx-tour-md-menu';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { AllMaterialModule } from './material.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +30,7 @@ import { PrintmapModule } from './printmap/printmap.module';
     EsrimapComponent
   ],
   imports: [
+    TourMatMenuModule.forRoot(),
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -38,9 +41,11 @@ import { PrintmapModule } from './printmap/printmap.module';
     LegendModule,
     LayerlistModule,
     PrintmapModule,
+    AppRoutingModule,
     NgxsModule.forRoot([SidebarControlsState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
+    NgxsLoggerPluginModule.forRoot(),
+    
   ],
   providers: [GlobalsService, GeojsonDataService],
   bootstrap: [AppComponent],

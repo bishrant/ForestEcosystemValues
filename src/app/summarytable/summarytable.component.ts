@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarControlsState } from '../shared/sidebarControls.state';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { MapcontrolService } from '../services/mapcontrol.service';
+import { ChangeReportData } from '../shared/sidebarControls.actions';
 
 @Component({
   selector: 'app-summarytable',
@@ -10,6 +12,7 @@ import { Select } from '@ngxs/store';
 
 export class SummarytableComponent implements OnInit {
   @Select(SidebarControlsState.getReportDataFromState) reportData$;
+  tableBodyVisible = true;
   data: any = null;
   sData: any = null;
   individual: any = null;
@@ -24,7 +27,7 @@ export class SummarytableComponent implements OnInit {
     { name: 'total', display: 'Total' }
   ];
 
-  constructor() { }
+  constructor(private mapControl: MapcontrolService, private store: Store) { }
   ngOnInit() {
     this.reportData$.subscribe(dt => {
       if (dt !== null) {
@@ -41,7 +44,21 @@ export class SummarytableComponent implements OnInit {
           };
           this.summaryData.push(d);
         });
+      } else {
+        this.data = null;
+        this.sData = null;
+        this.individual = null;
       }
     })
+  }
+
+  closeTable = () => {
+    this.store.dispatch(new ChangeReportData(null))
+    this.mapControl.filterByCategory('County', null);
+    this.mapControl.deactivateControl('');
+    this.mapControl.clearGraphics();
+  }
+  toggleTable = () => {
+    this.tableBodyVisible = !this.tableBodyVisible;
   }
 }

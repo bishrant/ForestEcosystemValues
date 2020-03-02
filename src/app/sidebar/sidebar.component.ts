@@ -5,6 +5,8 @@ import { Store, Select } from '@ngxs/store';
 import { getReportValues, createPNGForReport } from '../esrimap/ReportServices';
 import { ChangeReportData } from '../shared/sidebarControls.actions';
 import { SidebarControlsState } from '../shared/sidebarControls.state';
+import { TourService } from 'ngx-tour-md-menu';
+import { dummyReportData } from '../esrimap/Variables';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,6 +16,7 @@ import { SidebarControlsState } from '../shared/sidebarControls.state';
 export class SidebarComponent implements OnInit {
   @Select(SidebarControlsState.getReportDataFromState) reportData$;
   @ViewChild('fileInput') fileInput;
+  @ViewChild('accordion') sidePanels;
   pdfLink = '';
   reportData: any;
   printBtnEnabled = false;
@@ -33,8 +36,10 @@ export class SidebarComponent implements OnInit {
     start: true,
     cancel: null
   }
-
-  constructor(private mapControl: MapcontrolService, private http: HttpClient, private store: Store) { }
+  step = 0;
+  constructor(private mapControl: MapcontrolService, private http: HttpClient, private store: Store,
+    public tourService: TourService
+    ) { }
 
   ngOnInit() {
     this.mapControl.graphicsLayerStatus$.subscribe((gLayer: any) => {
@@ -51,6 +56,19 @@ export class SidebarComponent implements OnInit {
       else {if (this.printBtnEnabled) {this.printBtnEnabled = false}}
       this.reportData = dt;
     });
+    this.tourService.stepShow$.subscribe((step: any) => {
+      if (step.anchorId === 'generateStatisticsBtn') {
+        this.store.dispatch(new ChangeReportData(dummyReportData));
+      }
+    });
+    this.tourService.start$.subscribe(() => {
+      this.sidePanels.openAll();
+    })
+    this.tourService.end$.subscribe(() => {
+      this.sidePanels.closeAll();
+      this.store.dispatch(new ChangeReportData(null));
+    })
+    this.store.dispatch(new ChangeReportData(dummyReportData));
   }
 
   onControlChange = (evt: any) => {
@@ -62,6 +80,8 @@ export class SidebarComponent implements OnInit {
   onClickFileInputButton(): void {
     this.fileInput.nativeElement.click();
   }
+
+  startTour = () => this.mapControl.startTour();
 
   generateStatistics = () => {
     this.mapControl.setAppBusyIndicator(true);
@@ -146,3 +166,4 @@ export class SidebarComponent implements OnInit {
     this.mapControl.clearGraphics();
   }
 }
+
