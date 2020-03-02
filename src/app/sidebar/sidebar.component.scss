@@ -12,15 +12,16 @@
   margin-bottom: 15px;
 }
 .accordion-header-fill {
-  background: mat-color($fev-primary, 700) !important;
+  background: mat-color($fev-secondary) !important;
   font-weight: 500;
   box-shadow: 4px 2px 5px 0px #000000bf;
   border-radius: 0 !important;
   height: 44px !important;
+  color: white !important;
 }
 
 .accordion-header-fill:hover {
-  background-color: mat-color($fev-primary, 700) !important;
+  background-color: mat-color($fev-secondary, 700) !important;
 }
 
 .mat-expansion-panel-content {
@@ -35,6 +36,10 @@
   mat-radio-button {
     margin: 5px;
   }
+}
+
+.dropdownChild {
+  margin-left: 20px;
 }
 
 .layersList {
@@ -63,4 +68,9 @@
 
 .buttonSelected {
   border: 2px solid red;
+}
+.startClearnBtnDiv{
+  display: flex;
+    justify-content: space-evenly;
+    width: 90%;
 }

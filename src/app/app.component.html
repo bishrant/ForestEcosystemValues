@@ -1,16 +1,21 @@
-<router-outlet></router-outlet> 
+<!-- <router-outlet></router-outlet> -->
 
-<div style="height: 100vh; background-color: red !important;" fxLayout="column" fxLayoutAlign=" stretch" class="parent">
+<div fxLayout="column" fxLayoutAlign=" stretch" class="parent">
     <mat-toolbar color="primary" class="header">
         <mat-toolbar-row [class.mat-elevation-z8]="true">
+            <a href="https://tfsweb.tamu.edu" target="_blank" class="logo">
+                <img src="assets/TFS_Maroon.png" class="largeLogo" />
+            </a>
+            <a href="https://tfsweb.tamu.edu" target="_blank" class="logo">
+            <img src="assets/TFS_Star_Maroon.png" class="smallLogo" />
+        </a>
             <span>Forest Ecosystem Values</span>
             <span class="spacer"></span>
             <div fxShow="true" fxHide.lt-md="true">
-
-                <a href="#" mat-button> About </a>
-                <a href="#" mat-button> Contact </a>
+                <a mat-button (click)="openDialog('About')"> About </a>
+                <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-button> Contact </a>
                 <a href="#" mat-button> Help </a>
-                <a href="#" mat-button> Disclaimer </a>
+                <a  mat-button  (click)="openDialog('Disclaimer')"> Disclaimer </a>
             </div>
             <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
                 <mat-icon>menu</mat-icon>
@@ -20,10 +25,10 @@
     <mat-sidenav-container fxFlex="auto">
         <mat-sidenav #sidenav position="end">
             <mat-nav-list>
-                <a href="#" mat-list-item> About </a>
-                <a href="#" mat-list-item> Contact </a>
+                <a  mat-list-item  (click)="openDialog('About')"> About </a>
+                <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-list-item> Contact </a>
                 <a href="#" mat-list-item> Help </a>
-                <a href="#" mat-list-item> Disclaimer </a>
+                <a  mat-list-item (click)="openDialog('Disclaimer')"> Disclaimer </a>
                 <a (click)="sidenav.toggle()" mat-list-item>
                     <mat-icon>close</mat-icon> Close
                 </a>
@@ -33,35 +38,30 @@
             <mat-sidenav-container fxFlex="auto">
                 <mat-sidenav [opened]="sidenavOpened" position="start" mode="side" #sidebar class="sidebar primaryBg">
                     <app-sidebar class="primaryBg"></app-sidebar>
-                    <button mat-icon-button (click)="sidenavOpened = !sidenavOpened"
-                        style="position: absolute; right: -10px; top: -10px;">
-                        <mat-icon>arrow_back_ios</mat-icon>
+                    <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened"
+                        class="sidebarCloseBtn">
+                        <mat-icon>arrow_back_ios</mat-icon> Hide
                     </button>
                 </mat-sidenav>
                 <mat-sidenav-content>
                     <div fxFlex="auto" class="parentMap">
                         <app-esrimap></app-esrimap>
-                        <button mat-raised-button color="primary" style="position: absolute; left:0;top:0; z-index: 10;"
-                            *ngIf="!sidenavOpened" (click)="sidenavOpened = !sidenavOpened">
+                        <button mat-raised-button color="primary" *ngIf="!sidenavOpened"
+                            (click)="sidenavOpened = !sidenavOpened" class="siderbarOpenBtn">
                             <mat-icon>arrow_forward_ios</mat-icon>Show
                         </button>
-                        <!-- [hidden]='popupHidden' -->
-                      
                     </div>
                 </mat-sidenav-content>
             </mat-sidenav-container>
         </mat-sidenav-content>
     </mat-sidenav-container>
-    <div class="reportDialogContainer" cdkDragBoundary=".parent" cdkDrag >
+    <div class="reportDialogContainer" cdkDragBoundary=".parent" cdkDrag>
         <app-summarytable style="width: 100%; height: 100%">
         </app-summarytable>
     </div>
-
-	
-
 </div>
 
 <div class="parent progressContainer" *ngIf="appBusy">
-    <mat-progress-spinner [color]="'primary'"  [mode]="'indeterminate'" >
-	</mat-progress-spinner>
+    <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'">
+    </mat-progress-spinner>
 </div>

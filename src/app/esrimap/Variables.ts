@@ -1,5 +1,5 @@
 import Extent from 'arcgis-js-api/geometry/Extent';
 
-const fullExtent = new Extent({ xmin: -106.645646, ymin: 24.837377, xmax: -93.508292, ymax: 37.500704 }).expand(1.2);
+const fullExtent = new Extent({ xmin: -104.645646, ymin: 25, xmax: -95.508292, ymax: 36.500704 });
 
 export {fullExtent};

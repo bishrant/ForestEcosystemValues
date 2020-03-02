@@ -13,6 +13,8 @@ import MapImageLayer from 'arcgis-js-api/layers/MapImageLayer';
 import { GeojsonDataService } from '../services/geojson-data.service';
 import { fullExtent } from './Variables';
 import { redPolygon } from './renderers';
+import PrintTemplate from 'arcgis-js-api/tasks/support/PrintTemplate';
+import { GlobalsService } from '../services/globals.service';
 
 @Component({
   selector: 'app-esrimap',
@@ -25,12 +27,16 @@ export class EsrimapComponent implements OnInit {
   view: any;
   mapLoaded = false;
   busy = false;
-  activeControl = null;
-  arcgisServer = 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/'
-  printMapTask = new PrintTask({ url: this.arcgisServer + 'services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task' });
-  printParams = new PrintParameters({ view: this.view });
+  printTemplate = new PrintTemplate({
+    format: 'PDF',
+    exportOptions: { dpi: 300 },
+    layout: 'ForestValues_Print'
+  });
+  printParams = new PrintParameters();
+  printMapTask = new PrintTask({ url: 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/services/ForestEcosystemValues/PrintPDF/GPServer/Export%20Web%20Map' });
   sketchVM = new SketchViewModel();
-  constructor(private mapControl: MapcontrolService, private geojsonData: GeojsonDataService) { }
+
+  constructor(private mapControl: MapcontrolService, private geojsonData: GeojsonDataService, private globals: GlobalsService) { }
   async initializeMap() {
     try {
       this.view = createMapView(this.mapViewEl);
@@ -43,7 +49,7 @@ export class EsrimapComponent implements OnInit {
       })
       const multiPointLayer = MultiPointLayer();
       const baseLayer = new MapImageLayer({
-        url: this.arcgisServer + 'services/ForestEcosystemValues/ForestValues/MapServer',
+        url: this.globals.arcgisUrl + 'services/ForestEcosystemValues/ForestValues/MapServer',
         sublayers: [
           { id: 2, visible: true, opacity: 0.5 },
           { id: 11, visible: true, opacity: 1 }
@@ -76,17 +82,12 @@ export class EsrimapComponent implements OnInit {
 
       this.sketchVM.on(['create', 'update', 'complete', 'cancel'], selectGeometry);
 
-      this.mapControl.controlActivated$.subscribe((control: any) => {
-        this.activeControl = control;
-      })
-
       this.mapControl.startSpatialSelection$.subscribe((evt: any) => {
         if (evt !== null) {
           if (evt.action === 'clear') {
             this.sketchVM.cancel();
             graphicsLayer.removeAll();
             multiPointLayer.removeAll();
-            // graphicsLayer.remove(graphicsLayer.graphics[0])
           } else {
             if (this.sketchVM.state !== 'active') {
               this.sketchVM.create(evt.current);
@@ -129,6 +130,32 @@ export class EsrimapComponent implements OnInit {
             this.view.extent = v[0].geometry.extent.expand(1.5);
           }
         }).catch(e => console.error('promise error ', e))
+      })
+
+      const restoreBaseMap = (basemap: any) => {
+        this.geojsonData.countyGeojsonLayer.visible = true;
+        this.geojsonData.urbanGeojsonLayer.visible = true;
+        this.view.map.basemap = basemap;
+        this.mapControl.setAppBusyIndicator(false);
+      }
+      this.mapControl.printMap$.subscribe((info: any) => {
+        if (info.status === 'active') {
+          this.mapControl.setAppBusyIndicator(true);
+          this.geojsonData.countyGeojsonLayer.visible = false;
+          this.geojsonData.urbanGeojsonLayer.visible = false;
+          const _basemap = this.view.map.basemap;
+          this.view.map.basemap = {};
+          this.printParams = new PrintParameters({ view: this.view, template: this.printTemplate });
+          this.printMapTask.execute(this.printParams)
+          .then((success: any) => {
+            this.mapControl.setPrintMapStatus('done', success.url);
+            restoreBaseMap(_basemap);
+          })
+          .catch((err: any) => {
+            this.mapControl.setPrintMapStatus('error', '');
+            restoreBaseMap(_basemap);
+          });
+        }
       })
       return this.view;
     } catch (error) {
