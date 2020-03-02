@@ -1,4 +1,15 @@
-<button mat-raised-button color="primary" >
+<button mat-raised-button color="primary" (click)="printMap()">
     <mat-icon>print</mat-icon>
     Print Map
-</button> <br>
+</button>
+<br>
+<div>
+    <span *ngIf="printInfo.status === 'active'">Printing</span>
+    <div *ngIf="printInfo.message !== ''">
+        <br>
+        <a [href]="printInfo.message" target="_blank">Link to PDF Map</a>
+    </div>
+    <div *ngIf="printInfo.status === 'error'" style="color: red;">
+        An error occurred while printing. <br>Please try again.
+    </div>
+</div>

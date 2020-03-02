@@ -19,12 +19,6 @@ export class AppComponent implements AfterViewInit, AfterContentInit  {
     this.mapControl.generateSummary$.subscribe(() => {
       this.popupHidden = false;
     })
-    
-    //  this.overlay.create({
-    //   positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-    //   hasBackdrop: true
-    // }).attach(new ComponentPortal(AppComponent))
-
   }
   ngAfterContentInit() {
     this.appBusy = false;
@@ -34,13 +28,12 @@ export class AppComponent implements AfterViewInit, AfterContentInit  {
   }
 
   openDialog = (type: string) => {
-    console.log(type);
-    const ref = this.dialog.open(AppDialogComponent, {data: {type: type}})
+    this.dialog.open(AppDialogComponent, {data: {type}})
   }
 }
 
 @Component({
-  selector: 'appdialog',
+  selector: 'app-appdialog',
   templateUrl: 'shared/appdialog.html'
 })
 export class AppDialogComponent {

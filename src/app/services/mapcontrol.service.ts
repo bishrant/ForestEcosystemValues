@@ -18,6 +18,7 @@ export class MapcontrolService {
   private clearGraphicsSource = new ReplaySubject<any>();
   private generateStatisticsBtnSource = new ReplaySubject<any>();
   private appBusyIndicator = new ReplaySubject<any>();
+  private printMapSource = new ReplaySubject<any>();
 
   // observable streams
   controlActivated$ = this.controlActivatedSource.asObservable();
@@ -32,6 +33,7 @@ export class MapcontrolService {
   genrateStatisticsBtnStatus$ = this.generateStatisticsBtnSource.asObservable();
   filterByCategory$ = this.filterByCategorySource.asObservable();
   appBusyIndicator$ = this.appBusyIndicator.asObservable();
+  printMap$ = this.printMapSource.asObservable();
 
   constructor() { }
 
@@ -101,6 +103,10 @@ export class MapcontrolService {
 
   setStatisticsBtnStatus = (enabled: any) => {
     this.generateStatisticsBtnSource.next(enabled);
+  }
+
+  setPrintMapStatus = (status: any, message: any) => {
+    this.printMapSource.next({status, message});
   }
 
 }

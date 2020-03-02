@@ -57,6 +57,10 @@
 }
 .smallLogo {
   display: none;
+  height: 100%;
+}
+.largeLogo {
+  height: 100%;
 }
 @media screen and (max-width: 375px) {
   .reportDialogContainer {
@@ -78,9 +82,11 @@
   }
   .smallLogo {
     display: block;
+    height: 100%;
   }
   .largeLogo {
     display: none;
+    height: 100%;
   }
 }
 
