@@ -1,7 +1,9 @@
-<!-- <router-outlet></router-outlet> -->
+
+
+<router-outlet></router-outlet>
 
 <div fxLayout="column" fxLayoutAlign=" stretch" class="parent">
-    <mat-toolbar color="primary" class="header">
+    <mat-toolbar color="primary" class="header" tourAnchor="11">
         <mat-toolbar-row [class.mat-elevation-z8]="true">
             <a href="https://tfsweb.tamu.edu" target="_blank" class="logo">
                 <img src="assets/TFS_Maroon.png" class="largeLogo" />
@@ -14,7 +16,7 @@
             <div fxShow="true" fxHide.lt-md="true">
                 <a mat-button (click)="openDialog('About')"> About </a>
                 <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-button> Contact </a>
-                <a href="#" mat-button> Help </a>
+                <a  (click)="openDialog('help')" mat-button> Help </a>
                 <a  mat-button  (click)="openDialog('Disclaimer')"> Disclaimer </a>
             </div>
             <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
@@ -27,7 +29,7 @@
             <mat-nav-list>
                 <a  mat-list-item  (click)="openDialog('About')"> About </a>
                 <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-list-item> Contact </a>
-                <a href="#" mat-list-item> Help </a>
+                <a  (click)="openDialog('help')" mat-list-item> Help </a>
                 <a  mat-list-item (click)="openDialog('Disclaimer')"> Disclaimer </a>
                 <a (click)="sidenav.toggle()" mat-list-item>
                     <mat-icon>close</mat-icon> Close
@@ -36,18 +38,18 @@
         </mat-sidenav>
         <mat-sidenav-content fxFlex="auto">
             <mat-sidenav-container fxFlex="auto">
-                <mat-sidenav [opened]="sidenavOpened" position="start" mode="side" #sidebar class="sidebar primaryBg">
+                <mat-sidenav [opened]="sidenavOpened" position="start" mode="side" #sidebar class="sidebar primaryBg" tourAnchor="1" >
                     <app-sidebar class="primaryBg"></app-sidebar>
                     <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened"
                         class="sidebarCloseBtn">
                         <mat-icon>arrow_back_ios</mat-icon> Hide
                     </button>
                 </mat-sidenav>
-                <mat-sidenav-content>
+                <mat-sidenav-content tourAnchor="map" >
                     <div fxFlex="auto" class="parentMap">
                         <app-esrimap></app-esrimap>
-                        <button mat-raised-button color="primary" *ngIf="!sidenavOpened"
-                            (click)="sidenavOpened = !sidenavOpened" class="siderbarOpenBtn">
+                        <button mat-raised-button color="primary"
+                            (click)="sidenavOpened = !sidenavOpened" class="siderbarOpenBtn" [ngClass]="{'visible': !sidenavOpened, 'hidden': sidenavOpened}">
                             <mat-icon>arrow_forward_ios</mat-icon>Show
                         </button>
                     </div>
@@ -55,12 +57,13 @@
             </mat-sidenav-container>
         </mat-sidenav-content>
     </mat-sidenav-container>
-    <div class="reportDialogContainer" cdkDragBoundary=".parent" cdkDrag>
-        <app-summarytable style="width: 100%; height: 100%">
+    <div class="reportDialogContainer" cdkDragBoundary=".parent" cdkDrag >
+        <app-summarytable style="width: 100%; height: 100%" tourAnchor="summaryTable">
         </app-summarytable>
     </div>
 </div>
-
+  <tour-step-template></tour-step-template> 
+  <!-- <button (click)="tour()">OPen</button> -->
 <div class="parent progressContainer" *ngIf="appBusy">
     <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'">
     </mat-progress-spinner>

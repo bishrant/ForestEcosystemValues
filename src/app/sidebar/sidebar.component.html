@@ -1,11 +1,17 @@
 <br><br>
-<mat-accordion multi="true" class="primaryBg">
+<mat-accordion multi="true" class="primaryBg" #accordion="matAccordion">
     <mat-expansion-panel class="mat-elevation-z8">
         <mat-expansion-panel-header class="accordion-header-fill">
             Getting Started
         </mat-expansion-panel-header>
+        <div class="accordionContent">
+            <button mat-raised-button color="primary" (click)="startTour()">
+                <mat-icon>cloud_upload</mat-icon>
+                Start Tour
+            </button>
+        </div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8" [expanded]="false">
+    <mat-expansion-panel class="mat-elevation-z8" tourAnchor="2">
         <mat-expansion-panel-header class="accordion-header-fill">
             View Map Themes
         </mat-expansion-panel-header>
@@ -13,98 +19,106 @@
             <app-layerlist></app-layerlist>
         </div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8" [expanded]="false">
+    <mat-expansion-panel class="mat-elevation-z8" tourAnchor="3">
         <mat-expansion-panel-header class="accordion-header-fill">
             Ecosystem Services
         </mat-expansion-panel-header>
         <div class="accordionContent">
-            <b>Step 1: Define Area of Interest</b><br>
-            <mat-radio-group aria-labelledby="select controls" class="controls-radio-group" [(ngModel)]="activeControl"
-                (ngModelChange)="onControlChange($event)">
-                <mat-radio-button value="dropdown">Select County or Urban Area</mat-radio-button>
-                <div *ngIf="activeControl === 'dropdown'" class="dropdownChild">
-                    <app-countylist></app-countylist>
+            <div class="Step1" tourAnchor="selectionTools">
+                <b>Step 1: Define Area of Interest</b><br>
+                <mat-radio-group aria-labelledby="select controls" class="controls-radio-group"
+                    [(ngModel)]="activeControl" (ngModelChange)="onControlChange($event)">
+                    <mat-radio-button value="dropdown">Select County or Urban Area</mat-radio-button>
+                    <div *ngIf="activeControl === 'dropdown'" class="dropdownChild">
+                        <app-countylist></app-countylist>
+                    </div>
+
+                    <mat-radio-button value="multipoint">Select County on the map</mat-radio-button>
+                    <div *ngIf="activeControl === 'multipoint'" class="dropdownChild startClearnBtnDiv">
+                        <button mat-raised-button color="primary"
+                            [class.buttonSelected]="spatialSelectionState['multipoint'] && !spatialSelectionState.multipointDisabled"
+                            [disabled]="spatialSelectionState.multipointDisabled"
+                            (click)="startSpatialSelection('multipoint', 'start')">
+                            <mat-icon>create</mat-icon>
+                            Select
+                        </button>
+                        <button mat-raised-button color="primary"
+                            [disabled]="!(spatialSelectionState.multipointDisabled)"
+                            (click)="startSpatialSelection('multipoint', 'clear')">
+                            <mat-icon>delete</mat-icon>
+                            Clear
+                        </button>
+                    </div>
+
+                    <mat-radio-button value="polygon">Draw polygon on the map</mat-radio-button>
+
+                    <div *ngIf="activeControl === 'polygon'" class="dropdownChild startClearnBtnDiv">
+                        <button mat-raised-button color="primary" #p1
+                            [class.buttonSelected]="spatialSelectionState['polygon'] && !spatialSelectionState.polygonDisabled"
+                            [disabled]="spatialSelectionState.polygonDisabled"
+                            (click)="startSpatialSelection('polygon', 'start')">
+                            <mat-icon>create</mat-icon>
+                            Select
+                        </button>
+                        <button mat-raised-button color="primary" [disabled]="!(spatialSelectionState.polygonDisabled)"
+                            (click)="startSpatialSelection('polygon', 'clear')">
+                            <mat-icon>delete</mat-icon>
+                            Clear
+                        </button>
+                    </div>
+
+                    <mat-radio-button value="shapefile"> Load zipped shapefile
+                    </mat-radio-button>
+                    <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild startClearnBtnDiv">
+
+                        <input type="file" style="display: none" #fileInput accept=".zip"
+                            (change)="onChangeFileInput()" />
+                        <button mat-raised-button color="primary" [disabled]="!shapefileControlState.start"
+                            (click)="onClickFileInputButton()">
+                            <mat-icon>cloud_upload</mat-icon>
+                            Select
+                        </button>
+                        <button mat-raised-button color="primary"
+                            [disabled]="activeControl === 'shapefile' && !shapefileControlState.cancel"
+                            (click)="removeShapeFile()">
+                            <mat-icon>delete</mat-icon>
+                            Clear
+                        </button>
+
+                    </div>
+                    <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild">
+                        <span *ngIf="fileUploadError !== ''" style="color: 'red'">{{fileUploadError}}<br></span>
+                        <br> Don't have a shapefile? You can use <a
+                            href="https://texasforestinfo.tamu.edu/mapmyproperty/" target="_blank">MapMyProperty</a> to
+                        create one.
+                    </div>
+                </mat-radio-group>
+            </div>
+            <div class="step2" tourAnchor="generateStatisticsBtn">
+                <b>Step 2: </b><br>
+                <button mat-raised-button color="primary" [disabled]="!(mapGraphics.length > 0) || !reportEnabled"
+                    (click)="generateStatistics()">
+                    <mat-icon>format_list_bulleted</mat-icon>
+                    Generate Summary Statistics
+                </button>
+                <br />
+            </div>
+            <div class="step3" tourAnchor="generateReportBtn">
+                <br />
+                <b>Step 3: </b><br>
+                <button mat-raised-button color="primary" [disabled]="!printBtnEnabled || !(mapGraphics.length > 0)"
+                    (click)="generateReport()">
+                    <mat-icon>print</mat-icon>
+                    Generate Report
+                </button> <br>
+
+                <div *ngIf="!(!printBtnEnabled || !(mapGraphics.length > 0)) ">
+                    <a [href]="pdfLink" *ngIf="pdfLink !== ''" target="_blank">Click to view the report</a>
                 </div>
-
-                <mat-radio-button value="multipoint">Select County on the map</mat-radio-button>
-                <div *ngIf="activeControl === 'multipoint'" class="dropdownChild startClearnBtnDiv">
-                    <button mat-raised-button color="primary"
-                        [class.buttonSelected]="spatialSelectionState['multipoint'] && !spatialSelectionState.multipointDisabled"
-                        [disabled]="spatialSelectionState.multipointDisabled"
-                        (click)="startSpatialSelection('multipoint', 'start')">
-                        <mat-icon>create</mat-icon>
-                        Select
-                    </button>
-                    <button mat-raised-button color="primary" [disabled]="!(spatialSelectionState.multipointDisabled)"
-                        (click)="startSpatialSelection('multipoint', 'clear')">
-                        <mat-icon>delete</mat-icon>
-                        Clear
-                    </button>
-                </div>
-
-                <mat-radio-button value="polygon">Draw polygon on the map</mat-radio-button>
-
-                <div *ngIf="activeControl === 'polygon'" class="dropdownChild startClearnBtnDiv">
-                    <button mat-raised-button color="primary" #p1
-                        [class.buttonSelected]="spatialSelectionState['polygon'] && !spatialSelectionState.polygonDisabled"
-                        [disabled]="spatialSelectionState.polygonDisabled"
-                        (click)="startSpatialSelection('polygon', 'start')">
-                        <mat-icon>create</mat-icon>
-                        Select
-                    </button>
-                    <button mat-raised-button color="primary" [disabled]="!(spatialSelectionState.polygonDisabled)"
-                        (click)="startSpatialSelection('polygon', 'clear')">
-                        <mat-icon>delete</mat-icon>
-                        Clear
-                    </button>
-                </div>
-
-                <mat-radio-button value="shapefile"> Load zipped shapefile
-                </mat-radio-button>
-                <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild startClearnBtnDiv">
-
-                    <input type="file" style="display: none" #fileInput accept=".zip" (change)="onChangeFileInput()" />
-                    <button mat-raised-button color="primary" [disabled]="!shapefileControlState.start"
-                        (click)="onClickFileInputButton()">
-                        <mat-icon>cloud_upload</mat-icon>
-                        Select
-                    </button>
-                    <button mat-raised-button color="primary"
-                        [disabled]="activeControl === 'shapefile' && !shapefileControlState.cancel"
-                        (click)="removeShapeFile()">
-                        <mat-icon>delete</mat-icon>
-                        Clear
-                    </button>
-
-                </div>
-                <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild">
-                    <span *ngIf="fileUploadError !== ''" style="color: 'red'">{{fileUploadError}}<br></span>
-                    <br> Don't have a shapefile? You can use <a href="https://texasforestinfo.tamu.edu/mapmyproperty/"
-                        target="_blank">MapMyProperty</a> to create one.
-                </div>
-            </mat-radio-group>
-
-            <b>Step 2: </b><br>
-            <button mat-raised-button color="primary" [disabled]="!(mapGraphics.length > 0) || !reportEnabled"
-                (click)="generateStatistics()">
-                <mat-icon>format_list_bulleted</mat-icon>
-                Generate Summary Statistics
-            </button>
-
-            <br /><br />
-            <b>Step 3: </b><br>
-            <button mat-raised-button color="primary" [disabled]="!printBtnEnabled || !(mapGraphics.length > 0)"
-                (click)="generateReport()">
-                <mat-icon>print</mat-icon>
-                Generate Report
-            </button> <br>
-
-            <div *ngIf="!(!printBtnEnabled || !(mapGraphics.length > 0)) ">
-                <a [href]="pdfLink" *ngIf="pdfLink !== ''" target="_blank">Click to view the report</a>
             </div>
         </div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8">
+    <mat-expansion-panel class="mat-elevation-z8" tourAnchor="standardReport">
         <mat-expansion-panel-header class="accordion-header-fill">
             Standard Reports
         </mat-expansion-panel-header>
@@ -130,7 +144,7 @@
 
         </div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8" [expanded]="true">
+    <mat-expansion-panel class="mat-elevation-z8" tourAnchor="printmap">
         <mat-expansion-panel-header class="accordion-header-fill">
             Print Map
         </mat-expansion-panel-header>
@@ -138,7 +152,7 @@
             <app-printmap></app-printmap>
         </div>
     </mat-expansion-panel>
-    <mat-expansion-panel class="mat-elevation-z8">
+    <mat-expansion-panel class="mat-elevation-z8" tourAnchor="mapLegend">
         <mat-expansion-panel-header class="accordion-header-fill">
             Legend
         </mat-expansion-panel-header>

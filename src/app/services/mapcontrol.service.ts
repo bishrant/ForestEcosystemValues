@@ -19,6 +19,7 @@ export class MapcontrolService {
   private generateStatisticsBtnSource = new ReplaySubject<any>();
   private appBusyIndicator = new ReplaySubject<any>();
   private printMapSource = new ReplaySubject<any>();
+  private startTourSource = new ReplaySubject<any>();
 
   // observable streams
   controlActivated$ = this.controlActivatedSource.asObservable();
@@ -34,10 +35,12 @@ export class MapcontrolService {
   filterByCategory$ = this.filterByCategorySource.asObservable();
   appBusyIndicator$ = this.appBusyIndicator.asObservable();
   printMap$ = this.printMapSource.asObservable();
+  startTour$ = this.startTourSource.asObservable();
 
   constructor() { }
 
   graphicsLayerUpdated = (evt: any) => {this.graphicsLayerStatus.next(evt)}
+  startTour = () => this.startTourSource.next(Math.random()*Math.random());
   setMapExtent(extent: any) {
     this.mapExtent.next(extent);
   }
