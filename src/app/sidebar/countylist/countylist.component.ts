@@ -40,10 +40,11 @@ export class CountylistComponent implements OnInit {
     this.store.dispatch(new ChangeReportData(null))
     this.mapControl.filterByCategory(category, null);
   }
+
   constructor(private fb: FormBuilder, private mapControl: MapcontrolService, private store: Store) {
     this.frmGroup = this.fb.group({
-      County: null,
-      Urban: null
+      County: '',
+      Urban: ''
     })
    }
 
@@ -56,6 +57,14 @@ export class CountylistComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value, 'urban'))
     );
+
+    this.mapControl.closeSummaryTable$.subscribe(() => {
+      const _category = (this.frmGroup.get('County').value !== '') ?  'County' :
+                        ((this.frmGroup.get('Urban').value !== '') ?  'Urban' : null);
+      if (_category !== null) {
+        this.clearInput(_category);
+      }
+    })
   }
 
 }
