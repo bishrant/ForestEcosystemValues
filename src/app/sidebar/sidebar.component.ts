@@ -68,7 +68,6 @@ export class SidebarComponent implements OnInit {
       this.sidePanels.closeAll();
       this.store.dispatch(new ChangeReportData(null));
     })
-    this.store.dispatch(new ChangeReportData(dummyReportData));
 
     this.mapControl.closeSummaryTable$.subscribe(() => {
       this.reportEnabled = false;

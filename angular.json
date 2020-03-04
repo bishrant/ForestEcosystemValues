@@ -24,6 +24,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
+            "namedChunks": true,
+            "buildOptimizer": true,
             "customWebpackConfig": {
               "path": "./arcgis.config.js"
             },

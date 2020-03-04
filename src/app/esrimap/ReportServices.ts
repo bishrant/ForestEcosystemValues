@@ -13,7 +13,6 @@ const createFeatureSet = (graphicsArray: any) => {
     });
     const featureSet = new FeatureSet({ features: fs, geometryType: 'polygon', spatialReference: { wkid: 102100 } });
     return featureSet;
-
 }
 
 const createPNGForReport = async (graphicsArray: any) => {
