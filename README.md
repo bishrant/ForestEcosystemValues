@@ -7,3 +7,4 @@ The estimates shown are based on an analysis of forest resources in the area, re
 The results should be viewed as conservative estimates, and are only part of a larger suite of ecosystem services provided by the forest within the area of interest. All values are reported in 2011 constant United States dollar. 
 
 Built using Angular 9 Ivy with ArcGIS JS Webpack.
+![CoverImage](CoverImage.jpg)
