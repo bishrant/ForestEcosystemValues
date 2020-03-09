@@ -57,6 +57,11 @@ export class SummarytableComponent implements OnInit {
     this.mapControl.filterByCategory('County', null);
     this.mapControl.deactivateControl('');
     this.mapControl.clearGraphics();
+    this.mapControl.closeSummaryTable();
+    this.mapControl.setSpatialSelectionState('multipoint', false);
+    this.mapControl.setSpatialSelectionState('polygon', false);
+    this.mapControl.setSpatialSelectionState('multipointDisabled', false);
+    this.mapControl.setSpatialSelectionState('polygonDisabled', false);
   }
   toggleTable = () => {
     this.tableBodyVisible = !this.tableBodyVisible;

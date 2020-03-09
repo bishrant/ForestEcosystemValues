@@ -68,7 +68,11 @@ export class SidebarComponent implements OnInit {
       this.sidePanels.closeAll();
       this.store.dispatch(new ChangeReportData(null));
     })
-    this.store.dispatch(new ChangeReportData(dummyReportData));
+
+    this.mapControl.closeSummaryTable$.subscribe(() => {
+      this.reportEnabled = false;
+      this.removeShapeFile();
+    })
   }
 
   onControlChange = (evt: any) => {
@@ -136,7 +140,7 @@ export class SidebarComponent implements OnInit {
     this.http.post('https://www.arcgis.com/sharing/rest/content/features/generate', form).subscribe((result: any) => {
       if (typeof result.error !== 'undefined') {
         this.fileUploadError = 'Error parsing shapefile.';
-        this.activeControl = null;
+        // this.activeControl = null;
       } else {
         this.fileUploadError = '';
         const features = [];

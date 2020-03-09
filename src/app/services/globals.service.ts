@@ -4,6 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GlobalsService {
-  readonly arcgisUrl: string = 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/';
+  readonly arcgisUrl: string = 'https://tfsgis.tfs.tamu.edu/arcgis/rest/';
   constructor() { }
 }

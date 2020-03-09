@@ -33,7 +33,7 @@ export class EsrimapComponent implements OnInit {
     layout: 'ForestValues_Print'
   });
   printParams = new PrintParameters();
-  printMapTask = new PrintTask({ url: 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/services/ForestEcosystemValues/PrintPDF/GPServer/Export%20Web%20Map' });
+  printMapTask = new PrintTask({ url: this.globals.arcgisUrl+'services/ForestEcosystemValues/ExportWebMap/GPServer/Export%20Web%20Map' });
   sketchVM = new SketchViewModel();
 
   constructor(private mapControl: MapcontrolService, private geojsonData: GeojsonDataService, private globals: GlobalsService) { }

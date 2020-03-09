@@ -9,8 +9,15 @@
   <!-- <script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script> -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body class="mat-typography">
+  <script>
+    if (navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)))
+    {
+      document.getElementsByTagName('body')[0].innerHTML = "<h1>Forest Ecosystem Values</h1><br>This application is not designed to be used in Internet Explorer. Please use Google Chrome, Microsoft Edge, Safari or Firefox."; 
+    }
+    </script>
   <app-root></app-root>
 </body>
 </html>

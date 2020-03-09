@@ -20,6 +20,7 @@ export class MapcontrolService {
   private appBusyIndicator = new ReplaySubject<any>();
   private printMapSource = new ReplaySubject<any>();
   private startTourSource = new ReplaySubject<any>();
+  private closeSummaryTableSource = new ReplaySubject<any>();
 
   // observable streams
   controlActivated$ = this.controlActivatedSource.asObservable();
@@ -36,6 +37,7 @@ export class MapcontrolService {
   appBusyIndicator$ = this.appBusyIndicator.asObservable();
   printMap$ = this.printMapSource.asObservable();
   startTour$ = this.startTourSource.asObservable();
+  closeSummaryTable$ = this.closeSummaryTableSource.asObservable();
 
   constructor() { }
 
@@ -110,6 +112,10 @@ export class MapcontrolService {
 
   setPrintMapStatus = (status: any, message: any) => {
     this.printMapSource.next({status, message});
+  }
+
+  closeSummaryTable = () => {
+    this.closeSummaryTableSource.next(Math.random()* Math.random());
   }
 
 }
