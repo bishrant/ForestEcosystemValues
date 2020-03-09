@@ -1,7 +1,7 @@
 import Geoprocessor from 'arcgis-js-api/tasks/Geoprocessor';
 import FeatureSet = require('arcgis-js-api/tasks/support/FeatureSet');
 
-const arcgisServer = 'https://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/'
+const arcgisServer = 'https://tfsgis.tfs.tamu.edu/arcgis/rest/'
 const reportGP: any = Geoprocessor(arcgisServer + 'services/ForestEcosystemValues/CalculateForestValues/GPServer/CalculateForestValues');
 reportGP.outSpatialReference = { wkid: 102100 };
 const printGP: any = Geoprocessor(arcgisServer + 'services/ForestEcosystemValues/ExportReportImage/GPServer/ExportReportImage');
