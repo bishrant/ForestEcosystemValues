@@ -1,4 +1,4 @@
-#Forest Ecosystem Values
+#Forest Ecosystem Values                                    <p style='text-align: right;'> ![Node.js Build CI](https://github.com/bishrant/ForestEcosystemValues/workflows/Node.js%20CI/badge.svg) </p>
 
 Forest Ecosystem Values provides an estimate of the economic values of several non-market ecosystem services provided by the forests in Texas. Currently, estimated values of forest ecosystem services are available for air quality, biodiversity, carbon, cultural, and watershed services. 
  
