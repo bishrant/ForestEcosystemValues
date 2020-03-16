@@ -74,9 +74,6 @@
           "options": {
             "browserTarget": "fev:build"
           },
-          "customWebpackConfig": {
-            "path": "./arcgis.config.js"
-          },
           "configurations": {
             "production": {
               "browserTarget": "angular-builder-esri:build"
