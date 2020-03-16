@@ -156,7 +156,9 @@ export class EsrimapComponent implements OnInit {
             restoreBaseMap(_basemap);
           });
         }
-      })
+      });
+
+      this.mapControl.closeSummaryTable$.subscribe(() => multiPointLayer.graphics.removeAll());
       return this.view;
     } catch (error) {
       console.log('Esri: ', error);

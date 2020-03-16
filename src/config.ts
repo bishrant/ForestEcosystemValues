@@ -8,6 +8,7 @@ esriConfig.workers.loaderConfig = {
   baseUrl: `${DEFAULT_WORKER_URL}dojo`,
   packages: [
     { name: 'esri', location: DEFAULT_WORKER_URL + 'esri' },
+    { name: 'arcgis-js-api', location: DEFAULT_WORKER_URL + 'arcgis-js-api' },
     { name: 'dojo', location: DEFAULT_WORKER_URL + 'dojo' },
     { name: 'dojox', location: DEFAULT_WORKER_URL + 'dojox' },
     { name: 'dijit', location: DEFAULT_WORKER_URL + 'dijit' },
