@@ -113,7 +113,8 @@
                 </button> <br>
 
                 <div *ngIf="!(!printBtnEnabled || !(mapGraphics.length > 0)) ">
-                    <a [href]="pdfLink" *ngIf="pdfLink !== ''" target="_blank">Click to view the report</a>
+                    <br>
+                    <a [href]="pdfLink" *ngIf="pdfLink !== ''" target="_blank" style="margin-left: 10px;">Click to view the report</a>
                 </div>
             </div>
         </div>
@@ -125,20 +126,20 @@
         <div class="accordionContent">
             <div class="standardReport">
                 <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
-                <a href="/assets/static/Central-West-Texas-Summary-Report.pdf" target="_blank">Central - West Texas
+                <a href="./assets/static/Central-West-Texas-Summary-Report.pdf" target="_blank">Central - West Texas
                     Summary Report</a>
             </div>
             <div class="standardReport">
                 <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
-                <a href="/assets/static/East-Texas-Summary-Report.pdf" target="_blank">East Texas Summary Report</a>
+                <a href="./assets/static/East-Texas-Summary-Report.pdf" target="_blank">East Texas Summary Report</a>
             </div>
             <div class="standardReport">
                 <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
-                <a href="/assets/static/Texas-Summary-Report.pdf" target="_blank">Texas Summary Report</a>
+                <a href="./assets/static/Texas-Summary-Report.pdf" target="_blank">Texas Summary Report</a>
             </div>
             <div class="standardReport">
                 <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
-                <a href="/assets/static/Texas-Forest-Ecosystem-Services-Report.pdf" target="_blank">Forest Ecosystem
+                <a href="./assets/static/Texas-Forest-Ecosystem-Services-Report.pdf" target="_blank">Forest Ecosystem
                     Services Report</a>
             </div>
 

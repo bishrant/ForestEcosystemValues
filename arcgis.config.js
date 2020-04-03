@@ -42,7 +42,7 @@ module.exports = {
         cache: true,
         parallel: true,
         sourceMap: false,
-        
+
         terserOptions: {
           mangle: true,
           output: {

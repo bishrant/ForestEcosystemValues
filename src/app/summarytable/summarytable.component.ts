@@ -30,9 +30,10 @@ export class SummarytableComponent implements OnInit {
   constructor(private mapControl: MapcontrolService, private store: Store) { }
   ngOnInit() {
     this.reportData$.subscribe(dt => {
-      if (dt !== null) {
+      if (dt.data !== null) {
+        this.tableBodyVisible = true;
         this.data = null;
-        this.data = JSON.parse(dt);
+        this.data = JSON.parse(dt.data);
         this.sData = this.data.summaryReportResults;
         this.individual = this.data.summaryResults;
         this.summaryData = [];
@@ -42,14 +43,14 @@ export class SummarytableComponent implements OnInit {
             avg: this.sData[eco.name + '_forestValuePerAcre'],
             totalvalue: this.sData[eco.name + '_totalThousandDollarsPerYear']
           };
-          this.summaryData.push(d);
+         this.summaryData.push(d);
         });
       } else {
         this.data = null;
         this.sData = null;
         this.individual = null;
       }
-    })
+    });
   }
 
   closeTable = () => {

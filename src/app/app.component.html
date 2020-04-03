@@ -46,7 +46,7 @@
         <mat-sidenav-content fxFlex="auto">
             <mat-sidenav-container fxFlex="auto">
                 <mat-sidenav [opened]="sidenavOpened" position="start" mode="side" #sidebar class="sidebar primaryBg" tourAnchor="1" >
-                    <app-sidebar class="primaryBg"></app-sidebar>
+                    <app-sidebar class="primaryBg" (printingCompleted)="openPrintMessage($event)"></app-sidebar>
                     <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened"
                         class="sidebarCloseBtn">
                         <mat-icon>arrow_back_ios</mat-icon> Hide

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MapcontrolService } from '../services/mapcontrol.service';
 import { HttpClient } from '@angular/common/http';
 import { Store, Select } from '@ngxs/store';
@@ -7,6 +7,7 @@ import { ChangeReportData } from '../shared/sidebarControls.actions';
 import { SidebarControlsState } from '../shared/sidebarControls.state';
 import { TourService } from 'ngx-tour-md-menu';
 import { dummyReportData } from '../esrimap/Variables';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -17,6 +18,7 @@ export class SidebarComponent implements OnInit {
   @Select(SidebarControlsState.getReportDataFromState) reportData$;
   @ViewChild('fileInput') fileInput;
   @ViewChild('accordion') sidePanels;
+  @Output() printingCompleted= new EventEmitter<any>();
   pdfLink = '';
   reportData: any;
   printBtnEnabled = false;
@@ -52,9 +54,9 @@ export class SidebarComponent implements OnInit {
     })
 
     this.reportData$.subscribe(dt => {
-      if (dt !== null) { this.printBtnEnabled = true; }
+      if (dt.data !== null) { this.printBtnEnabled = true; }
       else {if (this.printBtnEnabled) {this.printBtnEnabled = false}}
-      this.reportData = dt;
+      this.reportData = dt.data;
     });
     this.tourService.stepShow$.subscribe((step: any) => {
       if (step.anchorId === 'generateStatisticsBtn') {
@@ -115,6 +117,7 @@ export class SidebarComponent implements OnInit {
       }).subscribe((dd: any) => {
         this.pdfLink = dd.fileName;
         this.mapControl.setAppBusyIndicator(false);
+        this.printingCompleted.emit({type: 'Generate Report', message: 'Successfully created PDF report for the selected area.', url: dd.fileName})
       });
       reportSubscription.add(() => this.mapControl.setAppBusyIndicator(false))
     })

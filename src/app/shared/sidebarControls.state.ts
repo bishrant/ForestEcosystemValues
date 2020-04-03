@@ -8,8 +8,9 @@ import { Injectable } from '@angular/core';
     defaults:
     {
         controlName: 'test',
-        reportData: null,
-        activeLayers: null
+        reportData: {id: Math.random(), data: null},
+        activeLayers: null,
+        id: 0
     }
 })
 @Injectable()
@@ -22,6 +23,11 @@ export class SidebarControlsState {
     @Selector()
     static getReportDataFromState(state: SidebarControl) {
         return state.reportData
+    }
+
+    @Selector()
+    static getState(state: SidebarControl) {
+        return state;
     }
 
     @Selector()
@@ -38,13 +44,12 @@ export class SidebarControlsState {
     @Action(ChangeReportData)
     changeReportData(ctx: StateContext<SidebarControl>, { payload }: ChangeReportData) {
         const state = ctx.getState();
-        ctx.setState({ ...state, reportData: payload });
+        ctx.setState({ ...state, reportData: {id: Math.random(), data: payload}, id: Math.random() });
     }
 
     @Action(ChangeActiveLayers)
     changeActiveLayers(ctx: StateContext<SidebarControl>, { payload }: ChangeActiveLayers) {
         // const state = ctx.getState();
-        // console.log(state, payload);
         // state.activeLayers = payload;
         // ctx.setState({...state});
         // ctx.setState({ ...state, activeLayers: payload });

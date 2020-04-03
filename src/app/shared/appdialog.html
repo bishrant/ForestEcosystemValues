@@ -23,8 +23,12 @@
     The estimates shown are based on an analysis of forest resources in the area, results of existing literature, and non-market valuation techniques. 
     Ecosystem service values are also reported by the contribution of FIA-defined forests in rural and urban areas. 
     <br><br>
-    Texas A&M Forest Service is currently assessing ecosystem service values for forests and trees in urban and community areas throughout the state, and will add the results to this application upon completion. 
-     
     The results should be viewed as conservative estimates, and are only part of a larger suite of ecosystem services provided by the forest within the area of interest. All values are reported in 2011 constant United States dollar. 
+    </div>
+
+    <div *ngIf="data.type === 'Generate Report'">
+        {{data.message}}
+        <br>
+       <span *ngIf="data.url !== ''">Please click <a target="_blank" (click)="close()" [href]="data.url" style="color:blue; text-decoration: underline;">here</a> to open it.</span> 
     </div>
 </div>

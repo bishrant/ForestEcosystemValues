@@ -29,9 +29,13 @@ export class AppComponent implements AfterViewInit, AfterContentInit, OnInit  {
     })
   }
 
-  openDialog = (type: string) => {
+  openDialog = (type: any) => {
     if (type ==='help') {this.tourService.start()}
     else {this.dialog.open(AppDialogComponent, {data: {type}});}
+  }
+
+  openPrintMessage = (data: any) => {
+    this.dialog.open(AppDialogComponent, {data});
   }
 
   ngOnInit() {
