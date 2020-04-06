@@ -1,4 +1,4 @@
-<div *ngFor="let item of dataTable; let masterIndex = index; trackBy: trackByIndex" class="layerlistComponent">
+<!-- <div *ngFor="let item of dataTable; let masterIndex = index; trackBy: trackByIndex" class="layerlistComponent">
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header>
       <mat-checkbox color="primary" [(ngModel)]="dataTable[masterIndex].defaultVisibility" value="{{item.id}}"
@@ -7,18 +7,37 @@
 
       </mat-checkbox>
 
-      <!-- <button mat-icon-button aria-label="icon" class="opacityBtn">
-                <mat-icon>favorite</mat-icon>
-              </button>
-              <div>
 
-            </div> -->
     </mat-expansion-panel-header>
     <div class="accordionContent">
       <div *ngFor="let itemChild of item.subLayers">
         <mat-checkbox color="primary" [(ngModel)]="itemChild.defaultVisibility" value="{{itemChild.id}}"
           name="list_name_child" (ngModelChange)="childCheck(item,item.subLayers)">
           {{itemChild.name}}
+        </mat-checkbox> <br>
+      </div>
+      <br>
+      <mat-slider min="1" max="5" step="0.5" value="1.5"></mat-slider>
+    </div>
+
+  </mat-expansion-panel>
+</div> -->
+<div class="layerlistComponent">
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-checkbox color="primary" [(ngModel)]="layerInfo['boundaries']" (ngModelChange)="parentCheck('boundaries')"
+        (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+        Boundaries
+
+      </mat-checkbox>
+
+
+    </mat-expansion-panel-header>
+    <div class="accordionContent">
+      <div *ngFor="let sublayer of layerInfo.boundaries.subLayers">
+        <mat-checkbox color="primary" [(ngModel)]="sublayer.defaultVisibility" value="{{sublayer.id}}"
+          name="list_name_child">
+          {{sublayer.name}}
         </mat-checkbox> <br>
       </div>
       <br>

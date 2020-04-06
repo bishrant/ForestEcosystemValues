@@ -34,14 +34,15 @@ module.exports = {
   },
   output: {
     filename: "[name].[chunkhash].js",
-    publicPath: ""
+    publicPath: "",
+
   },
   optimization: {
     minimizer: [
       new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: false,
+        sourceMap: true,
 
         terserOptions: {
           mangle: true,
@@ -50,7 +51,10 @@ module.exports = {
           }
         }
       })
-    ]
+    ],
+    namedChunks: true,
+    // minimize: true, splitChunks: { minChunks: Infinity, chunks: 'all' },
+    namedModules: true
   },
   plugins: [
     new HtmlWebPackPlugin({

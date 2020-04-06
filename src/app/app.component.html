@@ -1,77 +1,83 @@
-
-
 <router-outlet></router-outlet>
 
 <div fxLayout="column" fxLayoutAlign=" stretch" class="parent">
-    <mat-toolbar color="primary" class="header" tourAnchor="11">
-        <mat-toolbar-row [class.mat-elevation-z8]="true">
-            <a href="https://tfsweb.tamu.edu" target="_blank" class="logo">
-                <img src="assets/TFS_Maroon.png" class="largeLogo" />
-            </a>
-            <a href="https://tfsweb.tamu.edu" target="_blank" class="logo">
-            <img src="assets/TFS_Star_Maroon.png" class="smallLogo" />
+  <mat-toolbar color="primary" class="header" tourAnchor="11">
+    <mat-toolbar-row [class.mat-elevation-z8]="true">
+      <a href="https://tfsweb.tamu.edu" target="_blank" class="logo">
+        <img src="assets/TFS_Maroon.png" class="largeLogo" />
+      </a>
+      <a href="https://tfsweb.tamu.edu" target="_blank" class="logo">
+        <img src="assets/TFS_Star_Maroon.png" class="smallLogo" />
+      </a>
+      <span>Forest Ecosystem Values</span>
+      <span class="spacer"></span>
+      <div fxShow="true" fxHide.lt-md="true">
+        <a mat-icon-button class="socialMedia" target="_blank"
+          href="https://www.facebook.com/sharer/sharer.php?u=https://txfipdev.tfs.tamu.edu/fev"><img class="logoBtn"
+            src="assets/facebook.svg" /></a>
+        <a mat-icon-button class="socialMedia" target="_blank"
+          href="https://twitter.com/intent/tweet?url=https://txfipdev.tfs.tamu.edu/fev/&hashtags=ForestValues, Ecosystem, TFS"><img
+            class='logoBtn' src="assets/twitter.png" /></a>
+        <a mat-button (click)="openDialog('About')"> About </a>
+        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-button> Contact </a>
+        <a (click)="openDialog('help')" mat-button> Help </a>
+        <a mat-button (click)="openDialog('Disclaimer')"> Disclaimer </a>
+      </div>
+      <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-sidenav-container fxFlex="auto">
+    <mat-sidenav #sidenav position="end">
+      <mat-nav-list>
+        <span mat-list-item>
+          <a mat-icon-button class="socialMedia" target="_blank"
+            href="https://www.facebook.com/sharer/sharer.php?u=https://txfipdev.tfs.tamu.edu/fev"><img class="logoBtn"
+              src="assets/facebook.svg" /></a>
+          <a mat-icon-button class="socialMedia" target="_blank"
+            href="https://twitter.com/intent/tweet?url=https://txfipdev.tfs.tamu.edu/fev/&hashtags=ForestValues, Ecosystem, TFS"><img
+              class='logoBtn' src="assets/twitter.png" /></a>
+
+        </span>
+        <a mat-list-item (click)="openDialog('About')"> About </a>
+        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-list-item> Contact </a>
+        <a (click)="openDialog('help')" mat-list-item> Help </a>
+        <a mat-list-item (click)="openDialog('Disclaimer')"> Disclaimer </a>
+        <a (click)="sidenav.toggle()" mat-list-item>
+          <mat-icon>close</mat-icon> Close
         </a>
-            <span>Forest Ecosystem Values</span>
-            <span class="spacer"></span>
-            <div fxShow="true" fxHide.lt-md="true">
-                <a mat-icon-button class="socialMedia" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://txfipdev.tfs.tamu.edu/fev" ><img class="logoBtn" src="assets/facebook.svg"/></a>
-                <a mat-icon-button class="socialMedia" target="_blank" href="https://twitter.com/intent/tweet?url=https://txfipdev.tfs.tamu.edu/fev/&hashtags=ForestValues, Ecosystem, TFS"><img class='logoBtn' src="assets/twitter.png"/></a>
-                <a mat-button (click)="openDialog('About')"> About </a>
-                <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-button> Contact </a>
-                <a  (click)="openDialog('help')" mat-button> Help </a>
-                <a  mat-button  (click)="openDialog('Disclaimer')"> Disclaimer </a>
-            </div>
-            <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
-                <mat-icon>menu</mat-icon>
-            </button>
-        </mat-toolbar-row>
-    </mat-toolbar>
-    <mat-sidenav-container fxFlex="auto">
-        <mat-sidenav #sidenav position="end">
-            <mat-nav-list>
-                <span mat-list-item>
-                    <a mat-icon-button class="socialMedia" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://txfipdev.tfs.tamu.edu/fev" ><img class="logoBtn" src="assets/facebook.svg"/></a>
-                    <a mat-icon-button class="socialMedia" target="_blank" href="https://twitter.com/intent/tweet?url=https://txfipdev.tfs.tamu.edu/fev/&hashtags=ForestValues, Ecosystem, TFS"><img class='logoBtn' src="assets/twitter.png"/></a>
-      
-                </span>
-                <a  mat-list-item  (click)="openDialog('About')"> About </a>
-                <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-list-item> Contact </a>
-                <a  (click)="openDialog('help')" mat-list-item> Help </a>
-                <a  mat-list-item (click)="openDialog('Disclaimer')"> Disclaimer </a>
-                <a (click)="sidenav.toggle()" mat-list-item>
-                    <mat-icon>close</mat-icon> Close
-                </a>
-            </mat-nav-list>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content fxFlex="auto">
+      <mat-sidenav-container fxFlex="auto">
+        <mat-sidenav [opened]="sidenavOpened" position="start" mode="side" #sidebar class="sidebar primaryBg"
+          tourAnchor="1">
+          <app-sidebar class="primaryBg" (printingCompleted)="openPrintMessage($event)"></app-sidebar>
+          <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened" class="sidebarCloseBtn">
+            <mat-icon>arrow_back_ios</mat-icon> Hide
+          </button>
         </mat-sidenav>
-        <mat-sidenav-content fxFlex="auto">
-            <mat-sidenav-container fxFlex="auto">
-                <mat-sidenav [opened]="sidenavOpened" position="start" mode="side" #sidebar class="sidebar primaryBg" tourAnchor="1" >
-                    <app-sidebar class="primaryBg" (printingCompleted)="openPrintMessage($event)"></app-sidebar>
-                    <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened"
-                        class="sidebarCloseBtn">
-                        <mat-icon>arrow_back_ios</mat-icon> Hide
-                    </button>
-                </mat-sidenav>
-                <mat-sidenav-content tourAnchor="map" >
-                    <div fxFlex="auto" class="parentMap">
-                        <app-esrimap></app-esrimap>
-                        <button mat-raised-button color="primary"
-                            (click)="sidenavOpened = !sidenavOpened" class="siderbarOpenBtn" [ngClass]="{'visible': !sidenavOpened, 'hidden': sidenavOpened}">
-                            <mat-icon>arrow_forward_ios</mat-icon>Show
-                        </button>
-                    </div>
-                </mat-sidenav-content>
-            </mat-sidenav-container>
+        <mat-sidenav-content tourAnchor="map">
+          <div fxFlex="auto" class="parentMap">
+            <app-esrimap></app-esrimap>
+            <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened" class="siderbarOpenBtn"
+              [ngClass]="{'visible': !sidenavOpened, 'hidden': sidenavOpened}">
+              <mat-icon>arrow_forward_ios</mat-icon>Show
+            </button>
+          </div>
         </mat-sidenav-content>
-    </mat-sidenav-container>
-    <div class="reportDialogContainer" cdkDragBoundary=".parent" cdkDrag >
-        <app-summarytable style="width: 100%; height: 100%" tourAnchor="summaryTable">
-        </app-summarytable>
-    </div>
+      </mat-sidenav-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <div class="reportDialogContainer" cdkDragBoundary=".parent" cdkDrag>
+    <app-summarytable style="width: 100%; height: 100%" tourAnchor="summaryTable">
+    </app-summarytable>
+  </div>
 </div>
-  <tour-step-template></tour-step-template> 
-  <!-- <button (click)="tour()">OPen</button> -->
+<tour-step-template></tour-step-template>
+<!-- <button (click)="tour()">OPen</button> -->
 <div class="parent progressContainer" *ngIf="appBusy">
-    <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'">
-    </mat-progress-spinner>
+  <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'">
+  </mat-progress-spinner>
 </div>
