@@ -42,7 +42,7 @@ module.exports = {
       new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true,
+        sourceMap: false,
 
         terserOptions: {
           mangle: true,
