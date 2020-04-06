@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start-mac": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng serve",
     "build": "ng build --prod --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
