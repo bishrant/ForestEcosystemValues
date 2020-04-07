@@ -1,12 +1,9 @@
-@import "../styles.scss";
-@import "./variables.scss";
+@import "./styles/colors";
+@import "./variables";
 
 .sidebar {
   width: 300px;
   overflow: hidden;
-  //     -webkit-box-shadow: 2px -2px 5px 0px rgba(0,0,0,0.75);
-  // -moz-box-shadow: 2px -2px 5px 0px rgba(0,0,0,0.75);
-  // box-shadow: 2px -2px 5px 0px rgba(0,0,0,0.75);
 }
 
 .spacer {
@@ -34,10 +31,10 @@
   box-shadow: 0px -1px 2px 1px rgba(0, 0, 0, 0.25);
   z-index: 8;
 }
-.socialMedia{
+.socialMedia {
   height: 70%;
   .logoBtn {
-    height:23px;
+    height: 23px;
   }
 }
 
@@ -116,10 +113,10 @@
   left: 0;
   top: 0;
   z-index: 10;
-  transition: visibility 0.5s linear, opacity .3s linear;
+  transition: visibility 0.5s linear, opacity 0.3s linear;
 }
 
-.siderbarOpenBtn.hidden{
+.siderbarOpenBtn.hidden {
   visibility: hidden;
   opacity: 0;
   transition: unset;
@@ -128,5 +125,5 @@
 .siderbarOpenBtn.visible {
   opacity: 1;
   visibility: visible;
-  transition: opacity .3s linear;
+  transition: opacity 0.3s linear;
 }

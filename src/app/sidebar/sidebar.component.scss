@@ -1,10 +1,5 @@
-@import "~@angular/material/theming";
-// Include non-theme styles for core.
-@include mat-core();
-@import "../../styles.scss";
-// .mat-expansion-panel:hover, .mat-expansion-panel-content:hover {
-//     // background: unset !important;
-// }
+@import "../styles/colors";
+
 .mat-expansion-panel {
   border-radius: 0 !important;
   margin: 5px;
@@ -69,8 +64,8 @@
 .buttonSelected {
   border: 2px solid red;
 }
-.startClearnBtnDiv{
+.startClearnBtnDiv {
   display: flex;
-    justify-content: space-evenly;
-    width: 90%;
+  justify-content: space-evenly;
+  width: 90%;
 }

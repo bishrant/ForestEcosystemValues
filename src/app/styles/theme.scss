@@ -1,0 +1,19 @@
+@import "~@angular/material/theming";
+@include mat-core();
+@import "./colors";
+@import "./functions";
+
+// Create the theme object (a Sass map containing all of the palettes).
+$fev-theme: mat-light-theme($fev-primary, $fev-secondary, $fev-warn);
+
+// You can put any color here. I've chosen mat-color($my-app-primary, 700)
+$fev-foreground: fev-dark-theme-foreground(rgb(0, 0, 0));
+
+$my-app-theme-custom: map-merge(
+  $fev-theme,
+  (
+    foreground: $fev-foreground,
+  )
+);
+
+@include angular-material-theme($my-app-theme-custom);

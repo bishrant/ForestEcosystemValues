@@ -1,124 +1,4 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@import "~@angular/material/theming";
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat-core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$tanColor: (
-  50: #f9f6f0,
-  100: #f0e8da,
-  200: #e7d8c1,
-  300: #ddc8a8,
-  400: #d5bd95,
-  500: #ceb182,
-  600: #c9aa7a,
-  700: #c2a16f,
-  800: #bc9865,
-  900: #b08852,
-  A100: #ffffff,
-  A200: #fff1df,
-  A400: #ffdaac,
-  A700: #ffcf92,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #000000,
-    600: #000000,
-    700: #000000,
-    800: #000000,
-    900: #000000,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000
-  )
-);
-
-$tanDark: (
-  50: #f3ede6,
-  100: #e0d1c2,
-  200: #cbb399,
-  300: #b69470,
-  400: #a77d51,
-  500: #976632,
-  600: #8f5e2d,
-  700: #845326,
-  800: #7a491f,
-  900: #693813,
-  A100: #ffc5a0,
-  A200: #ffa56d,
-  A400: #ff863a,
-  A700: #ff7720,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000
-  )
-);
-
-$fev-primary: mat-palette($tanColor);
-$fev-secondary: mat-palette($tanDark);
-$fev-accent: mat-palette($mat-pink, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$fev-warn: mat-palette($mat-red);
-
-// Create the theme object (a Sass map containing all of the palettes).
-$fev-theme: mat-light-theme($fev-primary, $fev-secondary, $fev-warn);
-
-@function fev-dark-theme-foreground($color) {
-  @return (
-    base: $color,
-    divider: $black-12-opacity,
-    dividers: $black-12-opacity,
-    disabled: rgba($color, 0.38),
-    disabled-button: rgba($color, 0.38),
-    disabled-text: rgba($color, 0.38),
-    hint-text: rgba($color, 0.38),
-    secondary-text: rgba($color, 0.54),
-    icon: rgba($color, 0.54),
-    icons: rgba($color, 0.54),
-    text: rgba($color, 0.87),
-    slider-off: rgba($color, 0.26),
-    slider-off-active: rgba($color, 0.38)
-  );
-}
-
-// You can put any color here. I've chosen mat-color($my-app-primary, 700)
-$fev-foreground: fev-dark-theme-foreground(rgb(0, 0, 0));
-
-$my-app-theme-custom: map-merge(
-  $fev-theme,
-  (
-    foreground: $fev-foreground
-  )
-);
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($my-app-theme-custom);
+@import "./app/styles/theme.scss";
 
 html,
 body {
@@ -187,25 +67,25 @@ body {
 }
 
 .esri-ui-bottom-right {
-    flex-flow: column-reverse !important;
+  flex-flow: column-reverse !important;
 }
 
 .mat-dialog-container {
-    display: block;
-    padding: 0px !important;
-    border-radius: 4px;
-    box-sizing: border-box;
-    overflow: auto;
-    outline: 0;
-    width: 100%;
-    max-width: 700px;
-    height: 100%;
-    min-height: inherit;
-    max-height: inherit;
+  display: block;
+  padding: 0px !important;
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: auto;
+  outline: 0;
+  width: 100%;
+  max-width: 700px;
+  height: 100%;
+  min-height: inherit;
+  max-height: inherit;
 }
 
 .dialogContent {
-    padding: 20px;
+  padding: 20px;
 }
 
 .mat-menu-panel {

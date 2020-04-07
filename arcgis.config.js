@@ -17,7 +17,20 @@ module.exports = {
   node: {
     process: false,
     global: false,
-    fs: "empty"
+    fs: "empty",
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        node_vendors: {
+          test: /[\\/]node_modules[\\/]arcgis-js-api/,
+          chunks: "all",
+          priority: 1
+        }
+      }
+    },
+    namedChunks: true,
+    namedModules: true
   }
 };
 // const ArcGISPlugin = require("@arcgis/webpack-plugin");
