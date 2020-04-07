@@ -15,8 +15,14 @@ export class LegendComponent implements OnInit {
   constructor(private http: HttpClient, private globals: GlobalsService, private mapControl: MapcontrolService) { }
 
   updateLegend = () => {
-    const subLayers = this.activeMapLayers.map((a: any) => a.subLayers).flat();
-    const activeSubLayers = subLayers.filter(yy => yy.defaultVisibility === true).map(i => i.id);
+    console.log(this.activeMapLayers);
+    let _subLayers = [];
+    for (let key in this.activeMapLayers) {
+      const _master = this.activeMapLayers[key];
+      const _subLrs = _master.subLayers.filter(l => l.visible && _master.visible);
+      if (_subLrs.length > 0) _subLayers.push(_subLrs);
+    }
+    const activeSubLayers = _subLayers.flat().map((i) => i.id);
     this.visibleLayers = this.allLayers.filter(v => activeSubLayers.indexOf(v.layerId) !== -1);
   }
 
