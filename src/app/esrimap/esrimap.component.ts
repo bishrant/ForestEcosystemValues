@@ -105,12 +105,16 @@ export class EsrimapComponent implements OnInit {
       this.mapControl.activeLayers$.subscribe((lr) => {
         const subLrs = [];
         if (lr !== null) {
-          lr.forEach(master => {
+          for (let m in lr) {
+            let master = lr[m];
             master.subLayers.forEach(sub => {
-              const _opacity = master.name === 'Boundaries' ? 0.5 : 1
-              subLrs.push({ id: sub.id, visible: sub.defaultVisibility, opacity: _opacity })
-            });
-          });
+              subLrs.push({
+                id: sub.id,
+                visible: sub.visible && master.visible,
+                opacity: (100 - master.opacity) / 100,
+              });
+            })
+          }
         }
         baseLayer.sublayers = subLrs.reverse();
       })
