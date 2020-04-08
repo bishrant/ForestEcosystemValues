@@ -44,4 +44,11 @@
     <span *ngIf="data.url !== ''">Please click <a target="_blank" (click)="close()" [href]="data.url"
         style="color:blue; text-decoration: underline;">here</a> to open it.</span>
   </div>
+
+  <div *ngIf="data.type === 'Print Map'">
+    {{data.message}}
+    <br>
+    <span *ngIf="data.url !== ''">Please click <a target="_blank" (click)="close()" [href]="data.url"
+        style="color:blue; text-decoration: underline;">here</a> to open it.</span>
+  </div>
 </div>

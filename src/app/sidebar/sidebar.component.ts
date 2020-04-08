@@ -152,6 +152,15 @@ export class SidebarComponent implements OnInit {
     });
   };
 
+  printMapCompleted = (event$) => {
+    console.log(event$);
+    this.printingCompleted.emit({
+      type: "Print Map",
+      message: "Successfully created PDF map for the selected area.",
+      url: event$//dd.fileName,
+    });
+  };
+
   generateGraphicsFromSHP = (file: File) => {
     const form = new FormData();
     const publishParams: any = {
@@ -192,7 +201,8 @@ export class SidebarComponent implements OnInit {
               this.shapefileControlState = { start: false, cancel: true };
               this.mapControl.shapefileUploaded(features);
             } else {
-              this.fileUploadError = "Error parsing shapefile. Please make sure the zipped file consists valid polygon geometry.";
+              this.fileUploadError =
+                "Error parsing shapefile. Please make sure the zipped file consists valid polygon geometry.";
             }
           }
         },
