@@ -22,7 +22,7 @@ export class SummarytableComponent implements OnInit {
     { name: 'airquality', display: 'Air Quality' },
     { name: 'carbon', display: 'Carbon' },
     { name: 'watershed', display: 'Water' },
-    { name: 'biodiversity', display: 'Bio-diversity' },
+    { name: 'biodiversity', display: 'Biodiversity' },
     { name: 'cultural', display: 'Cultural' },
     { name: 'total', display: 'Total' }
   ];

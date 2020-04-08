@@ -147,7 +147,7 @@
       Print Map
     </mat-expansion-panel-header>
     <div class="accordionContent">
-      <app-printmap></app-printmap>
+      <app-printmap (printingCompleted)="printMapCompleted($event)"></app-printmap>
     </div>
   </mat-expansion-panel>
   <mat-expansion-panel class="mat-elevation-z8" tourAnchor="mapLegend">
