@@ -67,7 +67,8 @@
 .startClearnBtnDiv {
   display: flex;
   justify-content: space-evenly;
-  width: 90%;
+  width: 100%;
+  margin-left: -10px !important;
 }
 
 .tableNumber {

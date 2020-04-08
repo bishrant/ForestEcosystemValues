@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as promiseUtils from 'arcgis-js-api/core/promiseUtils';
 import createMapView from './mapView';
-import { SetupSketchViewModel, SelectMultipleCounties, SelectByPolygon } from './SelectCounties';
+import { SetupSketchViewModel, SelectMultipleCounties } from './SelectCounties';
 import SketchViewModel from 'arcgis-js-api/widgets/Sketch/SketchViewModel';
 import { createGraphicsLayer, MultiPointLayer, createGraphicsFromShp } from './GraphicsLayer';
 import { MapcontrolService } from '../services/mapcontrol.service';
@@ -79,7 +79,6 @@ export class EsrimapComponent implements OnInit {
             return graphic;
           })
           graphicsLayer.addMany(_features);
-          console.log(event, this.sketchVM);
           this.busy = false;
         }
         if (event.state === 'complete') {

@@ -153,11 +153,10 @@ export class SidebarComponent implements OnInit {
   };
 
   printMapCompleted = (event$) => {
-    console.log(event$);
     this.printingCompleted.emit({
       type: "Print Map",
       message: "Successfully created PDF map for the selected area.",
-      url: event$//dd.fileName,
+      url: event$, //dd.fileName,
     });
   };
 
@@ -221,13 +220,10 @@ export class SidebarComponent implements OnInit {
       );
       if (mmpAreaPolygons.length > 0) {
         const createFile: ZipTask = this.zipService.getData(mmpAreaPolygons[0]);
-        console.log(createFile);
         createFile.data.subscribe((blob) => {
-          console.log("prog ", blob);
           this.file = new File([blob], mmpAreaPolygons[0].filename, {
             lastModified: Date.now(),
           });
-          console.log(this.file);
           this.generateGraphicsFromSHP(this.file);
         });
       } else {
