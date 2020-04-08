@@ -19,7 +19,7 @@
       <app-layerlist></app-layerlist>
     </div>
   </mat-expansion-panel>
-  <mat-expansion-panel class="mat-elevation-z8" tourAnchor="3">
+  <mat-expansion-panel class="mat-elevation-z8" tourAnchor="3" [expanded]="true">
     <mat-expansion-panel-header class="accordion-header-fill">
       Ecosystem Services
     </mat-expansion-panel-header>
@@ -56,7 +56,7 @@
               [class.buttonSelected]="spatialSelectionState['polygon'] && !spatialSelectionState.polygonDisabled"
               [disabled]="spatialSelectionState.polygonDisabled" (click)="startSpatialSelection('polygon', 'start')">
               <mat-icon>create</mat-icon>
-              Select
+              Draw
             </button>
             <button mat-raised-button color="primary" [disabled]="!(spatialSelectionState.polygonDisabled)"
               (click)="startSpatialSelection('polygon', 'clear')">
@@ -150,7 +150,7 @@
       <app-printmap></app-printmap>
     </div>
   </mat-expansion-panel>
-  <mat-expansion-panel class="mat-elevation-z8" tourAnchor="mapLegend" [expanded]="true">
+  <mat-expansion-panel class="mat-elevation-z8" tourAnchor="mapLegend">
     <mat-expansion-panel-header class="accordion-header-fill">
       Legend
     </mat-expansion-panel-header>
