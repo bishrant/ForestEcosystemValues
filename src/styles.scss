@@ -33,6 +33,15 @@ body {
   color: black !important;
 }
 
+mat-ink-bar {
+  background-color: #966633 !important;
+  height: 4px !important;
+}
+
+.mat-tab-nav-bar,
+.mat-tab-header {
+  border-bottom: none !important;
+}
 .popupTable {
   width: 100%;
 }
@@ -85,11 +94,15 @@ body {
   max-width: 700px;
   height: 100%;
   min-height: inherit;
-  max-height: inherit;
+  max-height: 550px !important;
 }
 
 .dialogContent {
   padding: 20px;
+}
+
+.mat-button-focus-overlay {
+  background-color: transparent !important;
 }
 
 .mat-menu-panel {

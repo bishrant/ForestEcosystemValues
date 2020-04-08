@@ -79,6 +79,9 @@ export class SidebarComponent implements OnInit {
         this.store.dispatch(new ChangeReportData(dummyReportData));
       }
     });
+
+    this.store.dispatch(new ChangeReportData(dummyReportData));
+
     this.tourService.start$.subscribe(() => {
       this.sidePanels.openAll();
     });

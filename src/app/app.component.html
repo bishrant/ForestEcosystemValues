@@ -12,16 +12,17 @@
       <span>Forest Ecosystem Values</span>
       <span class="spacer"></span>
       <div fxShow="true" fxHide.lt-md="true">
+
+        <a mat-button (click)="openDialog('About')"> About </a>
+        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-button> Contact </a>
+        <a (click)="openDialog('help')" mat-button> Help </a>
+        <a mat-button (click)="openDialog('Disclaimer')"> Disclaimer </a>
         <a mat-icon-button class="socialMedia" target="_blank"
           href="https://www.facebook.com/sharer/sharer.php?u=https://txfipdev.tfs.tamu.edu/fev"><img class="logoBtn"
             src="assets/facebook.svg" /></a>
         <a mat-icon-button class="socialMedia" target="_blank"
           href="https://twitter.com/intent/tweet?url=https://txfipdev.tfs.tamu.edu/fev/&hashtags=ForestValues, Ecosystem, TFS"><img
             class='logoBtn' src="assets/twitter.png" /></a>
-        <a mat-button (click)="openDialog('About')"> About </a>
-        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-button> Contact </a>
-        <a (click)="openDialog('help')" mat-button> Help </a>
-        <a mat-button (click)="openDialog('Disclaimer')"> Disclaimer </a>
       </div>
       <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
         <mat-icon>menu</mat-icon>
@@ -31,7 +32,13 @@
   <mat-sidenav-container fxFlex="auto">
     <mat-sidenav #sidenav position="end">
       <mat-nav-list>
-        <span mat-list-item>
+
+        <a mat-list-item (click)="openDialog('About')"> About </a>
+        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-list-item> Contact </a>
+        <a (click)="openDialog('help')" mat-list-item> Help </a>
+        <a mat-list-item (click)="openDialog('Disclaimer')"> Disclaimer </a>
+
+        <div mat-list-item>
           <a mat-icon-button class="socialMedia" target="_blank"
             href="https://www.facebook.com/sharer/sharer.php?u=https://txfipdev.tfs.tamu.edu/fev"><img class="logoBtn"
               src="assets/facebook.svg" /></a>
@@ -39,14 +46,14 @@
             href="https://twitter.com/intent/tweet?url=https://txfipdev.tfs.tamu.edu/fev/&hashtags=ForestValues, Ecosystem, TFS"><img
               class='logoBtn' src="assets/twitter.png" /></a>
 
-        </span>
-        <a mat-list-item (click)="openDialog('About')"> About </a>
-        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-list-item> Contact </a>
-        <a (click)="openDialog('help')" mat-list-item> Help </a>
-        <a mat-list-item (click)="openDialog('Disclaimer')"> Disclaimer </a>
-        <a (click)="sidenav.toggle()" mat-list-item>
-          <mat-icon>close</mat-icon> Close
-        </a>
+        </div>
+        <div>
+          <a (click)="sidenav.toggle()" mat-list-item>
+            <mat-icon>close</mat-icon> Close
+          </a>
+
+        </div>
+
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content fxFlex="auto">
@@ -71,6 +78,11 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
   <div class="reportDialogContainer" cdkDragBoundary=".parent" cdkDrag>
+    <div class="tableHeaderDrag" cdkDragHandle *ngIf="!popupHidden">
+      <b>Ecosystem Services </b>
+
+    </div>
+
     <app-summarytable style="width: 100%; height: 100%" tourAnchor="summaryTable">
     </app-summarytable>
   </div>
