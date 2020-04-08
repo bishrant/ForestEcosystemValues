@@ -28,6 +28,10 @@ body {
 .mat-tab-labels {
   background: mat-color($fev-primary, 400);
 }
+.mat-option.mat-active {
+  background: rgba(0, 0, 0, 0) !important;
+  color: black !important;
+}
 
 .popupTable {
   width: 100%;

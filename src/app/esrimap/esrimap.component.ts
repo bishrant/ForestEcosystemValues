@@ -70,9 +70,17 @@ export class EsrimapComponent implements OnInit {
         }
         if (event.tool === 'polygon' && event.state === 'complete') {
           this.busy = true;
-          SelectByPolygon(event, this.geojsonData.countyGeojsonLayer, graphicsLayer).then(() => {
-            this.busy = false;
+          // SelectByPolygon(event, this.geojsonData.countyGeojsonLayer, graphicsLayer).then(() => {
+          //   this.busy = false;
+          // })
+          graphicsLayer.removeAll();
+          const _features = this.sketchVM.layer.graphics.map(graphic => {
+            graphic.symbol = redPolygon.symbol;
+            return graphic;
           })
+          graphicsLayer.addMany(_features);
+          console.log(event, this.sketchVM);
+          this.busy = false;
         }
         if (event.state === 'complete') {
           this.mapControl.graphicsLayerUpdated(graphicsLayer);

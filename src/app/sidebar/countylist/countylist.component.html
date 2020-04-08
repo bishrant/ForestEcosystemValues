@@ -1,41 +1,42 @@
 <div>
-    <form [formGroup]="frmGroup">
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Select County</mat-label>
-                <i class="material-icons align-arrow-right">arrow_drop_down</i>
-                <input matInput type="text" placeholder="Select county name" aria-label="County Name"
-                    formControlName="County" [matAutocomplete]="auto1">
-                <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete"
-                    (optionSelected)="onDropDownSelected('County', $event)">
-                    <mat-option *ngFor="let option of filteredCounties | async" [value]="option">
-                        {{option}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-            <button mat-button *ngIf="frmGroup.get('County').value" matSuffix mat-icon-button aria-label="Clear"
-                class="clearBtn" (click)="clearInput('County')">
-                <mat-icon>close</mat-icon>
-            </button>
-        </div>
+  <form [formGroup]="frmGroup">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Select County</mat-label>
+        <i class="material-icons align-arrow-right">arrow_drop_down</i>
+        {{countyName}}
+        <input matInput type="text" placeholder="Select county name" aria-label="County Name" formControlName="County"
+          [matAutocomplete]="auto1" style="cursor:default;">
+        <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete"
+          (optionSelected)="onDropDownSelected('County', $event)">
+          <mat-option *ngFor="let option of filteredCounties | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-button *ngIf="frmGroup.get('County').value" matSuffix mat-icon-button aria-label="Clear"
+        class="clearBtn" (click)="clearInput('County')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
 
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Select Town</mat-label>
-                <i class="material-icons align-arrow-right">arrow_drop_down</i>
-                <input matInput type="text" placeholder="Select town name" aria-label="Town name"
-                    formControlName="Urban" [matAutocomplete]="auto2">
-                <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete"
-                    (optionSelected)="onDropDownSelected('Urban', $event)">
-                    <mat-option *ngFor="let option of filteredUrban | async" [value]="option">
-                        {{option}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-            <button mat-button *ngIf="frmGroup.get('Urban').value" matSuffix mat-icon-button aria-label="Clear"
-                class="clearBtn" (click)="clearInput('Urban')">
-                <mat-icon>close</mat-icon>
-            </button>
-        </div>
-    </form>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Select Town</mat-label>
+        <i class="material-icons align-arrow-right">arrow_drop_down</i>
+        <input matInput type="text" placeholder="Select town name" aria-label="Town name" formControlName="Urban"
+          [matAutocomplete]="auto2" style="cursor:default;">
+        <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete"
+          (optionSelected)="onDropDownSelected('Urban', $event)">
+          <mat-option *ngFor="let option of filteredUrban | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-button *ngIf="frmGroup.get('Urban').value" matSuffix mat-icon-button aria-label="Clear"
+        class="clearBtn" (click)="clearInput('Urban')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </form>
 </div>

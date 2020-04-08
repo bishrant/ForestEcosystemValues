@@ -22,6 +22,7 @@ import { AppComponent, AppDialogComponent } from './app.component';
 import { TourMatMenuModule } from 'ngx-tour-md-menu';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AllMaterialModule } from './material.module';
+import { ZipService } from './services/zip.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,9 +46,9 @@ import { AllMaterialModule } from './material.module';
     NgxsModule.forRoot([SidebarControlsState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
-    
+
   ],
-  providers: [GlobalsService, GeojsonDataService],
+  providers: [GlobalsService, GeojsonDataService, ZipService],
   bootstrap: [AppComponent],
   exports: [SummarytableModule, CountylistModule, LayerlistModule, LegendModule, PrintmapModule],
   entryComponents: [AppDialogComponent]

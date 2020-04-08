@@ -16,7 +16,6 @@
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
-
           "options": {
             "outputPath": "dist/fev",
             "index": "src/index.html",
@@ -31,7 +30,12 @@
             },
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "src/assets/lib/zip",
+                "output": "./scripts/"
+              }
             ],
             "styles": [
               "src/styles.scss"
@@ -80,7 +84,6 @@
           "configurations": {
             "production": {
               "browserTarget": "angular-builder-esri:build"
-
             }
           }
         },
@@ -133,6 +136,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "fev"
 }
