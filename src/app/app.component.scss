@@ -77,10 +77,20 @@
 }
 .smallLogo {
   display: none;
-  height: 100%;
+  height: 45px;
+  line-height: 45px;
+  transform: translateY(3px);
 }
 .largeLogo {
-  height: 100%;
+  display: inline-block;
+  height: 45px;
+  line-height: 45px;
+  transform: translateY(3px);
+}
+.logo {
+  // height: 70%;
+  padding-right: 10px;
+  display: inline-block !important;
 }
 .titleText {
   font-size: 28px;
@@ -92,12 +102,11 @@
     width: 100% !important;
   }
   .smallLogo {
-    display: block;
-    height: 100%;
+    display: inline-block;
+
   }
   .largeLogo {
     display: none;
-    height: 100%;
   }
   .titleText {
     font-size: 22px;
@@ -115,10 +124,7 @@
     font-size: 18px;
   }
 }
-.logo {
-  height: 70%;
-  padding-right: 10px;
-}
+
 
 .parent {
   height: 100vh;
