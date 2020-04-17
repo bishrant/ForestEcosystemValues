@@ -26,7 +26,7 @@
     <div class="accordionContent">
       <div class="Step1" tourAnchor="selectionTools">
         <b>Step 1: Define Area of Interest</b><br>
-        <mat-radio-group aria-labelledby="select controls" class="controls-radio-group" [(ngModel)]="activeControl"
+        <mat-radio-group class="controls-radio-group" aria-label="Define area of interest" [(ngModel)]="activeControl"
           (ngModelChange)="onControlChange($event)">
           <mat-radio-button value="dropdown">Select County or Urban Area</mat-radio-button>
           <div [hidden]="!(activeControl === 'dropdown')" class="dropdownChild">

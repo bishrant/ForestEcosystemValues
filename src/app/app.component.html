@@ -1,13 +1,9 @@
-<router-outlet></router-outlet>
-
 <div fxLayout="column" fxLayoutAlign=" stretch" class="parent">
   <mat-toolbar color="primary" class="header" tourAnchor="11">
     <mat-toolbar-row [class.mat-elevation-z8]="true">
-      <a href="https://tfsweb.tamu.edu" target="_blank" class="logo">
-        <img src="assets/TFS_Maroon.png" class="largeLogo" />
-      </a>
-      <a href="https://tfsweb.tamu.edu" target="_blank" class="logo">
-        <img src="assets/TFS_Star_Maroon.png" class="smallLogo" />
+      <a href="https://tfsweb.tamu.edu" target="_blank" class="logo" aria-label="TFS logo">
+        <img src="assets/TFS_Maroon.png" class="largeLogo" alt="tfs logo" />
+        <img src="assets/TFS_Star_Maroon.png" class="smallLogo" alt="TFS logo" />
       </a>
       <span class="titleText">Forest Ecosystem Values</span>
       <span class="spacer"></span>
@@ -19,10 +15,10 @@
         <a mat-button (click)="openDialog('Disclaimer')"> Disclaimer </a>
         <a mat-icon-button class="socialMedia" target="_blank"
           href="https://www.facebook.com/sharer/sharer.php?u=https://txfipdev.tfs.tamu.edu/fev"><img class="logoBtn"
-            src="assets/facebook.svg" /></a>
+            alt="Share using Facebook" src="assets/facebook.svg" /></a>
         <a mat-icon-button class="socialMedia" target="_blank"
           href="https://twitter.com/intent/tweet?url=https://txfipdev.tfs.tamu.edu/fev/&hashtags=ForestValues, Ecosystem, TFS"><img
-            class='logoBtn' src="assets/twitter.png" /></a>
+            alt="share using twitter" class='logoBtn' src="assets/twitter.png" /></a>
       </div>
       <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
         <mat-icon>menu</mat-icon>
@@ -88,7 +84,6 @@
   </div>
 </div>
 <tour-step-template></tour-step-template>
-<!-- <button (click)="tour()">OPen</button> -->
 <div class="parent progressContainer" *ngIf="appBusy">
   <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'">
   </mat-progress-spinner>
