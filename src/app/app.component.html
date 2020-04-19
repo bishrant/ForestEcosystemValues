@@ -1,26 +1,30 @@
-<div fxLayout="column" fxLayoutAlign=" stretch" class="parent">
+<div fxLayout="column" fxLayoutAlign=" stretch" class="parent" role="application">
+  <a class="skip-link" href="#maincontent">Skip to main</a>
   <mat-toolbar color="primary" class="header" tourAnchor="11">
+
     <mat-toolbar-row [class.mat-elevation-z8]="true">
-      <a href="https://tfsweb.tamu.edu" target="_blank" class="logo" aria-label="TFS logo">
+      <a href="https://tfsweb.tamu.edu" target="_blank" class="logo" aria-label="TFS logo" title="TFS logo"
+        rel="noreferrer">
         <img src="assets/TFS_Maroon.png" class="largeLogo" alt="tfs logo" />
         <img src="assets/TFS_Star_Maroon.png" class="smallLogo" alt="TFS logo" />
       </a>
-      <span class="titleText">Forest Ecosystem Values</span>
-      <span class="spacer"></span>
+
+      <h1 class="titleText" role="link">Forest Ecosystem Values</h1>
+      <span class="spacer" role="application"></span>
       <div fxShow="true" fxHide.lt-md="true">
 
         <a mat-button (click)="openDialog('About')"> About </a>
-        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-button> Contact </a>
+        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-button rel="noreferrer"> Contact </a>
         <a (click)="openDialog('help')" mat-button> Help </a>
         <a mat-button (click)="openDialog('Disclaimer')"> Disclaimer </a>
-        <a mat-icon-button class="socialMedia" target="_blank"
-          href="https://www.facebook.com/sharer/sharer.php?u=https://txfipdev.tfs.tamu.edu/fev"><img class="logoBtn"
-            alt="Share using Facebook" src="assets/facebook.svg" /></a>
-        <a mat-icon-button class="socialMedia" target="_blank"
-          href="https://twitter.com/intent/tweet?url=https://txfipdev.tfs.tamu.edu/fev/&hashtags=ForestValues, Ecosystem, TFS"><img
+        <a mat-icon-button class="socialMedia" target="_blank" aria-label="facebook" rel="noreferrer"
+          href="https://www.facebook.com/sharer/sharer.php?u=https://texasforestinfo.tamu.edu/forestecosystemvalues"><img
+            class="logoBtn" alt="Share using Facebook" src="assets/facebook.svg" /></a>
+        <a mat-icon-button class="socialMedia" target="_blank" aria-label="twitter" rel="noreferrer"
+          href="https://twitter.com/intent/tweet?url=https://texasforestinfo.tamu.edu/forestecosystemvalues/&hashtags=ForestValues, Ecosystem, TFS"><img
             alt="share using twitter" class='logoBtn' src="assets/twitter.png" /></a>
       </div>
-      <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+      <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm aria-label="menu">
         <mat-icon>menu</mat-icon>
       </button>
     </mat-toolbar-row>
@@ -30,16 +34,16 @@
       <mat-nav-list>
 
         <a mat-list-item (click)="openDialog('About')"> About </a>
-        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-list-item> Contact </a>
+        <a href="https://texasforestinfo.tamu.edu/Contact" target="_blank" mat-list-item rel="noreferrer"> Contact </a>
         <a (click)="openDialog('help')" mat-list-item> Help </a>
         <a mat-list-item (click)="openDialog('Disclaimer')"> Disclaimer </a>
 
         <div mat-list-item>
-          <a mat-icon-button class="socialMedia" target="_blank"
-            href="https://www.facebook.com/sharer/sharer.php?u=https://txfipdev.tfs.tamu.edu/fev"><img class="logoBtn"
-              src="assets/facebook.svg" /></a>
-          <a mat-icon-button class="socialMedia" target="_blank"
-            href="https://twitter.com/intent/tweet?url=https://txfipdev.tfs.tamu.edu/fev/&hashtags=ForestValues, Ecosystem, TFS"><img
+          <a mat-icon-button class="socialMedia" target="_blank" aria-label="facebook" rel="noreferrer"
+            href="https://www.facebook.com/sharer/sharer.php?u=https://texasforestinfo.tamu.edu/forestecosystemvalues"><img
+              class="logoBtn" src="assets/facebook.svg" /></a>
+          <a mat-icon-button class="socialMedia" target="_blank" aria-label="twitter" rel="noreferrer"
+            href="https://twitter.com/intent/tweet?url=https://texasforestinfo.tamu.edu/forestecosystemvalues/&hashtags=ForestValues, Ecosystem, TFS"><img
               class='logoBtn' src="assets/twitter.png" /></a>
 
         </div>
@@ -52,12 +56,13 @@
 
       </mat-nav-list>
     </mat-sidenav>
-    <mat-sidenav-content fxFlex="auto">
+    <mat-sidenav-content fxFlex="auto" id="maincontent">
       <mat-sidenav-container fxFlex="auto">
         <mat-sidenav [opened]="sidenavOpened" position="start" mode="side" #sidebar class="sidebar primaryBg"
           tourAnchor="1">
           <app-sidebar class="primaryBg" (printingCompleted)="openPrintMessage($event)"></app-sidebar>
-          <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened" class="sidebarCloseBtn">
+          <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened" class="sidebarCloseBtn"
+            aria-label="close menu">
             <mat-icon>arrow_back_ios</mat-icon> Hide
           </button>
         </mat-sidenav>
@@ -65,7 +70,7 @@
           <div fxFlex="auto" class="parentMap">
             <app-esrimap></app-esrimap>
             <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened" class="siderbarOpenBtn"
-              [ngClass]="{'visible': !sidenavOpened, 'hidden': sidenavOpened}">
+              aria-label="toggle sidebar" [ngClass]="{'visible': !sidenavOpened, 'hidden': sidenavOpened}">
               <mat-icon>arrow_forward_ios</mat-icon>Show
             </button>
           </div>

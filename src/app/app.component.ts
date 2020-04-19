@@ -4,7 +4,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { TourService } from 'ngx-tour-md-menu';
 import tourSteps from './shared/tourSteps';
 import { Select, Store } from "@ngxs/store";
-import { ChangeReportData } from './shared/sidebarControls.actions';
 import { SidebarControlsState } from './shared/sidebarControls.state';
 @Component({
   selector: "app-root",
@@ -16,8 +15,7 @@ export class AppComponent implements AfterViewInit, AfterContentInit, OnInit {
   sidenavOpened = true;
   popupHidden = true;
   appBusy = true;
-  @Select(SidebarControlsState.getReportDataFromState) reportData$;
-  // @ViewChild(TemplateRef) _dialogTemplate: TemplateRef<any>;
+  @Select(SidebarControlsState.getReportDataFromState) reportData$: any;
   constructor(
     private mapControl: MapcontrolService,
     private dialog: MatDialog,
@@ -35,7 +33,7 @@ export class AppComponent implements AfterViewInit, AfterContentInit, OnInit {
     this.mapControl.appBusyIndicator$.subscribe((status: boolean) => {
       this.appBusy = status;
     });
-    this.reportData$.subscribe(dt => {
+    this.reportData$.subscribe((dt: any) => {
       if (dt.data === null) {
         this.popupHidden = true;
       } else {

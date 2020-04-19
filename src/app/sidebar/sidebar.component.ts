@@ -22,9 +22,9 @@ import { ZipEntry, ZipTask } from "../services/zip.interface";
   styleUrls: ["./sidebar.component.scss"],
 })
 export class SidebarComponent implements OnInit {
-  @Select(SidebarControlsState.getReportDataFromState) reportData$;
-  @ViewChild("fileInput") fileInput;
-  @ViewChild("accordion") sidePanels;
+  @Select(SidebarControlsState.getReportDataFromState) reportData$: any;
+  @ViewChild("fileInput") fileInput: any;
+  @ViewChild("accordion") sidePanels: any;
   @Output() printingCompleted = new EventEmitter<any>();
   pdfLink = "";
   reportData: any;
@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
     polygon: false,
     polygonDisabled: false,
   };
-  shapefileControlState = {
+  shapefileControlState: any = {
     start: true,
     cancel: null,
   };
@@ -64,7 +64,7 @@ export class SidebarComponent implements OnInit {
       this.spatialSelectionState = state;
     });
 
-    this.reportData$.subscribe((dt) => {
+    this.reportData$.subscribe((dt: any) => {
       if (dt.data !== null) {
         this.printBtnEnabled = true;
       } else {
@@ -131,7 +131,7 @@ export class SidebarComponent implements OnInit {
       });
       const reportSubscription = this.http
         .post(
-          "https://txfipdev.tfs.tamu.edu/forestecosystemvalues/api/createreport",
+          "https://texasforestinfo.tamu.edu/forestecosystemvalues/api/createreport",
           body,
           {
             headers: { "Content-Type": "application/json" },
@@ -150,7 +150,7 @@ export class SidebarComponent implements OnInit {
     });
   };
 
-  printMapCompleted = (event$) => {
+  printMapCompleted = (event$: any) => {
     this.printingCompleted.emit({
       type: "Print Map",
       message: "Successfully created PDF map for the selected area.",
@@ -185,11 +185,11 @@ export class SidebarComponent implements OnInit {
             this.fileUploadError = "Error parsing shapefile.";
           } else {
             this.fileUploadError = "";
-            const features = [];
-            result.featureCollection.layers.forEach((layer) => {
+            const features: any[] = [];
+            result.featureCollection.layers.forEach((layer: any) => {
               const type = layer.layerDefinition.geometryType;
               if (type === "esriGeometryPolygon") {
-                layer.featureSet.features.forEach((feature) => {
+                layer.featureSet.features.forEach((feature: any) => {
                   features.push(feature);
                 });
               }

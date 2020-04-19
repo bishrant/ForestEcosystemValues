@@ -85,7 +85,7 @@
           <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild">
             <span *ngIf="fileUploadError !== ''" style="color: 'red'; margin: 5px">{{fileUploadError}}<br></span>
             <br> Don't have a shapefile? You can use <a href="https://texasforestinfo.tamu.edu/mapmyproperty/"
-              target="_blank">MapMyProperty</a> to
+              rel="noreferrer" target="_blank">MapMyProperty</a> to
             create one.
           </div>
         </mat-radio-group>
