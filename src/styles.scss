@@ -116,7 +116,7 @@ mat-ink-bar {
 }
 
 .mat-button-focus-overlay {
-  background-color: transparent !important;
+  // background-color: transparent !important;
 }
 
 .mat-menu-panel {
@@ -128,4 +128,8 @@ mat-ink-bar {
   .mat-menu-panel {
     max-width: 300px !important;
   }
+}
+
+.esri-attribution__link {
+  text-decoration: underline !important;
 }

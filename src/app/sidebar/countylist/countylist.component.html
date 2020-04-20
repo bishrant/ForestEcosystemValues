@@ -5,7 +5,7 @@
         <mat-label>Select County</mat-label>
         <i class="material-icons align-arrow-right">arrow_drop_down</i>
         {{countyName}}
-        <input matInput type="text" placeholder="Select county name" aria-label="County Name" formControlName="County"
+        <input matInput type="text" placeholder="Select county name" aria-label="County Name" formControlName="County" role="textbox" name="countyname"
           [matAutocomplete]="auto1" style="cursor:default;">
         <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete"
           (optionSelected)="onDropDownSelected('County', $event)">
@@ -16,7 +16,7 @@
       </mat-form-field>
       <button mat-button *ngIf="frmGroup.get('County').value" matSuffix mat-icon-button aria-label="Clear"
         class="clearBtn" (click)="clearInput('County')">
-        <mat-icon>close</mat-icon>
+        <mat-icon aria-label="close county list">close</mat-icon>
       </button>
     </div>
 
@@ -35,7 +35,7 @@
       </mat-form-field>
       <button mat-button *ngIf="frmGroup.get('Urban').value" matSuffix mat-icon-button aria-label="Clear"
         class="clearBtn" (click)="clearInput('Urban')">
-        <mat-icon>close</mat-icon>
+        <mat-icon aria-label="close city list">close</mat-icon>
       </button>
     </div>
   </form>

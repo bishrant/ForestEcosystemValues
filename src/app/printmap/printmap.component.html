@@ -1,9 +1,9 @@
 <button mat-raised-button color="primary" (click)="printMap()" style="margin-right: 5px;">
-  <mat-icon>print</mat-icon>
+  <mat-icon aria-label="print map">print</mat-icon>
   Print Map
 </button>
 <a mat-raised-button color="primary" [disabled]="printInfo.message === ''" [href]="printInfo.message" target="_blank">
-  <mat-icon>picture_as_pdf</mat-icon>
+  <mat-icon aria-label="view printed pdf">picture_as_pdf</mat-icon>
   Open PDF
 </a>
 <br>

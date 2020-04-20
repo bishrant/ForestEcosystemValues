@@ -6,7 +6,7 @@
     </div>
 
     <ng-container *ngIf="layer.legend.length > 1">
-      <b>{{layer.layerName}} </b><br>
+      <strong>{{layer.layerName}} </strong><br>
       <div *ngFor="let legends of layer.legend" class="flexDisplay indent">
         <img src={{legends.url}} alt={{"legend for "+ legends.label}} /> &nbsp; {{legends.label}}
       </div>

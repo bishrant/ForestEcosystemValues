@@ -25,7 +25,7 @@
             alt="share using twitter" class='logoBtn' src="assets/twitter.png" /></a>
       </div>
       <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm aria-label="menu">
-        <mat-icon>menu</mat-icon>
+        <mat-icon aria-label="menu">menu</mat-icon>
       </button>
     </mat-toolbar-row>
   </mat-toolbar>
@@ -48,8 +48,8 @@
 
         </div>
         <div>
-          <a (click)="sidenav.toggle()" mat-list-item>
-            <mat-icon>close</mat-icon> Close
+          <a (click)="sidenav.toggle()" mat-list-item aria-label="close">
+            <mat-icon aria-label="close">close</mat-icon> Close
           </a>
 
         </div>
@@ -63,7 +63,7 @@
           <app-sidebar class="primaryBg" (printingCompleted)="openPrintMessage($event)"></app-sidebar>
           <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened" class="sidebarCloseBtn"
             aria-label="close menu">
-            <mat-icon>arrow_back_ios</mat-icon> Hide
+            <mat-icon aria-label="hide sidebar">arrow_back_ios</mat-icon> Hide
           </button>
         </mat-sidenav>
         <mat-sidenav-content tourAnchor="map">
@@ -71,7 +71,7 @@
             <app-esrimap></app-esrimap>
             <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened" class="siderbarOpenBtn"
               aria-label="toggle sidebar" [ngClass]="{'visible': !sidenavOpened, 'hidden': sidenavOpened}">
-              <mat-icon>arrow_forward_ios</mat-icon>Show
+              <mat-icon aria-label="show sidebar">arrow_forward_ios</mat-icon>Show
             </button>
           </div>
         </mat-sidenav-content>
@@ -80,7 +80,7 @@
   </mat-sidenav-container>
   <div class="reportDialogContainer" cdkDragBoundary=".parent" cdkDrag>
     <div class="tableHeaderDrag" cdkDragHandle *ngIf="!popupHidden">
-      <b>Summary Statistics </b>
+      <strong>Summary Statistics </strong>
 
     </div>
 

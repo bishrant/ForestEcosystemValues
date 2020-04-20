@@ -25,9 +25,11 @@
     </mat-expansion-panel-header>
     <div class="accordionContent">
       <div class="Step1" tourAnchor="selectionTools">
-        <b>Step 1: Define Area of Interest</b><br>
+        
         <mat-radio-group class="controls-radio-group" aria-label="Define area of interest" [(ngModel)]="activeControl"
           (ngModelChange)="onControlChange($event)">
+          <fieldset style="margin: unset;padding: unset;border: unset;">
+            <legend><strong>Step 1: Define Area of Interest</strong><br></legend>
           <mat-radio-button value="dropdown">Select County or Urban Area</mat-radio-button>
           <div [hidden]="!(activeControl === 'dropdown')" class="dropdownChild">
             <app-countylist></app-countylist>
@@ -44,7 +46,7 @@
             </button>
             <button mat-raised-button color="primary" [disabled]="!(spatialSelectionState.multipointDisabled)"
               (click)="startSpatialSelection('multipoint', 'clear')">
-              <mat-icon>delete</mat-icon>
+              <mat-icon aria-label="delete geometries">delete</mat-icon>
               Clear
             </button>
           </div>
@@ -55,29 +57,28 @@
             <button mat-raised-button color="primary" #p1
               [class.buttonSelected]="spatialSelectionState['polygon'] && !spatialSelectionState.polygonDisabled"
               [disabled]="spatialSelectionState.polygonDisabled" (click)="startSpatialSelection('polygon', 'start')">
-              <mat-icon>create</mat-icon>
+              <mat-icon aria-label="create geometry">create</mat-icon>
               Draw
             </button>
             <button mat-raised-button color="primary" [disabled]="!(spatialSelectionState.polygonDisabled)"
               (click)="startSpatialSelection('polygon', 'clear')">
-              <mat-icon>delete</mat-icon>
+              <mat-icon aria-label="delete geometry">delete</mat-icon>
               Clear
             </button>
           </div>
 
-          <mat-radio-button value="shapefile"> Load zipped shapefile
-          </mat-radio-button>
+          <mat-radio-button value="shapefile"> Load zipped shapefile    </mat-radio-button>
           <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild startClearnBtnDiv">
 
             <input type="file" style="display: none" #fileInput accept=".zip" (change)="onChangeFileInput()" aria-label="upload a shapefile"/>
             <button mat-raised-button color="primary" [disabled]="!shapefileControlState.start"
               (click)="onClickFileInputButton()">
-              <mat-icon>cloud_upload</mat-icon>
+              <mat-icon aria-label="upload shapefile">cloud_upload</mat-icon>
               Select
             </button>
             <button mat-raised-button color="primary"
               [disabled]="activeControl === 'shapefile' && !shapefileControlState.cancel" (click)="removeShapeFile()">
-              <mat-icon>delete</mat-icon>
+              <mat-icon aria-label="delete shapefile">delete</mat-icon>
               Clear
             </button>
 
@@ -88,23 +89,24 @@
               rel="noreferrer" target="_blank">MapMyProperty</a> to
             create one.
           </div>
+        </fieldset>
         </mat-radio-group>
       </div>
       <div class="step2" tourAnchor="generateStatisticsBtn">
-        <b>Step 2: </b><br>
+        <strong>Step 2: </strong><br>
         <button mat-raised-button color="primary" [disabled]="!(mapGraphics.length > 0) || !reportEnabled"
           (click)="generateStatistics()">
-          <mat-icon>format_list_bulleted</mat-icon>
+          <mat-icon aria-label="generate stats">format_list_bulleted</mat-icon>
           Generate Summary Statistics
         </button>
         <br />
       </div>
       <div class="step3" tourAnchor="generateReportBtn">
         <br />
-        <b>Step 3: </b><br>
+        <strong>Step 3: </strong><br>
         <button mat-raised-button color="primary" [disabled]="!printBtnEnabled || !(mapGraphics.length > 0)"
           (click)="generateReport()">
-          <mat-icon>print</mat-icon>
+          <mat-icon aria-label="print report">print</mat-icon>
           Generate Report
         </button> <br>
 
@@ -122,20 +124,20 @@
     </mat-expansion-panel-header>
     <div class="accordionContent">
       <div class="standardReport">
-        <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
+        <mat-icon aria-label="pdf report">picture_as_pdf</mat-icon>
         <a href="./assets/static/Central-West-Texas-Summary-Report.pdf" target="_blank">Central - West Texas
           Summary Report</a>
       </div>
       <div class="standardReport">
-        <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
+        <mat-icon aria-label="pdf2">picture_as_pdf</mat-icon>
         <a href="./assets/static/East-Texas-Summary-Report.pdf" target="_blank">East Texas Summary Report</a>
       </div>
       <div class="standardReport">
-        <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
+        <mat-icon aria-label="pdf3">picture_as_pdf</mat-icon>
         <a href="./assets/static/Texas-Summary-Report.pdf" target="_blank">Texas Summary Report</a>
       </div>
       <div class="standardReport">
-        <mat-icon aria-label="pdf">picture_as_pdf</mat-icon>
+        <mat-icon aria-label="pdf4">picture_as_pdf</mat-icon>
         <a href="./assets/static/Texas-Forest-Ecosystem-Services-Report.pdf" target="_blank">Forest Ecosystem
           Services Report</a>
       </div>

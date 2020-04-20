@@ -3,14 +3,13 @@
     <mat-expansion-panel-header>
       <mat-checkbox color="primary" [(ngModel)]="layerInfo[key]['visible']" (ngModelChange)="parentCheck(key, $event)"
         (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
-        <b> {{layerInfo[key]['name']}}</b>
+        <strong> {{layerInfo[key]['name']}}</strong>
       </mat-checkbox>
     </mat-expansion-panel-header>
     <div class="accordionContent">
       <div *ngIf="layerInfo[key].subLayers.length > 1">
-        <div *ngIf="!layerInfo[key].radio">
+        <div *ngIf="!layerInfo[key].radio" role="group" aria-label="layer list to turn on or off">
           <div *ngFor="let sublayer of layerInfo[key].subLayers">
-
             <mat-checkbox color="primary" [(ngModel)]="sublayer.visible" value="{{sublayer.id}}" name="list_name_child"
               (ngModelChange)="childCheck(key, layerInfo[key].subLayers)">
               {{sublayer.name}}
@@ -18,9 +17,9 @@
             <br>
           </div>
         </div>
-        <div *ngIf="layerInfo[key].radio">
-          <div style="text-align: center;margin-right: 20px;"><b>($/ac/yr)</b></div>
-          <mat-radio-group [(ngModel)]="layerInfo[key].visibleSubLayer"
+        <div *ngIf="layerInfo[key].radio" role="group" aria-label="layer lis to select one at  a time">
+          <div style="text-align: center;margin-right: 20px;"><strong>($/ac/yr)</strong></div>
+          <mat-radio-group [(ngModel)]="layerInfo[key].visibleSubLayer" aria-label="layer group" role="group"
             (ngModelChange)="changeRadioLayers(key, $event)">
             <mat-radio-button *ngFor="let sublayer of layerInfo[key].subLayers" class="layerRadioBtn"
               [value]="sublayer.id">
@@ -31,7 +30,7 @@
         </div>
       </div>
       <div style="text-align: center; margin-left: -20px; margin-top: 15px;">
-        <b> Layer transparency: {{layerInfo[key].opacity}}%</b>
+        <strong> Layer transparency: {{layerInfo[key].opacity}}%</strong>
       </div>
       <mat-slider min="0" max="100" step="5" value="layerInfo[key].opacity" class="opacitySlider"
         (input)="changeOpacity(key, $event)"></mat-slider>
