@@ -69,7 +69,7 @@
           </mat-radio-button>
           <div [hidden]="!(activeControl === 'shapefile')" class="dropdownChild startClearnBtnDiv">
 
-            <input type="file" style="display: none" #fileInput accept=".zip" (change)="onChangeFileInput()" />
+            <input type="file" style="display: none" #fileInput accept=".zip" (change)="onChangeFileInput()" aria-label="upload a shapefile"/>
             <button mat-raised-button color="primary" [disabled]="!shapefileControlState.start"
               (click)="onClickFileInputButton()">
               <mat-icon>cloud_upload</mat-icon>
