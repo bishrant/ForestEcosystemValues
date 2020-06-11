@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign=" stretch" class="parent" role="application">
+<div class="parent parentFlex" role="application">
   <a class="skip-link" href="#maincontent">Skip to main</a>
   <mat-toolbar color="primary" class="header" tourAnchor="11">
 
@@ -29,7 +29,7 @@
       </button>
     </mat-toolbar-row>
   </mat-toolbar>
-  <mat-sidenav-container fxFlex="auto">
+  <mat-sidenav-container  class="flexAuto">
     <mat-sidenav #sidenav position="end">
       <mat-nav-list>
 
@@ -56,8 +56,8 @@
 
       </mat-nav-list>
     </mat-sidenav>
-    <mat-sidenav-content fxFlex="auto" id="maincontent">
-      <mat-sidenav-container fxFlex="auto">
+    <mat-sidenav-content  id="maincontent" class="flexAuto">
+      <mat-sidenav-container  class="flexAutoFix">
         <mat-sidenav [opened]="sidenavOpened" position="start" mode="side" #sidebar class="sidebar primaryBg"
           tourAnchor="1">
           <app-sidebar class="primaryBg" (printingCompleted)="openPrintMessage($event)"></app-sidebar>
@@ -66,9 +66,9 @@
             <mat-icon aria-label="hide sidebar">arrow_back_ios</mat-icon> Hide
           </button>
         </mat-sidenav>
-        <mat-sidenav-content tourAnchor="map">
-          <div fxFlex="auto" class="parentMap">
-            <app-esrimap></app-esrimap>
+        <mat-sidenav-content tourAnchor="map" class="flexAuto">
+          <div class="parentMap">
+            <app-esrimap class="flexAuto"></app-esrimap>
             <button mat-raised-button color="primary" (click)="sidenavOpened = !sidenavOpened" class="siderbarOpenBtn"
               aria-label="toggle sidebar" [ngClass]="{'visible': !sidenavOpened, 'hidden': sidenavOpened}">
               <mat-icon aria-label="show sidebar">arrow_forward_ios</mat-icon>Show
