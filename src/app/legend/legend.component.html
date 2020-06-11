@@ -1,14 +1,14 @@
 <div *ngIf="visibleLayers.length > 0">
   <div *ngFor="let layer of visibleLayers">
     <div *ngIf="layer.legend.length === 1" class="flexDisplay">
-      <img src={{layer.legend[0].url}} alt={{"legend for layer "+ layer.layerName}} /> &nbsp;&nbsp;&nbsp;
+      <img src="{{layer.legend[0].url}}" alt='{{"legend for layer "+ layer.layerName}}' /> &nbsp;&nbsp;&nbsp;
       {{layer.layerName}} <br>
     </div>
 
     <ng-container *ngIf="layer.legend.length > 1">
       <strong>{{layer.layerName}} </strong><br>
       <div *ngFor="let legends of layer.legend" class="flexDisplay indent">
-        <img src={{legends.url}} alt={{"legend for "+ legends.label}} /> &nbsp; {{legends.label}}
+        <img src="{{legends.url}}" alt='{{"legend for "+ legends.label}}' /> &nbsp; {{legends.label}}
       </div>
     </ng-container>
 
