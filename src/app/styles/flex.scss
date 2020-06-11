@@ -1,20 +1,27 @@
 .parentFlex {
     display: flex;
+    display: -webkit-flex;
     flex-direction: column;
     max-width: 100%;
 }
 .flexAuto {
     flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
     display: flex;
+    display: -webkit-flex;
 }
 
 .flexAutoFix {
     flex: 1;
+    -webkit-flex: 1;
     display: flex;
+    display: -webkit-flex;
     box-sizing: border-box;
 }
 
 .parentMap{ 
     flex:1;
     display: flex;
+    display: -webkit-flex;
+    -webkit-flex: 1;
 }
