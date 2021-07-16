@@ -66,7 +66,7 @@ const tourSteps = [{
   },
   {
     anchorId: '11',
-    content: 'You can go to TFS homepage, view details about this app, access help or contact us. You can access this help anytime by clicking on \'Getting Started\' or help button.',
+    content: 'You can go to Texas A&M Forest Service homepage, view details about this app, access help or contact us. You can access this help anytime by clicking on \'Getting Started\' or help button.',
     title: 'More',
     enableBackdrop: true
   }
